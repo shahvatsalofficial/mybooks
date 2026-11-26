@@ -1,0 +1,14 @@
+{
+  "specversion": "1.0",
+  "type": "com.enterprise.mcp.task.dispatched",
+  "source": "/orchestrator/cluster-01",
+  "id": "evt-77291a",
+  "time": "2026-09-11T14:20:00Z",
+  "datacontenttype": "application/json",
+  "data": {
+    "taskId": "TASK-881",
+    "targetMicroservice": "auth-service",
+    "gitCommit": "c88f910a",
+    "idempotencyKey": "9f8a-881b-410a"
+  }
+}

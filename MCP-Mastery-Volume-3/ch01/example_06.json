@@ -1,0 +1,29 @@
+{
+     "instance_id": "pg-worker-pod-84f9b",
+     "endpoint": "https://10.244.3.18:8443",
+     "namespace": "postgres",
+     "ttl_seconds": 15,
+     "capabilities": {
+       "tools": [
+         {
+           "name": "postgres.execute_query",
+           "description": "Execute parameterized SQL queries on production replica",
+           "inputSchema": {
+             "type": "object",
+             "properties": {
+               "sql": { "type": "string" },
+               "timeout_ms": { "type": "number", "default": 5000 }
+             },
+             "required": ["sql"]
+           }
+         }
+       ]
+     }
+   }
+   ```
+2. **Lease Expiration and Heartbeats**: The registry stores the instance metadata with a strict Time-to-Live (TTL) of 15 seconds. Every 5 seconds, the worker issues an atomic heartbeat ping: `SET mcp:servers:pg-worker-pod-84f9b "..." EX 15`. If the worker crashes or partitions from the network, its key expires automatically within 15 seconds, and the instance is pruned from the active routing pool without human intervention.
+3. **Atomic Capability Union**: The Gateway aggregates all active tool definitions across all healthy registered servers into an in-memory capability cache. When an AI client invokes `tools/list`, the Gateway returns the synthesized catalog in a single round-trip.
+
+### Handling Dynamic Catalog Changes
+
+When an upstream server registers a new tool or unregisters an old tool, the Gateway must notify connected AI clients. Under the MCP specification, the Gateway broadcasts a notification:

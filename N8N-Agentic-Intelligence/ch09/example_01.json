@@ -1,0 +1,6 @@
+{
+  "agentId": "researcher_01",
+  "task": "Extract pricing data for 3 competitors",
+  "constraints": ["focus on enterprise tiers", "ignore outdated 2023 data"],
+  "outputFormat": "markdown_table"
+}

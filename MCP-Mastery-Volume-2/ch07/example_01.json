@@ -1,0 +1,10 @@
+{
+  "resourceTemplates": [
+    {
+      "uriTemplate": "storage://{provider}/{bucket}/{path*}",
+      "name": "Enterprise Cloud Object Store",
+      "description": "Unified virtual filesystem bridging AWS S3, Google Cloud Storage, and Azure Blob containers.",
+      "mimeType": "application/octet-stream"
+    }
+  ]
+}

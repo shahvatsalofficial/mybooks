@@ -1,0 +1,41 @@
+{
+     "customer_email": "vatsal@suhana-enterprises.com",
+     "client_reference_id": "gpt_user_9a8b7c",
+     "metadata": {
+       "source": "chatgpt_store_v1",
+       "tier": "enterprise_pro"
+     }
+   }
+   ```
+4. **Webhook Fulfillment**: Upon successful credit card charge, Stripe fires an asynchronous webhook event `checkout.session.completed` to your backend gateway.
+5. **License Token Issuance**: The backend creates an active record in PostgreSQL/Redis and generates a signed, 32-character high-entropy cryptographic license key (e.g., `PRO-8F92-K91A-77C2`).
+6. **Conversational Verification**: The user pastes their license key (or the GPT automatically queries the backend via the user’s email), unlocking unrestricted enterprise Action access.
+
+---
+
+### 2.4 Tiered Licensing: Seat-Based, Metered Quota, and Enterprise Floating Licenses
+
+Commercial agents deploy three primary enterprise licensing models:
+
+| Licensing Topology | Allocation Mechanism | Quota Enforcement Strategy | Ideal Business Application |
+|---|---|---|---|
+| **Seat-Based Monthly Subscription** | 1 License Key per Named User | Single active device/session lock in Redis | Professional tools (Financial analysts, lawyers, designers) |
+| **Metered Usage Quota (Credits)** | Prepaid token bucket (e.g., 500 reports/mo) | Decrement counter via atomic Redis `DECRBY` | High-compute tasks (Video rendering, deep code refactoring) |
+| **Enterprise Floating Pool** | Shared organizational API Key / Domain Match | Concurrent session limit (e.g., 20 simultaneous users) | Internal enterprise departmental GPTs, corporate site licenses |
+
+---
+
+## 3. Real-Time Telemetry, Behavioral Analytics & User Retention Funnels
+
+### 3.1 Overcoming the "Black Box" Problem: Capturing Action-Level Event Telemetry
+
+A primary frustration for traditional software developers entering the GPT Store is the **"Black Box" Problem**: OpenAI does not provide builders with raw chat transcripts, individual user session recordings, or granular token usage graphs inside the default ChatGPT interface. Builders are provided only with aggregate weekly active user counts and a star rating.
+
+To build an enterprise-grade commercial product, developers must engineer an **External Telemetry Pipeline** utilizing GPT Actions.
+
+<div class="diagram-container">
+  <img src="../assets/svg/diag_ch07_telemetry_funnel.svg" alt="GPT Telemetry &amp; User Retention Funnel" />
+  <p class="diagram-caption">Figure 7.3: Conversational Telemetry Pipeline: Utterance Ingestion, Action Tracing &amp; Funnel Drop-off Analysis</p>
+</div>
+
+Every time a user interacts with a premium or data-backed capability, the Action gateway logs a rich telemetry event to a real-time event stream (e.g., PostHog, Mixpanel, Datadog, or Snowflake):

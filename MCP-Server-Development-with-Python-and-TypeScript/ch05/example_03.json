@@ -1,0 +1,12 @@
+{
+  "jsonrpc": "2.0",
+  "method": "prompts/get",
+  "params": {
+    "name": "generate_incident_postmortem",
+    "arguments": {
+      "incident_id": "INC-8841",
+      "include_timeline": "true"
+    }
+  },
+  "id": 202
+}

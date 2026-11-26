@@ -1,0 +1,6 @@
+<tool_call id="call_88129">
+  <tool_name>query_sql_database</tool_name>
+  <parameters>
+    <query>SELECT merchant_id, SUM(amount) FROM transactions WHERE status = 'SETTLED' GROUP BY merchant_id LIMIT 10;</query>
+  </parameters>
+</tool_call>

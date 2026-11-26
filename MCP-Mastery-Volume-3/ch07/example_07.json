@@ -1,0 +1,4 @@
+// Old description:
+"description": "Calculates standard gross shipping weight in kilograms."
+// New description:
+"description": "Calculates net tare shipping weight in metric tons."

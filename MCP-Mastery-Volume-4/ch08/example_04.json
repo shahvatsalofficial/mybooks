@@ -1,0 +1,47 @@
+{
+  "mcpServers": {
+    "postgres_analytics": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@enterprise/mcp-database-suite"
+      ],
+      "env": {
+        "DATABASE_URL": "postgresql://reader:Secr3tToken@db.internal.corp:5432/analytics",
+        "NODE_ENV": "production",
+        "MCP_QUERY_ROW_LIMIT": "100"
+      }
+    },
+    "secure_storage_vault": {
+      "command": "node",
+      "args": [
+        "/opt/mcp/vault/dist/index.js"
+      ],
+      "env": {
+        "VAULT_ROOT_DIR": "/Users/developer/secure_vault",
+        "VAULT_MASTER_KEY_COMMAND": "security find-generic-password -s 'MCP_VAULT' -w"
+      }
+    },
+    "docker_infra_proxy": {
+      "command": "uvx",
+      "args": [
+        "mcp-docker-daemon",
+        "--socket",
+        "/var/run/docker.sock",
+        "--jail-privileged"
+      ]
+    },
+    "jira_incident_crawler": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@enterprise/mcp-jira-bridge"
+      ],
+      "env": {
+        "ATLASSIAN_HOST": "corp.atlassian.net",
+        "ATLASSIAN_USER_EMAIL": "developer@corp.com",
+        "ATLASSIAN_API_TOKEN": "ATATT3xFfGF0..."
+      }
+    }
+  }
+}

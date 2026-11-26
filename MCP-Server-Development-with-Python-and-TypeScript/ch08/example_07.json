@@ -1,0 +1,12 @@
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "roots": [
+      {
+        "uri": "file:///Users/vatsal/projects/ecommerce-backend",
+        "name": "ecommerce-backend"
+      }
+    ]
+  },
+  "id": 10
+}

@@ -1,0 +1,35 @@
+steps:
+  # 1. Run Unit & Contract Tests
+  - name: 'python:3.12-slim'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        pip install -r requirements-test.txt
+        pytest tests/ -v --junitxml=junit.xml
+
+  # 2. Build Multi-Arch Docker Container
+  - name: 'gcr.io/kaniko-project/executor:latest'
+    args:
+      - '--destination=gcr.io/$PROJECT_ID/adk-agent-svc:$SHORT_SHA'
+      - '--cache=true'
+      - '--cache-ttl=24h'
+
+  # 3. Deploy to Google Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'adk-agent-svc'
+      - '--image=gcr.io/$PROJECT_ID/adk-agent-svc:$SHORT_SHA'
+      - '--region=us-central1'
+      - '--platform=managed'
+      - '--service-account=adk-agent-sa@$PROJECT_ID.iam.gserviceaccount.com'
+      - '--set-env-vars=ENV=production,MAX_HOPS=5'
+      - '--min-instances=1'
+      - '--max-instances=100'
+      - '--concurrency=80'
+
+images:
+  - 'gcr.io/$PROJECT_ID/adk-agent-svc:$SHORT_SHA'

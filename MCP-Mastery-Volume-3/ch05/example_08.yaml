@@ -1,0 +1,5 @@
+# Exercise 3 Working Envoy Adaptive Weight Configuration
+slow_start_config:
+  slow_start_window: 60s
+  aggression: 1.5
+  min_weight_percent: 10

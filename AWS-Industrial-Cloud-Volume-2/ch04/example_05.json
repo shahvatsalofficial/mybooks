@@ -1,0 +1,44 @@
+{
+  "Type": "Map",
+  "ItemProcessor": {
+    "ProcessorConfig": {
+      "Mode": "DISTRIBUTED",
+      "ExecutionType": "EXPRESS"
+    },
+    "StartAt": "TransformRecordBatch",
+    "States": {
+      "TransformRecordBatch": {
+        "Type": "Task",
+        "Resource": "arn:aws:states:::lambda:invoke",
+        "Parameters": {
+          "FunctionName": "arn:aws:lambda:us-east-1:112233445566:function:TransformCsvBatchLambda",
+          "Payload.$": "$"
+        },
+        "End": true
+      }
+    }
+  },
+  "ItemReader": {
+    "Resource": "arn:aws:states:::s3:getObject",
+    "ReaderConfig": {
+      "InputType": "CSV",
+      "CSVHeaderLocation": "FIRST_ROW"
+    },
+    "Parameters": {
+      "Bucket": "enterprise-billing-raw-data",
+      "Key": "incoming/daily_transactions.csv"
+    }
+  },
+  "ItemBatcher": {
+    "MaxItemsPerBatch": 500
+  },
+  "MaxConcurrency": 1000,
+  "ResultWriter": {
+    "Resource": "arn:aws:states:::s3:putObject",
+    "Parameters": {
+      "Bucket": "enterprise-billing-processed-data",
+      "Prefix": "output/"
+    }
+  },
+  "End": true
+}

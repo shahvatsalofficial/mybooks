@@ -1,0 +1,25 @@
+# .github/workflows/agent-pr-review.yml
+name: Autonomous PR Review Gate
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  review:
+    runs-on: enterprise-secure-runner
+    steps:
+      - name: Bot Loop Circuit Breaker
+        run: |
+          # 1. Reject review execution if commit is authored by an approved bot
+          COMMITTED_BY_BOT=\$(git log -1 --pretty=format:'%an')
+          if [[ "\$COMMITTED_BY_BOT" =~ ^(EnterpriseAgent|ClaudeBot|SecurityDaemon) ]]; then
+            echo "Commit authored by autonomous bot (\$COMMITTED_BY_BOT). Suppressing nested agent triggers to prevent flap loops."
+            exit 0
+          fi
+
+          # 2. Hard count check: Max 3 agent commits per branch
+          AGENT_COMMIT_COUNT=\$(git log main..\$GITHUB_HEAD_REF --grep="Signed-off-by: EnterpriseAgent" --oneline | wc -l)
+          if [ "\$AGENT_COMMIT_COUNT" -ge 3 ]; then
+            echo "CRITICAL: Branch exceeds maximum allowed autonomous agent commit ceiling (3). Halting further bot modifications."
+            exit 1
+          fi

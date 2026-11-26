@@ -1,0 +1,56 @@
+{
+     "type": "input_audio_buffer.speech_started",
+     "audio_start_ms": 1420,
+     "item_id": "msg_user_001"
+   }
+   ```
+2. **Client Action (Immediate Audio Mute)**: Upon receiving `input_audio_buffer.speech_started`, the client application must **immediately stop audio playback** from its local speakers and clear all pending audio buffer queues.
+3. **Client Action (Server Truncation)**: The client inspects how many milliseconds of audio the user actually heard before interrupting, and dispatches a truncation event to synchronize the server's conversational transcript:
+   ```json
+   {
+     "type": "conversation.item.truncate",
+     "item_id": "msg_assistant_active",
+     "content_index": 0,
+     "audio_end_ms": 1150
+   }
+   ```
+4. **Server State Correction**: The server cancels ongoing token generation (`response.cancel`) and truncates its internal conversational memory of what the assistant said to exactly 1,150 milliseconds. The model is now aware that it was interrupted, preventing it from repeating words or assuming the user heard parts of the message that were cut off!
+
+---
+
+## 5. Audio Codecs & Digital Signal Processing (DSP)
+
+### 5.1 PCM16 vs. Telephony G.711 $mu$-law & A-law
+The Realtime API supports multiple audio encoding formats tailored to different deployment environments:
+
+<div class="diagram-container">
+  <img src="../assets/svg/diag_ch05_audio_codec_transcoding.svg" alt="Audio Codec Transcoding: PCM16 vs G.711 μ-law / A-law Pipeline" />
+  <p class="diagram-caption">Figure 5.4: Audio Codec Ingestion Pipeline: Resampling, Companding &amp; Byte Packing Topology</p>
+</div>
+
+| Audio Codec | Sample Rate | Bit Depth | Bandwidth | Optimal Deployment Target |
+| :--- | :--- | :--- | :--- | :--- |
+| **Linear PCM 16-bit** (`pcm16`) | 24,000 Hz (24kHz) | 16-bit Signed LE | 384 kbps | Web Browsers, iOS/Android Apps, High-Fidelity Audio |
+| **G.711 $mu$-law** (`g711_ulaw`) | 8,000 Hz (8kHz) | 8-bit Companded | 64 kbps | Telephony PSTN, Twilio Media Streams (North America) |
+| **G.711 A-law** (`g711_alaw`) | 8,000 Hz (8kHz) | 8-bit Companded | 64 kbps | Telephony PSTN, SIP Trunks (Europe / International) |
+
+### 5.2 The Mathematics of G.711 $mu$-law Companding
+In telephony systems, transmitting 16-bit linear PCM audio over 64 kbps ISDN/PSTN channels was physically impossible. Engineers developed **Companding (Compressing-Expanding)** algorithms to squeeze 16-bit dynamic range into 8-bit bytes while preserving human speech intelligibility.
+
+The $mu$-law companding transformation scales normalized input sample $x \in [-1, 1]$ according to logarithmic curve:
+
+$$F(x) = \operatorname{sgn}(x) \frac{\ln(1 + \mu |x|)}{\ln(1 + \mu)}, \quad \mu = 255$$
+
+By dedicating higher quantization resolution to low-amplitude vocal sounds while compressing loud peaks, $mu$-law achieves 12-bit perceptual audio quality inside an 8-bit byte.
+
+When building telephony bridges (such as bridging Twilio phone calls to the Realtime API), developers configure `input_audio_format: "g711_ulaw"` and `output_audio_format: "g711_ulaw"`, enabling raw 8kHz byte payloads from Twilio WebSockets to pass directly to OpenAI without requiring computationally expensive server-side resampling!
+
+---
+
+## 6. Function Calling in the Realtime Voice Loop
+
+### 6.1 Executing Tools Without Breaking Conversational Speech
+In conversational voice agents, function calling operates under strict latency constraints. When an assistant determines it must query an external database (*“Let me check your flight status”*):
+1. The model emits a function call event: `response.function_call_arguments.done`.
+2. Unlike text chat—where users patiently wait 2 seconds for a database query—in a voice call, 2 seconds of total silence feels like a dropped call.
+3. **The Voice Tool Calling Pattern**: The assistant must emit an immediate vocal filler (*“Looking that up for you right now...”*), dispatch the asynchronous tool execution, and stream the final answer once the payload returns.

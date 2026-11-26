@@ -1,0 +1,36 @@
+{
+  "name": "trigger_deployment",
+  "description": "trigger_deployment",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "service_id": {
+        "type": "string",
+        "minLength": 3,
+        "maxLength": 64,
+        "pattern": "^[a-z0-9-]+$",
+        "description": "Unique microservice name to deploy"
+      },
+      "replicas": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 100,
+        "default": 3,
+        "description": "Target number of container instances"
+      },
+      "environment": {
+        "type": "string",
+        "enum": ["development", "staging", "production"],
+        "default": "staging",
+        "description": "Target deployment infrastructure tier"
+      },
+      "dry_run": {
+        "type": "boolean",
+        "default": false,
+        "description": "If true, simulates deployment without applying changes"
+      }
+    },
+    "required": ["service_id"],
+    "additionalProperties": false
+  }
+}

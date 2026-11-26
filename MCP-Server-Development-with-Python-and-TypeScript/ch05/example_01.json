@@ -1,0 +1,6 @@
+{
+  "jsonrpc": "2.0",
+  "method": "prompts/list",
+  "params": {},
+  "id": 201
+}

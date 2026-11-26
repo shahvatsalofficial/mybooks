@@ -1,0 +1,22 @@
+{
+  "table": "orders",
+  "columns": [
+    { "name": "id", "type": "uuid", "primary_key": true },
+    { "name": "customer_id", "type": "uuid", "nullable": false },
+    { "name": "total_amount", "type": "numeric(10,2)" }
+  ],
+  "recommended_joins": [
+    {
+      "target_table": "customers",
+      "join_type": "INNER JOIN",
+      "condition": "orders.customer_id = customers.id",
+      "description": "Retrieve customer profile and contact metadata"
+    },
+    {
+      "target_table": "order_items",
+      "join_type": "INNER JOIN",
+      "condition": "orders.id = order_items.order_id",
+      "description": "Retrieve individual line items and SKUs for this order"
+    }
+  ]
+}

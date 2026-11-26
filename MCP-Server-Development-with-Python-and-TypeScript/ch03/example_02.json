@@ -1,0 +1,8 @@
+{
+  "jsonrpc": "2.0",
+  "method": "resources/read",
+  "params": {
+    "uri": "memo://notes/system-architecture"
+  },
+  "id": 11
+}

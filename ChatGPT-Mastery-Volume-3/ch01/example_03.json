@@ -1,0 +1,21 @@
+// policy_deny_public_aoai.json — Preventative Governance Guardrail
+{
+  "mode": "Indexed",
+  "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "equals": "Microsoft.CognitiveServices/accounts"
+        },
+        {
+          "field": "Microsoft.CognitiveServices/accounts/publicNetworkAccess",
+          "notEquals": "Disabled"
+        }
+      ]
+    },
+    "then": {
+      "effect": "Deny"
+    }
+  }
+}

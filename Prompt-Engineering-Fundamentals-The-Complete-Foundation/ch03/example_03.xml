@@ -1,0 +1,9 @@
+<contrastive_examples>
+  <example K="1">
+    <status>FAILED_ATTEMPT</status>
+    <input>A malformed input payload that lacks critical ID fields.</input>
+    <bad_output>{"status": "success", "data": "Parsed successfully without ID"}</bad_output>
+    <correction_rationale>This output violates Rule 1.3: All routing payloads must contain a valid ID field. Generating success without an ID is highly dangerous.</correction_rationale>
+    <correct_output>{"status": "error", "error_code": "MISSING_MANDATORY_FIELD", "field": "transaction_id"}</correct_output>
+  </example>
+</contrastive_examples>

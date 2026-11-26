@@ -1,0 +1,16 @@
+<examples>
+  <example index="1">
+    <sample_input>
+      User reported error 504 on checkout gateway at 12:04 UTC.
+    </sample_input>
+    <ideal_scratchpad>
+      1. Extract timestamp: 12:04 UTC.
+      2. Identify error code: HTTP 504 Gateway Timeout.
+      3. Classify affected service: checkout gateway.
+      4. Infer severity: High (payment path impacted).
+    </ideal_scratchpad>
+    <ideal_output>
+      {"incident_id": "INC-8812", "service": "checkout", "error": 504, "severity": "P1"}
+    </ideal_output>
+  </example>
+</examples>

@@ -1,0 +1,31 @@
+{
+  "name": "provision_kubernetes_ingress",
+  "description": "Provisions an AWS Application Load Balancer (ALB) Ingress controller on a target EKS cluster. Call this ONLY after the deployment and service manifests have been applied and verified healthy via verify_pod_health(). DO NOT call this tool for internal-only cluster communication (use provision_cluster_ip() instead). Returns the public DNS hostname and target group ARN.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "cluster_name": {
+        "type": "string",
+        "pattern": "^[a-z0-9-]{3,32}$",
+        "description": "Alphanumeric lower-case cluster identifier (e.g., 'us-east-1-prod-eks')."
+      },
+      "hostname": {
+        "type": "string",
+        "format": "hostname",
+        "description": "Fully qualified public domain name (e.g., 'api.production.company.com')."
+      },
+      "tls_cert_arn": {
+        "type": "string",
+        "pattern": "^arn:aws:acm:[a-z0-9-]+:[0-9]{12}:certificate/[a-f0-9-]+$",
+        "description": "Valid AWS ACM certificate ARN matching the hostname."
+      },
+      "health_check_path": {
+        "type": "string",
+        "default": "/healthz",
+        "description": "Target group HTTP probe endpoint."
+      }
+    },
+    "required": ["cluster_name", "hostname", "tls_cert_arn"],
+    "additionalProperties": false
+  }
+}

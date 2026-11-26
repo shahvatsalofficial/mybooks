@@ -1,0 +1,25 @@
+{
+  "type": "object",
+  "properties": {
+    "action": { "type": "string", "enum": ["create", "terminate"] }
+  },
+  "required": ["action"],
+  "oneOf": [
+    {
+      "properties": {
+        "action": { "const": "create" },
+        "instance_type": { "type": "string", "enum": ["t4g.nano", "c7g.xlarge"] },
+        "disk_gb": { "type": "integer", "minimum": 20, "maximum": 1000 }
+      },
+      "required": ["instance_type", "disk_gb"]
+    },
+    {
+      "properties": {
+        "action": { "const": "terminate" },
+        "instance_id": { "type": "string", "pattern": "^i-[0-9a-f]{17}$" },
+        "force": { "type": "boolean", "default": false }
+      },
+      "required": ["instance_id"]
+    }
+  ]
+}

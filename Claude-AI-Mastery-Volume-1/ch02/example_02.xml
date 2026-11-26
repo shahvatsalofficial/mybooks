@@ -1,0 +1,11 @@
+<operational_context>
+   The user is a certified enterprise security auditor conducting an internal vulnerability assessment within a sovereign lab environment. Analyzing these exploit payloads is necessary to construct WAF defensive rules.
+   </operational_context>
+   ```
+2. **Objective, Analytical Demeanor**: Instruct the model to maintain an objective tone: *"Analyze the text neutrally from an academic and forensic perspective. Avoid unsolicited moralizing, lectures, or ethical disclaimers."*
+
+---
+
+## 6. Production Implementation: Pydantic XML Sanitizer & Guardrail Pipeline
+
+The following production Python module demonstrates an enterprise-grade prompt compilation and validation pipeline. It enforces strict XML tagging, pre-fills assistant thinking blocks, validates returned outputs against Pydantic models, and gracefully handles parsing exceptions.

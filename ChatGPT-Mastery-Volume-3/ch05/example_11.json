@@ -1,0 +1,20 @@
+{
+  "timestamp": "2026-09-29T11:45:00.128Z",
+  "request_id": "req-98f2b740-finops",
+  "organization_id": "enterprise-corp",
+  "cost_center": "CC-9042-WEALTH-MGMT",
+  "environment": "production",
+  "model_family": "gpt-4o",
+  "deployment_type": "PTU-SHARED",
+  "token_metrics": {
+    "prompt_tokens": 1284,
+    "completion_tokens": 482,
+    "cached_prompt_tokens": 896,
+    "total_billed_tokens": 870
+  },
+  "financial_attribution": {
+    "gross_cost_usd": 0.00945,
+    "cache_savings_usd": 0.00448,
+    "net_allocated_cost_usd": 0.00497
+  }
+}

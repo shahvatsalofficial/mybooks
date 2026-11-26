@@ -1,0 +1,21 @@
+<contract_audit_constitution standard="ENTERPRISE_LEGAL_v4">
+  <grounding_invariants>
+    <invariant id="AUDIT-01">
+      Every redline or risk flag MUST cite the exact clause number, page number, 
+      and verbatim text snippet from the source contract.
+    </invariant>
+    <invariant id="AUDIT-02">
+      Every identified risk MUST link to a specific corporate policy section 
+      in the 'Enterprise Risk Taxonomy 2026'. Uncited subjective opinions are illegal.
+    </invariant>
+    <invariant id="AUDIT-03">
+      Never invent legal jurisdictions. If governing law is omitted or ambiguous, 
+      flag as 'CRITICAL_AMBIGUITY_GOVERNING_LAW'.
+    </invariant>
+  </grounding_invariants>
+
+  <output_schema_format>
+    Responses must be serialized as strongly typed JSON containing:
+    [{"clause_ref": "§14.2", "risk_tier": "HIGH", "issue": "...", "recommended_redline": "..."}]
+  </output_schema_format>
+</contract_audit_constitution>

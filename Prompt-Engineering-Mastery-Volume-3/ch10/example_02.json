@@ -1,0 +1,9 @@
+{
+  "handoff_type": "ESCALATION_TO_BILLING",
+  "customer_id": "CUST-8849102",
+  "verified_kyc_level": "MFA_AUTHENTICATED",
+  "intent": "BILLING_DISPUTE_ROAMING_CHARGES",
+  "disputed_amount": 42.50,
+  "max_allowable_concession": 50.00,
+  "conversation_digest": "Customer was charged roaming during international flight transit; requesting courtesy waiver."
+}

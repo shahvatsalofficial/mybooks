@@ -1,0 +1,18 @@
+{
+  "paths": {
+    "/api/v1/customers": {
+      "post": {
+        "operationId": "createCustomer",
+        "summary": "Create a new customer account",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateCustomerRequest" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

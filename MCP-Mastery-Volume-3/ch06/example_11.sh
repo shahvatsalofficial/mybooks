@@ -1,0 +1,1 @@
+node exercise2_dynamic_registry.js

@@ -1,0 +1,1 @@
+result = user.balance + fee

@@ -1,0 +1,34 @@
+# ==============================================================================
+# Sovereign Enterprise Conformance Pack: Financial Vault Baseline
+# ==============================================================================
+Resources:
+  S3PublicReadProhibitedRule:
+    Type: AWS::Config::ConfigRule
+    Properties:
+      ConfigRuleName: s3-bucket-public-read-prohibited
+      Description: Checks that S3 buckets disallow public read access.
+      Source:
+        Owner: AWS
+        SourceIdentifier: S3_BUCKET_PUBLIC_READ_PROHIBITED
+      Scope:
+        ComplianceResourceTypes:
+          - AWS::S3::Bucket
+
+  S3PublicReadRemediation:
+    Type: AWS::Config::RemediationConfiguration
+    Properties:
+      ConfigRuleName: !Ref S3PublicReadProhibitedRule
+      TargetType: SSM_DOCUMENT
+      TargetId: AWS-DisableS3BucketPublicReadWrite
+      TargetVersion: "1"
+      Parameters:
+        BucketName:
+          ResourceValue:
+            Value: RESOURCE_ID
+        AutomationAssumeRole:
+          StaticValue:
+            Values:
+              - arn:aws:iam::*:role/AWSConfigRemediationExecutionRole
+      Automatic: true
+      MaximumAutomaticAttempts: 3
+      RetryAttemptSeconds: 15

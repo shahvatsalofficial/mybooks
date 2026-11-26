@@ -1,0 +1,26 @@
+[
+  {
+    "variant_id": "ad_variant_01",
+    "psychological_angle": "Social Proof",
+    "headline": "Trusted by 10,000+ Teams",
+    "description": "Migrate your database with zero downtime. 24/7 expert support included.",
+    "metrics": {
+      "impressions": 15000,
+      "clicks": 450,
+      "ctr_percent": 3.0,
+      "conversions": 45
+    }
+  },
+  {
+    "variant_id": "ad_variant_02",
+    "psychological_angle": "Loss Aversion",
+    "headline": "Stop Wasting $2,400/Year",
+    "description": "Don't pay for idle database servers. Automatically scale down with ScaleDrive.",
+    "metrics": {
+      "impressions": 14200,
+      "clicks": 681,
+      "ctr_percent": 4.8,
+      "conversions": 95
+    }
+  }
+]

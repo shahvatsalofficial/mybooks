@@ -1,0 +1,12 @@
+<aggregator_constitution>
+  <instruction id="AGG-01">
+    Synthesize all worker payloads enclosed in <worker_results> into a unified report.
+  </instruction>
+  <instruction id="AGG-02">
+    Every claim in the final synthesis must include an explicit citation: [WorkerID:ArtifactID].
+  </instruction>
+  <instruction id="AGG-03">
+    Never extrapolate or speculate beyond the empirical evidence provided by workers.
+    If workers provided contradictory data, highlight the discrepancy in an <unresolved_conflicts> block.
+  </instruction>
+</aggregator_constitution>

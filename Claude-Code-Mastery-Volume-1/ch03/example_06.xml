@@ -1,0 +1,23 @@
+<thinking>
+1. INGEST OBJECTIVE:
+   - Memory leak reported in src/streaming/TransformPipeline.ts during 10GB file processing.
+   - Symptoms: Node.js heap grows linearly until OOM crash (Exit Code 134).
+
+2. AST & STREAM ANALYSIS:
+   - File inspected: src/streaming/TransformPipeline.ts (Lines 45-88).
+   - Analysis: The transform stream attaches an event listener:
+     sourceStream.on('data', (chunk) => { bufferArray.push(this.transform(chunk)); });
+   - Root Cause: Missing backpressure handling. When downstream consumers are slower than disk read, bufferArray accumulates unbounded unconsumed Buffer instances in V8 heap memory.
+
+3. ARCHITECTURAL RESOLUTION:
+   - Replace manual event listener array accumulation with Node.js stream pipeline:
+     import { pipeline } from 'node:stream/promises';
+     import { Transform } from 'node:stream';
+   - Create a highWaterMark-constrained Transform stream subclass.
+   - Ensure pipeline(source, transformer, destination) manages backpressure natively at C++ libuv layer.
+
+4. INVARIANT & TYPING VALIDATION:
+   - Verify Node.js v20.x compatibility (pipeline/promises is built-in).
+   - Ensure TypeScript return type is Promise<void>.
+   - Check StartLine: 52, EndLine: 78.
+</thinking>

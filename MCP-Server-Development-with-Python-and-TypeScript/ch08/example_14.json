@@ -1,0 +1,55 @@
+"env": {
+     "PATH": "/usr/local/bin:/usr/bin:/bin:/opt/homebrew/bin"
+   }
+   ```
+3. **Automated Diagnostic Health Script**: Shipped a CLI helper `mcp-doctor` that inspects `claude_desktop_config.json`, tests `child_process.spawn()` with the exact environment variables, and flags missing binaries prior to launching Claude Desktop.
+
+---
+
+### Post-Mortem 08.02: The Stale Schema Ghost Bug
+
+| Metadata | Details |
+| :--- | :--- |
+| **Date** | April 9, 2026 |
+| **Incident Severity** | P2 (Silent Execution Corruption) |
+| **Impact** | An AI coding assistant repeatedly generated obsolete database queries that broke staging data; developers were unable to update tool parameters despite redeploying server code. |
+| **Root Cause** | Claude Desktop aggressively cached the `tools/list` response in its SQLite application cache and failed to refresh the catalog because the server process was kept alive in the background. |
+| **Resolution Time** | 30 minutes |
+
+#### Incident Summary
+
+A backend engineer renamed a tool parameter from `table_name` to `relation_identifier` in a local MCP server. The developer compiled the code, restarted their server in the terminal, and resumed chatting with Claude Desktop.
+
+To the developer's bewilderment, Claude Desktop continued invoking the tool using the old argument: `{ "table_name": "users" }`. The server's updated Pydantic model rejected the call with `ValidationError: Missing required field 'relation_identifier'`. Even after restarting the conversation, Claude Desktop persisted in using the old parameter schema.
+
+#### Root Cause Analysis (RCA)
+
+1. **Host-Side Schema Caching**: To minimize startup latency, Claude Desktop caches the `tools/list` catalog for active sessions.
+2. **Orphaned Background Process**: When the developer edited their server code, a previous instance of the server process remained running in the background as an orphaned child process attached to Claude Desktop. Claude Desktop continued communicating with the old process over the existing stdio pipe.
+
+#### Remediation and Prevention Protocols
+
+1. **Full Host Hard Restart**: Developers were trained on the host restart procedure: quitting Claude Desktop completely (`Cmd+Q` on macOS, right-click "Quit" in system tray on Windows) terminates all child processes and forces a complete cache invalidation.
+2. **Dynamic Change Notifications**: Updated servers to emit `notifications/tools/list_changed` upon detecting file modifications via `chokidar` or `watchdog`.
+3. **Process Reaper**: Added a pre-run check in build scripts (`killall -9 notes-mcp || true`) to eliminate orphaned background server processes before recompilation.
+
+---
+
+## 8.7 The Spine Project: Capstone Integration of `notes-mcp`
+
+We now reach the summit of Volume 1. Over the course of eight chapters, we built:
+- Protocol foundations and lifecycle handshakes (Chapters 1 & 2)
+- Markdown and binary resources (Chapter 3)
+- Strictly validated Pydantic and Zod tools (Chapter 4)
+- Reverse sampling and prompt templates (Chapter 5)
+- Full Python FastMCP server (Chapter 6)
+- Full TypeScript McpServer package (Chapter 7)
+
+Now, we bring everything together in the **Capstone Integration**: registering `notes-mcp` simultaneously in Claude Desktop, Cursor IDE, and our automated programmatic test client.
+
+### End-to-End Verification Checklist
+
+#### 1. Configure Claude Desktop
+Add `notes-mcp` to your platform configuration file:
+- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`

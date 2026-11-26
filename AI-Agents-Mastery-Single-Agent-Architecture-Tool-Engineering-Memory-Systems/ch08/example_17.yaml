@@ -1,0 +1,18 @@
+# Production Prometheus Alerting Rules for Agent Fleet
+groups:
+  - name: AgentFleetAlerts
+    rules:
+      - alert: AgentTokenBurnRateRunaway
+        expr: rate(agent_tokens_total[5m]) > 50000
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Agent token burn rate exceeded 50k tokens/min (Potential Livelock)"
+      - alert: AgentCircuitBreakerTripped
+        expr: agent_circuit_breaker_state == 1
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          summary: "Upstream Model Provider Circuit Breaker OPEN on Envoy Gateway"

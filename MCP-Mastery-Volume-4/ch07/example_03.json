@@ -1,0 +1,16 @@
+{
+  "query": "Why did we select Postgres for accounting?",
+  "totalMatches": 1,
+  "matches": [
+    {
+      "id": "decision-04",
+      "cosineDistance": 0.1842,
+      "similarityScore": 0.8158,
+      "metadata": {
+        "category": "architecture",
+        "storedAt": "2026-11-20T10:15:00Z"
+      },
+      "contentSnippet": "We chose PostgreSQL over MongoDB because of ACID transaction requirements on ledger tables."
+    }
+  ]
+}

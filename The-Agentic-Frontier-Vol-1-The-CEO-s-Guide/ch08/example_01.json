@@ -1,0 +1,27 @@
+{
+  "director_id": "AD-LOGISTICS-001",
+  "version": "8.0-SOVEREIGN",
+  "parent_node": "ROOT-ARCHITECT",
+  "logic_envelope": {
+    "capital_authority": {
+      "limit_per_transaction": "50,000 TOKENS",
+      "limit_per_cycle": "1,000,000 TOKENS",
+      "currency_pair": "ETH/TOKEN-INDEX"
+    },
+    "strategic_vector": [
+      "INTERMODAL_ARBITRAGE",
+      "LAST_MILE_OPTIMIZATION",
+      "REPUTATION_MESH_STABILIZATION"
+    ],
+    "constraint_set": {
+      "ethical_floor": "NON_INTERFERENCE_V4",
+      "margin_target": "0.85",
+      "grl_minimum": "0.98"
+    }
+  },
+  "feedback_loops": {
+    "audit_frequency": "REAL_TIME",
+    "anomaly_threshold": "0.02",
+    "state_reconciliation": "EVERY_60_SECONDS"
+  }
+}

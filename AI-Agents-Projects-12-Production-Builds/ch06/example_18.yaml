@@ -1,0 +1,27 @@
+apiVersion: revenue.opportunity4u.io/v1alpha1
+kind: SalesOutreachAgentPolicy
+metadata:
+  name: enterprise-outbound-sync-policy
+spec:
+  enrichment:
+    domainCacheTtlSeconds: 604800
+    providerTimeoutSeconds: 1.5
+  qualification:
+    scoringEngine: deterministic_meddic_v2
+    tierAFastTrackThreshold: 75
+    tierBSdrThreshold: 50
+  personalization:
+    requireEvidenceRegistry: true
+    blockUngroundedMonetaryOrSeriesClaims: true
+    requireUnsubscribeFooter: true
+    warmupDailyBaseLimit: 40
+    warmupDailyMaxLimit: 400
+  crmSync:
+    requireIdempotencyKey: true
+    enforceOptimisticCasLocking: true
+    protectedDealStages:
+      - Negotiation
+      - Contract Sent
+      - Closed-Won
+      - Closed-Lost
+    dlqMaxRetries: 3

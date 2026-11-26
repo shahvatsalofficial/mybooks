@@ -1,0 +1,6 @@
+{
+  "name": "vault_read_secret",
+  "arguments": {
+    "filename": "../../../../../etc/passwd"
+  }
+}

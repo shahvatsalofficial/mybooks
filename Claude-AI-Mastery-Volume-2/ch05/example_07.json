@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "k8s-sre": {
+      "command": "node",
+      "args": ["d:/MyData/EBooks/Claude_AI_Mastery_Vol2/dist/k8s-server.js"],
+      "env": {
+        "KUBECONFIG": "C:/Users/Administrator/.kube/config"
+      }
+    }
+  }
+}

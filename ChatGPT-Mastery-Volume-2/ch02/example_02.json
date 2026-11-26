@@ -1,0 +1,21 @@
+{
+  "role": "assistant",
+  "content": null,
+  "tool_calls": [
+    {
+      "id": "call_aws_east_01",
+      "type": "function",
+      "function": {"name": "get_cloud_spend", "arguments": "{\"region\": \"us-east-1\"}"}
+    },
+    {
+      "id": "call_aws_west_02",
+      "type": "function",
+      "function": {"name": "get_cloud_spend", "arguments": "{\"region\": \"eu-west-1\"}"}
+    },
+    {
+      "id": "call_pagerduty_03",
+      "type": "function",
+      "function": {"name": "get_active_incidents", "arguments": "{\"severity\": \"P1\"}"}
+    }
+  ]
+}

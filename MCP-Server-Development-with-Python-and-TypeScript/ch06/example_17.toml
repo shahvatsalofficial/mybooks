@@ -1,0 +1,18 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "notes-mcp"
+version = "1.0.0"
+description = "Enterprise Model Context Protocol server for notes and knowledge management"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp[cli]>=1.0.0",
+    "aiosqlite>=0.20.0",
+    "pydantic>=2.7.0",
+]
+
+[project.scripts]
+notes-mcp = "notes_mcp.server:main"

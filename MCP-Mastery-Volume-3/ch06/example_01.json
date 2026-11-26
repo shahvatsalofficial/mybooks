@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "financial-analytics": {
+      "command": "node",
+      "args": ["/opt/mcp/servers/finance/dist/index.js"],
+      "env": { "PORT": "8085" }
+    },
+    "customer-crm": {
+      "url": "https://crm-mcp.internal.opportunity4u.com/sse"
+    }
+  }
+}

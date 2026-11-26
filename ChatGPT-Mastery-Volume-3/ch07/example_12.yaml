@@ -1,0 +1,16 @@
+# ai_safety_incident_protocol.yml
+incident_response_team:
+  incident_commander: "Chief AI Safety Officer"
+  legal_counsel: "VP of Regulatory Compliance"
+  technical_lead: "Lead Enterprise AI Architect"
+
+escalation_criteria:
+  critical_tier_1:
+    definition: "Loss of life, serious health harm, or widespread critical infrastructure outage"
+    action: "Immediate automated kill-switch execution; notify regulatory authority within 72 hours"
+  high_tier_2:
+    definition: "Systemic bias detected in credit scoring or HR screening affecting >100 individuals"
+    action: "Revert endpoint to deterministic rule-based fallback; initiate internal audit within 12 hours"
+  medium_tier_3:
+    definition: "PII leak or guardrail evasion isolated to a single non-critical customer session"
+    action: "Quarantine session; patch Colang rail within 24 hours"

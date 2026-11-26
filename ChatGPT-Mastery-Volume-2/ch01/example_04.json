@@ -1,0 +1,8 @@
+{
+  "model": "gpt-4o",
+  "messages": [{"role": "user", "content": "Analyze system architecture."}],
+  "stream": true,
+  "stream_options": {
+    "include_usage": true
+  }
+}

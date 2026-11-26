@@ -1,0 +1,12 @@
+{
+  "error": "SCHEMA_VALIDATION_FAILED",
+  "tool": "scale_deployment",
+  "violations": [
+    {
+      "field": "replicas",
+      "rejected_value": 150,
+      "rule": "Value must be less than or equal to 50",
+      "correction_guidance": "Requested 150 replicas exceeds cluster ceiling of 50. Please choose a value <= 50."
+    }
+  ]
+}

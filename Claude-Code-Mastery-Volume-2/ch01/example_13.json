@@ -1,0 +1,12 @@
+{
+  "jsonrpc": "2.0",
+  "id": "server-req-501",
+  "result": {
+    "role": "assistant",
+    "content": {
+      "type": "text",
+      "text": "The macro activates legacy buffer allocation without security bounds checking."
+    },
+    "model": "claude-3-5-sonnet-20241022"
+  }
+}

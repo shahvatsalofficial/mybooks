@@ -1,0 +1,6 @@
+{
+  "isError": true,
+  "content": [
+    { "type": "text", "text": "Vault Read Error: Security Violation: Path traversal detected outside vault: ../../../../../etc/passwd" }
+  ]
+}

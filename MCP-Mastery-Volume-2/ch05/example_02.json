@@ -1,0 +1,12 @@
+{
+  "name": "query_customer_invoices",
+  "description": "Retrieve billing invoices for a specific customer account.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "customer_id": { "type": "string", "description": "Unique UUID of the customer" },
+      "limit": { "type": "integer", "default": 20 }
+    },
+    "required": ["customer_id"]
+  }
+}

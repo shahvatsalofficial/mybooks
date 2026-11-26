@@ -1,0 +1,7 @@
+{
+  "cl_ord_id": "ORD-991823",
+  "symbol": "NVDA",
+  "action": "BUY",  //  FAIL: FIX engine expected "side": "1"
+  "quantity": 5000,
+  "limit_price": 122.50 //  FAIL: FIX engine expected "price": 122.50
+}

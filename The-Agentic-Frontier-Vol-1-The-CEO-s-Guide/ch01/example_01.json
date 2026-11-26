@@ -1,0 +1,14 @@
+{
+  "agent_id": "ALPHA-INGEST-01",
+  "trigger": "Stripe-Webhook-Success",
+  "logic_gates": {
+    "missing_data_strategy": "Autonomous-Crawl",
+    "verification_threshold": 0.95,
+    "max_api_retries": 3
+  },
+  "outputs": [
+    "Google-Drive-Folder",
+    "Tailored-Onboarding-Form",
+    "Vector-DB-Seeding"
+  ]
+}

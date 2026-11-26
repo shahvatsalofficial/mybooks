@@ -1,0 +1,9 @@
+{
+  "title": "Model Context Protocol",
+  "byline": null,
+  "siteName": "Wikipedia",
+  "publishedTime": null,
+  "characterCount": 3840,
+  "truncated": false,
+  "markdownContent": "The **Model Context Protocol** (**MCP**) is an open standard designed to enable artificial intelligence applications to interface with external datastores, tools, and content repositories...\n\n### Core Architecture\n\nMCP operates over a client-server architecture using JSON-RPC 2.0 messages transmitted via standard input/output (stdio) or Server-Sent Events (SSE)..."
+}

@@ -1,0 +1,15 @@
+{
+  "manifest_id": "SELENE_LUNAR_SOUTH_POLE_DTR",
+  "orbital_environment": {
+    "location": "SHACKLETON_CRATER_RIM",
+    "earth_communication_lag_seconds": 2.6,
+    "local_consensus_protocol": "RAFT_MESH_RADIO",
+    "local_decision_latency_target_ms": 8
+  },
+  "in_situ_resource_utilization": {
+    "he3_thermal_desorption_temp_c": 600.0,
+    "solar_concentrator_efficiency_pct": 94.5,
+    "regolith_3d_sintering_spare_parts": true,
+    "mass_driver_launch_precision_velocity_ms": 0.001
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "model": "gpt-4o",
+  "messages": [{"role": "user", "content": "Query revenue for customer C-102"}],
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "get_customer_revenue",
+        "description": "Retrieve financial metrics for a designated account ID.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "customer_id": {"type": "string"}
+          },
+          "required": ["customer_id"]
+        }
+      }
+    }
+  ]
+}

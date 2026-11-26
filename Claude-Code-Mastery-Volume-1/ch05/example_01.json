@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SubagentTaskContract",
+  "type": "object",
+  "required": [
+    "taskId",
+    "parentTaskId",
+    "targetFiles",
+    "operationType",
+    "inputInterfaces",
+    "invariants",
+    "verificationCommand",
+    "tokenBudgetCap"
+  ],
+  "properties": {
+    "taskId": { "type": "string", "format": "uuid" },
+    "parentTaskId": { "type": "string" },
+    "targetFiles": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "operationType": {
+      "type": "string",
+      "enum": ["EXPLORE_AST", "MUTATE_CODE", "GENERATE_TESTS", "AUDIT_SECURITY"]
+    },
+    "inputInterfaces": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["filePath", "exportedSymbols", "typeSignatures"],
+        "properties": {
+          "filePath": { "type": "string" },
+          "exportedSymbols": { "type": "array", "items": { "type": "string" } },
+          "typeSignatures": { "type": "string" }
+        }
+      }
+    },
+    "invariants": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "verificationCommand": { "type": "string" },
+    "tokenBudgetCap": { "type": "integer", "maximum": 50000 }
+  }
+}

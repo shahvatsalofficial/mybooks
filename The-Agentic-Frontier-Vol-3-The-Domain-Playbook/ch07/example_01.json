@@ -1,0 +1,22 @@
+{
+  "jsonrpc": "2.0",
+  "method": "soc.investigate_incident",
+  "params": {
+    "incident_id": "INC-88912",
+    "target_entity": "srv-prod-payment-04",
+    "initial_signal": "eBPF_SUSPICIOUS_PTRACE",
+    "agent_dispatch": [
+      {
+        "agent": "HostForensicsAgent",
+        "action": "query_process_tree",
+        "parameters": { "pid": 4082, "depth": 5 }
+      },
+      {
+        "agent": "ThreatIntelAgent",
+        "action": "lookup_sha256",
+        "parameters": { "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" }
+      }
+    ]
+  },
+  "id": "req-991204"
+}

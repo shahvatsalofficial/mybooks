@@ -1,0 +1,26 @@
+apiVersion: triage.opportunity4u.io/v1alpha1
+kind: TriageAgentPolicy
+metadata:
+  name: prod-payments-triage-policy
+  namespace: prod-payments
+spec:
+  correlation:
+    prometheusLookbackMinutes: 15
+    lokiMaxLinesPerQuery: 5000
+    gitLookbackMinutes: 120
+    circuitBreakerFailureThreshold: 3
+  diagnostics:
+    maxStateGraphSteps: 8
+    maxToolCalls: 12
+    maxContextBytes: 32768
+    readOnlyServiceAccount: triage-diag-readonly
+  remediation:
+    tier1AutoApproveConfidence: 0.90
+    tier2ApprovalTtlSeconds: 300
+    tier3AgentExecution: prohibited
+    pdbMinAvailableEnforced: true
+  verification:
+    gracePeriodSeconds: 30
+    probeCount: 3
+    maxErrorRate5xx: 0.01
+    maxP99LatencyMs: 400

@@ -1,0 +1,20 @@
+# Kubernetes Argo Rollout Snippet
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: payments-auth-service
+spec:
+  strategy:
+    canary:
+      canaryService: payments-auth-canary
+      stableService: payments-auth-stable
+      trafficRouting:
+        istio:
+          virtualService:
+            name: payments-auth-vs
+      steps:
+      - setWeight: 10
+      - pause: { duration: 15m }
+      - analysis:
+          templates:
+          - templateName: agentic-telemetry-audit

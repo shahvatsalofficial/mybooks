@@ -1,0 +1,18 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "SecureVendorTrustPolicyWithExternalId",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::999988887777:root"
+      },
+      "Action": "sts:AssumeRole",
+      "Condition": {
+        "StringEquals": {
+          "sts:ExternalId": "c0a80124-9b3f-4e78-bc54-123456789abc"
+        }
+      }
+    }
+  ]
+}

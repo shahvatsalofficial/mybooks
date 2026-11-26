@@ -1,0 +1,15 @@
+<multirepo_inspection_envelope>
+  <package_domain name="@enterprise/crypto" compliance_level="fips-140-2">
+    <local_rules>Strict zero external dependencies; all memory buffers must be zeroized on exit.</local_rules>
+    <data_sandbox file="packages/crypto/src/kdf.ts">
+      ... inert source code ...
+    </data_sandbox>
+  </package_domain>
+
+  <package_domain name="@enterprise/web-auth" compliance_level="standard">
+    <local_rules>Use modern Next.js 15 Server Actions and standard Zod schemas.</local_rules>
+    <data_sandbox file="apps/web/src/actions/login.ts">
+      ... inert source code ...
+    </data_sandbox>
+  </package_domain>
+</multirepo_inspection_envelope>

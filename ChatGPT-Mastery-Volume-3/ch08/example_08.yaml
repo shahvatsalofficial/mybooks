@@ -1,0 +1,27 @@
+# azure_front_door_routing.yml
+routing_rules:
+  - name: GlobalOpenAIRoute
+    frontend_endpoints:
+      - ai.corp.enterprise.com
+    accepted_protocols: [Https]
+    patterns_to_match: [/v1/chat/completions]
+    backend_pool:
+      name: GlobalOpenAIPool
+      backends:
+        - address: corp-openai-eastus2.openai.azure.com
+          http_port: 443
+          priority: 1
+          weight: 50
+        - address: corp-openai-swedencentral.openai.azure.com
+          http_port: 443
+          priority: 1
+          weight: 50
+        - address: corp-openai-japaneast.openai.azure.com
+          http_port: 443
+          priority: 2 # Failover standby
+          weight: 100
+      health_probe:
+        path: /status/healthz
+        protocol: Https
+        interval_seconds: 10
+        probe_method: HEAD

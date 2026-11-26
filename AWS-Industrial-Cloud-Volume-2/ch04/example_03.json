@@ -1,0 +1,86 @@
+{
+  "Comment": "Industrial E-Commerce Order Fulfillment Saga Workflow",
+  "StartAt": "ReserveInventory",
+  "States": {
+    "ReserveInventory": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:us-east-1:112233445566:function:ReserveInventoryLambda",
+        "Payload.$": "$"
+      },
+      "ResultPath": "$.inventoryResult",
+      "Next": "ProcessPayment",
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "ResultPath": "$.error",
+          "Next": "OrderFailedNotification"
+        }
+      ]
+    },
+    "ProcessPayment": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:us-east-1:112233445566:function:ProcessPaymentLambda",
+        "Payload.$": "$"
+      },
+      "ResultPath": "$.paymentResult",
+      "Next": "DispatchShipment",
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "ResultPath": "$.error",
+          "Next": "CompensateInventory"
+        }
+      ]
+    },
+    "DispatchShipment": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:us-east-1:112233445566:function:DispatchShipmentLambda",
+        "Payload.$": "$"
+      },
+      "ResultPath": "$.shippingResult",
+      "Next": "OrderSuccessNotification",
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "ResultPath": "$.error",
+          "Next": "CompensatePayment"
+        }
+      ]
+    },
+    "CompensatePayment": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:us-east-1:112233445566:function:RefundPaymentLambda",
+        "Payload.$": "$"
+      },
+      "ResultPath": "$.compensationPaymentResult",
+      "Next": "CompensateInventory"
+    },
+    "CompensateInventory": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:us-east-1:112233445566:function:ReleaseInventoryLambda",
+        "Payload.$": "$"
+      },
+      "ResultPath": "$.compensationInventoryResult",
+      "Next": "OrderFailedNotification"
+    },
+    "OrderSuccessNotification": {
+      "Type": "Pass",
+      "End": true
+    },
+    "OrderFailedNotification": {
+      "Type": "Fail",
+      "Error": "OrderProcessingFailed",
+      "Cause": "One or more steps in the Saga failed. Compensating transactions executed."
+    }
+  }
+}

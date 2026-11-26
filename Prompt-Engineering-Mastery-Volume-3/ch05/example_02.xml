@@ -1,0 +1,11 @@
+<saga_orchestration_protocol>
+  <transaction id="TX-01" agent="BillingAgent" action="reserve_funds">
+    <compensation action="release_hold" timeout="30s"/>
+  </transaction>
+  <transaction id="TX-02" agent="InventoryAgent" action="decrement_sku">
+    <compensation action="increment_sku" timeout="30s"/>
+  </transaction>
+  <transaction id="TX-03" agent="ShippingAgent" action="create_label">
+    <compensation action="void_label" timeout="30s"/>
+  </transaction>
+</saga_orchestration_protocol>

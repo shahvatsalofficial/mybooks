@@ -1,0 +1,19 @@
+{
+  "id": "run_001_finance",
+  "status": "requires_action",
+  "required_action": {
+    "type": "submit_tool_outputs",
+    "submit_tool_outputs": {
+      "tool_calls": [
+        {
+          "id": "call_ledger_884",
+          "type": "function",
+          "function": {
+            "name": "verify_account_balance",
+            "arguments": "{\"account_id\": \"ACC-99214\", \"currency\": \"USD\"}"
+          }
+        }
+      ]
+    }
+  }
+}

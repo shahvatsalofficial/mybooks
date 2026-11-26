@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SubagentReturnPayload",
+  "type": "object",
+  "required": ["taskId", "status", "mutations", "verificationResult", "tokenUsage"],
+  "properties": {
+    "taskId": { "type": "string", "format": "uuid" },
+    "status": { "type": "string", "enum": ["SUCCESS", "FAILURE", "YIELD"] },
+    "mutations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["filePath", "patchDiff", "astChecksum"],
+        "properties": {
+          "filePath": { "type": "string" },
+          "patchDiff": { "type": "string" },
+          "astChecksum": { "type": "string" }
+        }
+      }
+    },
+    "verificationResult": {
+      "type": "object",
+      "required": ["exitCode", "stdoutSnippet", "testsPassed", "testsFailed"],
+      "properties": {
+        "exitCode": { "type": "integer" },
+        "stdoutSnippet": { "type": "string" },
+        "testsPassed": { "type": "integer" },
+        "testsFailed": { "type": "integer" }
+      }
+    },
+    "tokenUsage": {
+      "type": "object",
+      "required": ["inputTokens", "outputTokens"],
+      "properties": {
+        "inputTokens": { "type": "integer" },
+        "outputTokens": { "type": "integer" }
+      }
+    }
+  }
+}

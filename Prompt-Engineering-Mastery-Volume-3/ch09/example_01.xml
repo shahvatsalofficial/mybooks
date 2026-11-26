@@ -1,0 +1,11 @@
+<tool_failure_telemetry tool_name="fetch_customer_orders" timestamp="2026-10-12T14:10:00Z">
+  <error_category>SCHEMA_VALIDATION_ERROR</error_category>
+  <http_status_code>400</http_status_code>
+  <diagnostic_reason>
+    Parameter 'start_date' must match ISO-8601 format (YYYY-MM-DD). 
+    Received value: '10/12/2026'.
+  </diagnostic_reason>
+  <suggested_recovery_action>
+    Reformat 'start_date' to '2026-10-12' and re-invoke tool.
+  </suggested_recovery_action>
+</tool_failure_telemetry>

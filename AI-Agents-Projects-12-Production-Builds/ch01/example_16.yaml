@@ -1,0 +1,21 @@
+research_agent:
+  planner:
+    max_nodes: 24
+    max_waves: 4
+    fallback_enabled: true
+  fetcher:
+    rate_limit_rps: 10.0
+    max_concurrency: 4
+    request_timeout_sec: 12.0
+    max_retries: 3
+  deduplication:
+    shingle_k: 5
+    jaccard_threshold: 0.65
+    cosine_threshold: 0.88
+  context_packing:
+    max_tokens: 4500
+    max_spans_per_doc: 2
+  verification:
+    min_entailment_score: 0.82
+    strict_numeric_match: true
+    quarantine_unverified: true

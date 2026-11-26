@@ -1,0 +1,40 @@
+# envoy-cluster-config.yaml — Envoy Outlier Detection for Upstream MCP Servers
+static_resources:
+  clusters:
+    - name: mcp_postgres_cluster
+      connect_timeout: 0.25s
+      type: STRICT_DNS
+      dns_lookup_family: V4_ONLY
+      lb_policy: LEAST_REQUEST
+      load_assignment:
+        cluster_name: mcp_postgres_cluster
+        endpoints:
+          - lb_endpoints:
+              - endpoint:
+                  address:
+                    socket_address:
+                      address: mcp-postgres-svc.mcp-system.svc.cluster.local
+                      port_value: 8443
+      transport_socket:
+        name: envoy.transport_sockets.tls
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext
+          common_tls_context:
+            tls_certificates:
+              - certificate_chain:
+                  filename: /etc/spire/certs/tls.crt
+                private_key:
+                  filename: /etc/spire/certs/tls.key
+      circuit_breakers:
+        thresholds:
+          - priority: DEFAULT
+            max_connections: 1024
+            max_pending_requests: 512
+            max_requests: 2048
+            max_retries: 3
+      outlier_detection:
+        consecutive_5xx: 5
+        interval: 10s
+        base_ejection_time: 30s
+        max_ejection_percent: 50
+        enforcing_consecutive_5xx: 100

@@ -1,0 +1,8 @@
+<multi_tenant_guardrail>
+  <tenant_scope id="tenant_corp_alpha_92" />
+  <enforcement_rule>
+    Every database query, vector search, or API invocation MUST explicitly include
+    tenant_id="tenant_corp_alpha_92" as a mandatory parameter.
+    Any tool call lacking this exact tenant_id parameter will be rejected at the proxy layer.
+  </enforcement_rule>
+</multi_tenant_guardrail>

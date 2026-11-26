@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AgentHandoffContract",
+  "type": "object",
+  "required": [
+    "correlation_id",
+    "delegation_depth",
+    "sender_agent_id",
+    "target_agent_id",
+    "operational_objective",
+    "input_artifacts",
+    "expected_output_schema",
+    "timeout_seconds"
+  ],
+  "properties": {
+    "correlation_id": {"type": "string", "format": "uuid"},
+    "delegation_depth": {"type": "integer", "maximum": 4},
+    "sender_agent_id": {"type": "string"},
+    "target_agent_id": {"type": "string"},
+    "operational_objective": {"type": "string"},
+    "input_artifacts": {
+      "type": "object",
+      "required": ["data_payload", "provenance_hash"],
+      "properties": {
+        "data_payload": {"type": "object"},
+        "provenance_hash": {"type": "string"}
+      }
+    },
+    "expected_output_schema": {"type": "object"},
+    "timeout_seconds": {"type": "integer", "maximum": 300}
+  }
+}

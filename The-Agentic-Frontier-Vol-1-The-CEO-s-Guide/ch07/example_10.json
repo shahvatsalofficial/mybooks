@@ -1,0 +1,14 @@
+{
+  "manifest_id": "BIOSENTINEL_CLINICAL_MESH",
+  "patient_monitoring": {
+    "continuous_biomarker_cadence_seconds": 1,
+    "cyp_enzyme_polymorphism_flagging": true,
+    "liver_enzyme_drift_warning_threshold_pct": 0.015
+  },
+  "automated_titration": {
+    "dosage_adjustment_step_pct": 10.0,
+    "max_autonomous_dose_reduction_pct": 50.0,
+    "fda_ectd_dossier_auto_update": true,
+    "physician_immediate_notification_priority": "CRITICAL"
+  }
+}

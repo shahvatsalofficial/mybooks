@@ -1,0 +1,21 @@
+{
+  "handoff_version": "1.0",
+  "from_agent": "SecurityAuditor",
+  "to_agent": "ImplementationWorker",
+  "task_id": "TASK-4910",
+  "status": "ACTION_REQUIRED",
+  "executive_summary": "SQL injection vulnerability discovered in authentication endpoint.",
+  "findings": [
+    {
+      "severity": "CRITICAL",
+      "file": "src/auth/login.ts",
+      "line": 42,
+      "description": "Raw string concatenation in SQL query: `SELECT * FROM users WHERE email = '${email}'`",
+      "prescribed_remediation": "Replace with parameterized query using asyncpg `$1` placeholder."
+    }
+  ],
+  "workspace_context": {
+    "git_branch": "fix/auth-sqli",
+    "clean_git_state": true
+  }
+}

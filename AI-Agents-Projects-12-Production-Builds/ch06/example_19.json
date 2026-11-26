@@ -1,0 +1,12 @@
+{
+  "event_type": "sales_agent_lead_dispatched",
+  "lead_id": "LD-88412",
+  "canonical_domain": "acme-cloud.co.uk",
+  "meddic_score": 89,
+  "routing_tier": "tier_a_ae_fast_track",
+  "grounding_verified": true,
+  "ungrounded_claims": [],
+  "crm_idempotency_key": "8f20c41e9a3d7b12",
+  "crm_cas_version": 4,
+  "protected_fields_skipped": ["dealstage", "owner_id"]
+}

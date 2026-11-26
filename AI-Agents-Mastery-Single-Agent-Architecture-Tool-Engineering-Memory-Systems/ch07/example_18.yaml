@@ -1,0 +1,5 @@
+INCIDENT ID:          INC-8490-EVAL-LEAK
+SEVERITY:             SEV-2 (High Financial Waste)
+IMPACT:               $48,000 cloud invoice increase over 30 days; 4x latency increase
+ROOT CAUSE:           Prompt update caused agent to call redundant search tool on every turn
+PRIMARY VIOLATION:    Zero Trajectory Regression Standard; Missing Step Ceiling CI Gate

@@ -1,0 +1,33 @@
+<policies>
+    <inbound>
+        <base />
+        <!-- Generate a cryptographically randomized integer between 1 and 100 -->
+        <set-variable name="randomRoll" value="@(new Random().Next(1, 101))" />
+        
+        <!-- Define Canary Traffic Split: 90% Baseline (Pinned), 10% Candidate -->
+        <choose>
+            <when condition="@(context.Variables.GetValueOrDefault<int>("randomRoll") <= 10)">
+                <!-- Route to Candidate Model Deployment -->
+                <set-backend-service base-url="https://aoai-core-prod.openai.azure.com/openai/deployments/gpt-4o-candidate" />
+                <set-header name="X-Deployment-Cohort" exists-action="override">
+                    <value>Canary-Candidate-2024-08-06</value>
+                </set-header>
+            </when>
+            <otherwise>
+                <!-- Route to Baseline Production Model Deployment -->
+                <set-backend-service base-url="https://aoai-core-prod.openai.azure.com/openai/deployments/gpt-4o-baseline" />
+                <set-header name="X-Deployment-Cohort" exists-action="override">
+                    <value>Baseline-Pinned-2024-05-13</value>
+                </set-header>
+            </otherwise>
+        </choose>
+    </inbound>
+    <outbound>
+        <base />
+        <!-- Log execution telemetry to Log Analytics for automated statistical comparison -->
+        <emit-metric name="LLMInferenceLatency" value="@(context.Response.Duration.TotalMilliseconds)" namespace="EnterpriseAI/Canary">
+            <dimension name="Cohort" value="@((string)context.Variables["X-Deployment-Cohort"])" />
+            <dimension name="StatusCode" value="@(context.Response.StatusCode.ToString())" />
+        </emit-metric>
+    </outbound>
+</policies>

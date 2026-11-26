@@ -1,0 +1,12 @@
+{
+  "eventSource": "kms.amazonaws.com",
+  "eventName": "Decrypt",
+  "requestParameters": {
+    "encryptionContext": {
+      "TenantID": "Enterprise-Finance-001",
+      "Environment": "Production",
+      "ComplianceScope": "SOX"
+    },
+    "keyId": "arn:aws:kms:us-east-1:111122223333:key/cmk-finance-ledger"
+  }
+}

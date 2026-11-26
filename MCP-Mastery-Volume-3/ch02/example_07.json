@@ -1,0 +1,13 @@
+{
+  "name": "apply_billing_credit",
+  "description": "Applies a promotional or courtesy credit to a customer invoice.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "invoice_id": { "type": "string" },
+      "amount_usd": { "type": "number" },
+      "manager_override_token": { "type": "string" }
+    },
+    "required": ["invoice_id", "amount_usd"]
+  }
+}

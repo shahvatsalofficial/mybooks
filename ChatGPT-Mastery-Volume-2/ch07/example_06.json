@@ -1,0 +1,10 @@
+[
+  {"role": "user", "content": [
+    {"type": "text", "text": "Analyze this factory maintenance video using synchronized audio and visual cues."},
+    {"type": "text", "text": "[00:00:02] Audio: 'Beginning inspection of hydraulic pump B.'"},
+    {"type": "image_url", {"url": "data:image/jpeg;base64,...", "detail": "low"}},
+    {"type": "text", "text": "[00:00:15] Audio: 'Notice the high-frequency vibration and oil seepage at the valve seal.'"},
+    {"type": "image_url", {"url": "data:image/jpeg;base64,...", "detail": "high"}},
+    {"type": "text", "text": "[00:00:28] Audio: 'Emergency shutdown initiated.'"}
+  ]}
+]

@@ -1,0 +1,32 @@
+{
+  "name": "restart_container",
+  "description": "Schema for restarting a target Kubernetes microservice container pod.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "cluster_id": {
+        "type": "string",
+        "enum": ["prod-us-east-1", "prod-eu-west-1", "staging-us-central"],
+        "description": "Target Kubernetes cluster identifier."
+      },
+      "namespace": {
+        "type": "string",
+        "minLength": 2,
+        "maxLength": 63,
+        "description": "Kubernetes namespace (e.g., 'trading-engine')."
+      },
+      "pod_name": {
+        "type": "string",
+        "description": "Exact pod name to restart."
+      },
+      "grace_period_seconds": {
+        "type": "integer",
+        "default": 30,
+        "minimum": 0,
+        "maximum": 300,
+        "description": "Graceful termination period in seconds."
+      }
+    },
+    "required": ["cluster_id", "namespace", "pod_name"]
+  }
+}

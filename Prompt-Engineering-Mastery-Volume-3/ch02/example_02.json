@@ -1,0 +1,9 @@
+{
+  "status": "VALIDATION_FAILED",
+  "error_type": "ParameterTypeError",
+  "field": "port",
+  "invalid_value": "eighty",
+  "expected_type": "integer",
+  "allowed_range": "[1, 65535]",
+  "instruction": "Resend the tool invocation with 'port' formatted as an unsigned integer."
+}

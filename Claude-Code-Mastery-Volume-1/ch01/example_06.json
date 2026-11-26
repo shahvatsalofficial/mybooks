@@ -1,0 +1,14 @@
+[
+  {
+    "StartLine": 20,
+    "EndLine": 28,
+    "TargetContent": "interface AuthConfig {\n  secret: string;\n}",
+    "ReplacementContent": "interface AuthConfig {\n  secret: string;\n  tokenExpirySeconds: number;\n}"
+  },
+  {
+    "StartLine": 150,
+    "EndLine": 156,
+    "TargetContent": "const config: AuthConfig = { secret: process.env.JWT_SECRET! };",
+    "ReplacementContent": "const config: AuthConfig = {\n  secret: process.env.JWT_SECRET!,\n  tokenExpirySeconds: 3600\n};"
+  }
+]

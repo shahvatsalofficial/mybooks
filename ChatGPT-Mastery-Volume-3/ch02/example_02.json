@@ -1,0 +1,76 @@
+{
+     "search": "ransomware defense customer managed keys",
+     "vectors": [{ "value": [0.012, -0.045, ...], "fields": "contentVector", "k": 50 }],
+     "queryType": "semantic",
+     "semanticConfiguration": "my-semantic-config"
+   }
+   ```
+3. **Index Projections**: When parsing complex documents in Azure AI Search using Cognitive Services skillsets, the **Index Projections** feature maps split parent-child chunks into separate target indices while preserving the `parent_id` relational key.
+
+### 9.2 Enterprise Production Readiness Checklist
+Before shipping an enterprise RAG pipeline to production, verify compliance with these operational standards:
+- [ ] Chunks respect document structural boundaries (Markdown AST or HTML tags) rather than raw token limits.
+- [ ] Parent-Child context expansion is implemented: search small child vectors, return large parent contexts.
+- [ ] Inverted lexical index (BM25) is deployed in parallel with dense vector index (HNSW).
+- [ ] Reciprocal Rank Fusion (RRF) combines sparse and dense rankings with smoothing factor $k = 60$.
+- [ ] Cross-encoder re-ranking evaluates the top 50–100 candidates to select the final 3–5 passages.
+- [ ] Query transformations (sub-query decomposition or HyDE) are enabled for ambiguous user prompts.
+- [ ] Golden evaluation dataset ($N \ge 250$) asserts retrieval recall ($> 95\%$) and grounding fidelity ($> 98\%$).
+- [ ] Vector similarity thresholds are calibrated to discard chunks with cosine similarity below $\theta < 0.75$.
+
+---
+
+## 10. Chapter Summary & Key Takeaways
+
+1. **Naïve RAG Is Structurally Flawed**: Indiscriminate fixed-size chunking and pure vector similarity fail on technical serials, sever contractual qualifications, and cause silent enterprise hallucinations.
+2. **Hierarchical Parent-Child Decoupling**: Decoupling the search unit (small, precise child vector) from the generative context unit (large, complete parent section) provides the optimal balance of pinpoint retrieval and coherent context.
+3. **Hybrid Search Is Non-Negotiable**: Fusing BM25 keyword matching with dense vector embeddings via Reciprocal Rank Fusion combines the strengths of exact term matching with broad semantic understanding.
+4. **Cross-Encoders Maximize Precision**: Two-stage retrieval pairs the $O(\log N)$ scalability of bi-encoders with the deep pairwise attention accuracy of cross-encoders, eliminating distractor passages before generation begins.
+5. **Transform Queries at the Perimeter**: Intercepting ambiguous prompts with sub-query decomposition, HyDE, and step-back abstraction aligns the query vector with the latent structure of authoritative answers.
+
+
+---
+
+## 8. Advanced Chunking Paradigms: Late Chunking & Propositional Extraction
+
+### 8.1 The Late Chunking Paradigm
+A revolutionary advancement in modern vector retrieval is **Late Chunking**. In traditional chunking architectures, documents are split into chunks *before* being processed by the embedding model. This introduces severe semantic loss: a token inside Chunk 2 cannot attend to critical governing context located inside Chunk 1 because the transformer attention window is artificially truncated at the chunk boundary.
+
+Late Chunking reverses this order:
+1. **Full Document Forward Pass**: The entire document (up to 8,192 tokens) is ingested by a long-context embedding transformer in a single forward pass.
+2. **Global Attention Contextualization**: Every token in the document computes self-attention across the *entire* document context, absorbing global semantics, document-wide abbreviations, and governing definitions.
+3. **Post-Transformer Pooling**: Mean pooling is applied *after* the transformer layers, clustering the contextualized token embeddings into predefined chunk spans.
+
+$$\vec{v}_{\text{chunk}} = \frac{1}{j - i + 1} \sum_{k=i}^{j} \mathbf{h}_k$$
+
+Where $\mathbf{h}_k$ is the contextualized hidden representation of token $k$ after multi-head self-attention across the full document. The resulting chunk vectors retain full cross-boundary semantic awareness while maintaining small, precise vector representations for indexing.
+
+### 8.2 Propositional Chunking
+In dense regulatory and legal texts, standard paragraphs contain multiple independent factual propositions intertwined with legal caveats. Naive paragraph chunking dilutes retrieval relevance because irrelevant sentences pollute the embedding average.
+
+**Propositional Chunking** decomposes complex paragraphs into atomic, self-contained semantic propositions:
+* *Original Sentence*: "Acme Corp, which was founded in Delaware in 2012, acquired Beta LLC in March 2024 for $45M in cash, subject to customary regulatory closing conditions."
+* *Extracted Atomic Propositions*:
+  1. "Acme Corp was founded in Delaware in 2012."
+  2. "Acme Corp acquired Beta LLC in March 2024."
+  3. "The acquisition price of Beta LLC was $45M in cash."
+  4. "The acquisition of Beta LLC was subject to customary regulatory closing conditions."
+
+Each proposition is embedded independently. Queries seeking specific deal figures achieve 100% precision without noise from incorporation history.
+
+---
+
+## 9. Mathematical Foundations & Physics of HNSW Graphs
+
+### 9.1 Skip-List Hierarchy & Voronoi Partitions
+Modern vector search engines (such as Azure AI Search and Qdrant) utilize **Hierarchical Navigable Small World (HNSW)** graphs to achieve sub-10ms Approximate Nearest Neighbor (ANN) search across millions of dense vectors.
+
+HNSW constructs a multi-layer graph inspired by probabilistic skip-lists:
+* **Layer 0 (Ground Layer)**: Contains 100% of all indexed vectors connected in a high-density proximity graph.
+* **Higher Layers ($l = 1, 2, \dots, L_{\text{max}}$)**: Contain exponentially fewer vectors with longer-range links, enabling rapid spatial traversal across high-dimensional manifolds.
+
+The probability that a vector is assigned to layer $l$ follows an exponential decay distribution:
+
+$$P(l) = \exp\left(-\frac{l}{m_L}\right), \quad m_L = \frac{1}{\ln(M)}$$
+
+Where $M$ is the maximum number of bidirectional connections per node.

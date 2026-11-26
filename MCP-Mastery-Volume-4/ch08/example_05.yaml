@@ -1,0 +1,32 @@
+# Smithery Registry Specification
+version: "1.0.0"
+server:
+  name: "@enterprise/mcp-database-suite"
+  description: "Enterprise Database Gateway with AST Read-Only Sanitization & Keyset Pagination"
+  version: "1.0.0"
+  repository: "https://github.com/enterprise-org/mcp-database-suite"
+  license: "Apache-2.0"
+
+runtime:
+  type: "node"
+  version: ">=18.0.0"
+
+entrypoint:
+  command: "npx"
+  args:
+    - "-y"
+    - "@enterprise/mcp-database-suite"
+
+configSchema:
+  type: "object"
+  required:
+    - "DATABASE_URL"
+  properties:
+    DATABASE_URL:
+      type: "string"
+      description: "PostgreSQL connection URI (e.g. postgresql://user:pass@host:5432/dbname)"
+      isSecret: true
+    MCP_QUERY_ROW_LIMIT:
+      type: "number"
+      description: "Maximum rows returned per query (default: 100)"
+      default: 100

@@ -1,0 +1,5 @@
+INCIDENT ID:          INC-9941-TIMEOUT-CASCADE
+SEVERITY:             SEV-1 (Global Customer Outage)
+IMPACT:               100% of customer workflows frozen for 35 minutes; $65,000 SLA penalty
+ROOT CAUSE:           Upstream provider latency spike caused thread pool exhaustion across agent pods
+PRIMARY VIOLATION:    Zero Cascading Outage Standard; Missing Circuit Breaker Fast-Fail

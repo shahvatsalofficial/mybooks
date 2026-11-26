@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "contents": [
+      {
+        "uri": "memo://notes/system-architecture",
+        "mimeType": "text/markdown",
+        "text": "# Microservice Architecture\n\nThe system comprises 4 primary pods..."
+      }
+    ]
+  },
+  "id": 11
+}

@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ReplaceFileContentTool",
+  "description": "Atomically replaces a single contiguous block of code in an existing file using exact target matching with line range bounds.",
+  "type": "object",
+  "properties": {
+    "TargetFile": {
+      "type": "string",
+      "description": "The absolute canonical filesystem path to the target file. Relative paths are forbidden.",
+      "pattern": "^(\\/|[A-Za-z]:[\\\\\\/]).+"
+    },
+    "StartLine": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "The 1-indexed starting line number of the search boundary containing the target content."
+    },
+    "EndLine": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "The 1-indexed ending line number of the search boundary containing the target content."
+    },
+    "TargetContent": {
+      "type": "string",
+      "description": "The exact character sequence to be replaced, including exact leading whitespace, indentation, and newlines. Must be uniquely identifiable within the [StartLine, EndLine] slice."
+    },
+    "ReplacementContent": {
+      "type": "string",
+      "description": "The complete replacement code string to be substituted in place of TargetContent."
+    },
+    "Instruction": {
+      "type": "string",
+      "description": "A concise technical description of the exact refactoring performed."
+    }
+  },
+  "required": [
+    "TargetFile",
+    "StartLine",
+    "EndLine",
+    "TargetContent",
+    "ReplacementContent",
+    "Instruction"
+  ],
+  "additionalProperties": false
+}

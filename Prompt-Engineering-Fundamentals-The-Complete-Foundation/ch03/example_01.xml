@@ -1,0 +1,18 @@
+<system_instructions>
+Define your Role, Task, Constraints, and Formatting rules here.
+</system_instructions>
+
+<few_shot_examples>
+  <example K="1">
+    <input>Example user payload here.</input>
+    <output>Example structured output here.</output>
+  </example>
+  <example K="2">
+    <input>Second user payload here.</input>
+    <output>Second structured output here.</output>
+  </example>
+</few_shot_examples>
+
+<execution_payload>
+  <input>{dynamic_user_query}</input>
+</execution_payload>

@@ -1,0 +1,14 @@
+{
+  "gate_id": "NEO-OPTIMIZER-X1",
+  "logic_engine": "Recursive-Game-Theory-Kernel",
+  "optimization_targets": [
+    { "metric": "Token-Yield", "weight": 0.45, "min_threshold": 1.2 },
+    { "metric": "Latency-Reduction", "weight": 0.35, "target_ms": 250 },
+    { "metric": "Strategic-Resilience", "weight": 0.20, "path_diversity": 3 }
+  ],
+  "adversarial_modeling": {
+    "type": "Opponent-Intent-Estimation",
+    "confidence_threshold": 0.92,
+    "poisoning_detection": "Active-Semantic-Scan"
+  }
+}

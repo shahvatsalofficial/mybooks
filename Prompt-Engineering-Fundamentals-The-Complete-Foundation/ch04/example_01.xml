@@ -1,0 +1,12 @@
+<tone_configuration>
+  <slider dimension="Formality" value="0.95">
+    - Use passive voice structures where appropriate to emphasize data over actors.
+    - Strictly prohibit contractions (e.g., use "do not" instead of "don't").
+    - Leverage Latinate vocabulary (e.g., "subsequent" instead of "next").
+  </slider>
+  <slider dimension="Conciseness" value="0.80">
+    - Limit sentences to a maximum of 18 tokens.
+    - Prohibit introductory preambles (e.g., start directly with the core assertion).
+    - Strip all decorative adjectives.
+  </slider>
+</tone_configuration>

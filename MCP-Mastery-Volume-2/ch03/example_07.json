@@ -1,0 +1,11 @@
+{
+  "status": "truncated_warning",
+  "total_rows_matched": 14250,
+  "rows_returned": 50,
+  "message": "Result truncated: Total matched records exceed context budget. Showing first 50 rows.",
+  "statistical_summary": {
+    "total_amount": { "min": 14.50, "max": 18920.00, "avg": 342.18, "sum": 4876065.00 },
+    "currencies_observed": ["USD", "EUR", "GBP"]
+  },
+  "data": [ ... first 50 rows ... ]
+}

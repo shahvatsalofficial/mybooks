@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Backup completed successfully. Output file: /var/backups/analytics_prod_20261023.sql.gz (Size: 42.1 MB)"
+      }
+    ],
+    "isError": false
+  },
+  "id": 102
+}

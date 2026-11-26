@@ -1,0 +1,97 @@
+name: "Autonomous Security Remediation Agent"
+
+on:
+  workflow_dispatch:
+    inputs:
+      cve_id:
+        description: "Target Vulnerability Identifier (e.g., CVE-2026-1192)"
+        required: true
+        type: string
+      target_package:
+        description: "Package to remediate"
+        required: true
+        type: string
+      remediation_branch:
+        description: "Target branch"
+        required: true
+        default: "main"
+        type: string
+  schedule:
+    # Run nightly at 01:30 AM UTC
+    - cron: "30 1 * * *"
+
+permissions:
+  id-token: write      # Required for OIDC Vault Token exchange
+  contents: write      # Required to push remediation branches
+  pull-requests: write # Required to open pull requests
+  issues: read         # Required to inspect linked vulnerability issues
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  remediate:
+    name: "Execute Autonomous Remediation"
+    runs-on: enterprise-hardened-ephemeral-runner
+    timeout-minutes: 25
+    container:
+      image: internal-registry.enterprise.com/agents/claude-runner:v3.2.0
+      options: --security-opt seccomp=/etc/seccomp/agent-strict.json --cap-drop ALL
+
+    steps:
+      - name: "Harden Environment & Strip Untrusted Path"
+        run: |
+          # Sanitize environment variables and lock down PATH
+          export PATH="/usr/local/bin:/usr/bin:/bin"
+          chmod 700 ${GITHUB_WORKSPACE}
+
+      - name: "Exchange GitHub OIDC Token for Ephemeral Vault Token"
+        id: vault_auth
+        uses: hashicorp/vault-action@v3
+        with:
+          url: "https://vault.internal.enterprise.com:8200"
+          role: "github-actions-agent-remediator"
+          method: "jwt"
+          jwtGithubAudience: "https://vault.internal.enterprise.com"
+          secrets: |
+            secret/data/ci/anthropic-api api_key | ANTHROPIC_API_KEY ;
+            secret/data/ci/bot-gpg-signing private_key | BOT_GPG_KEY
+
+      - name: "Checkout Repository with Minimal Depth"
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.remediation_branch || 'main' }}
+          fetch-depth: 10
+          token: ${{ secrets.ENTERPRISE_BOT_PAT }}
+
+      - name: "Configure Ephemeral Git Identity & GPG Key"
+        run: |
+          echo "${BOT_GPG_KEY}" | gpg --batch --import
+          KEY_ID=$(gpg --list-secret-keys --keyid-format LONG | grep sec | awk '{print $2}' | cut -d'/' -f2)
+          git config user.name "EnterpriseAutonomousBot"
+          git config user.email "bot-remediator@enterprise.internal"
+          git config user.signingkey "${KEY_ID}"
+          git config commit.gpgsign true
+
+      - name: "Execute Headless Claude Code Remediation Loop"
+        env:
+          ANTHROPIC_API_KEY: ${{ steps.vault_auth.outputs.ANTHROPIC_API_KEY }}
+          CI: "true"
+          CLAUDE_NON_INTERACTIVE: "true"
+          MAX_AGENT_TURNS: "15"
+          MAX_BUDGET_DOLLARS: "2.50"
+        run: |
+          # Invoke autonomous agent harness with strict resource ceilings
+          node /opt/enterprise/agent-harness/dist/index.js \
+            --objective="Remediate ${{ inputs.cve_id || 'detected-cves' }} in ${{ inputs.target_package || 'all-dependencies' }}" \
+            --test-command="npm test" \
+            --output-branch="agent/fix-${{ inputs.cve_id || 'nightly-remediation' }}"
+
+      - name: "Audit Ledger Export & Artifact Archive"
+        if: always()
+        run: |
+          # Export cryptographic audit trail to WORM S3 compliance sink
+          aws s3 cp /tmp/agent-audit.ledger.json \
+            s3://enterprise-compliance-worm-audit/runs/${{ github.run_id }}.json \
+            --expected-bucket-owner 123456789012

@@ -1,0 +1,80 @@
+# values-mcp-gateway.yaml — Production Helm Configuration for MCP Gateway
+replicaCount: 3
+
+image:
+  repository: opportunity4u/mcp-gateway
+  pullPolicy: IfNotPresent
+  tag: "v3.0.0"
+
+serviceAccount:
+  create: true
+  name: "mcp-gateway-sa"
+  annotations:
+    eks.amazonaws.com/role-arn: "arn:aws:iam::123456789012:role/mcp-gateway-role"
+
+resources:
+  requests:
+    cpu: "500m"
+    memory: "512Mi"
+  limits:
+    cpu: "2000m"
+    memory: "2048Mi"
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 30
+  targetSseConnectionsPerPod: 150
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+        - type: Percent
+          value: 100
+          periodSeconds: 15
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+        - type: Percent
+          value: 10
+          periodSeconds: 60
+
+service:
+  type: ClusterIP
+  port: 8080
+  targetPort: 8080
+
+ingress:
+  enabled: true
+  className: "alb"
+  annotations:
+    alb.ingress.kubernetes.io/scheme: "internet-facing"
+    alb.ingress.kubernetes.io/target-type: "ip"
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/ssl-policy: "ELBSecurityPolicy-TLS13-1-2-2021-06"
+    # Essential: Configure long idle timeouts for persistent SSE streams
+    alb.ingress.kubernetes.io/load-balancer-attributes: "idle_timeout.timeout_seconds=3600"
+  hosts:
+    - host: "mcp-gateway.opportunity4u.internal"
+      paths:
+        - path: /
+          pathType: Prefix
+
+# Liveness and Readiness Probes testing JSON-RPC semantic health
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: 8080
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 3
+
+readinessProbe:
+  httpGet:
+    path: /readyz
+    port: 8080
+  initialDelaySeconds: 5
+  periodSeconds: 5
+  timeoutSeconds: 2
+
+terminationGracePeriodSeconds: 120

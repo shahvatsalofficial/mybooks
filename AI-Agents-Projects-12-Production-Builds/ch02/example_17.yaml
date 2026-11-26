@@ -1,0 +1,21 @@
+refactoring_agent:
+  indexer:
+    compute_blast_radius: true
+    max_mccabe_target: 12
+  patch_guard:
+    require_unique_match: true
+    enforce_symbol_scope: true
+    verify_backward_compat: true
+  sandbox:
+    runtime: docker
+    image: python:3.12-slim
+    network_mode: none
+    memory_limit: 512m
+    cpus: "1.0"
+    timeout_sec: 30
+  repair_loop:
+    max_attempts: 3
+    rollback_on_exhaustion: true
+  pr_gate:
+    min_coverage_pct: 85.0
+    max_coverage_regression_pct: 0.5

@@ -1,0 +1,21 @@
+{
+  "design_system_tokens": {
+    "colors": {
+      "brand_primary": "#CC785C",
+      "brand_secondary": "#F4A261",
+      "surface_obsidian": "#080B11",
+      "surface_card": "#111622",
+      "border_subtle": "rgba(255, 255, 255, 0.08)",
+      "text_high_contrast": "#F3F4F6",
+      "text_muted": "#9CA3AF"
+    },
+    "typography": {
+      "font_family_sans": "system-ui, -apple-system, sans-serif",
+      "font_family_mono": "ui-monospace, monospace"
+    },
+    "borders": {
+      "radius_card": "12px",
+      "radius_button": "8px"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "jsonrpc": "2.0",
+  "method": "initialize",
+  "params": {
+    "protocolVersion": "2024-11-05",
+    "capabilities": {
+      "roots": {
+        "listChanged": true
+      }
+    },
+    "clientInfo": {
+      "name": "Cursor",
+      "version": "0.45.2"
+    }
+  },
+  "id": 1
+}

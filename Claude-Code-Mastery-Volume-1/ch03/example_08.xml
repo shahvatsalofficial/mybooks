@@ -1,0 +1,18 @@
+<thinking>
+HYPOTHESIS 1: Modify existing RegExp in sanitizeInput() to strip HTML tags:
+  Regex: /<[^>]*>/g
+  Self-Challenge: Test string: "<<SCRIPT>alert(1);//<</SCRIPT>"
+  Evaluation: Nested or malformed tags will bypass this regex. Fails OWASP Top 10 XSS compliance.
+  PRUNING HYPOTHESIS 1.
+
+HYPOTHESIS 2: Introduce DOMPurify / sanitize-html dependency:
+  Check package.json: DOMPurify is NOT in dependencies.
+  Rule Check: Rule #4 strictly prohibits adding new runtime dependencies without security approval.
+  PRUNING HYPOTHESIS 2.
+
+HYPOTHESIS 3: Utilize built-in Node.js / browser text encoder or context-aware entity escaping:
+  Implement character-by-character state machine escaper in src/utils/escape.ts.
+  Dependency Check: Zero external dependencies.
+  Coverage Check: Escapes &, <, >, ", ' deterministically.
+  SELECTING HYPOTHESIS 3.
+</thinking>

@@ -1,0 +1,16 @@
+{
+  "tenant_id": "CLIENT-ALPHA-99",
+  "isolation_layer": "Docker-Sidecar",
+  "resource_limits": {
+    "max_concurrent_agents": 50,
+    "token_budget_daily": 1000000,
+    "storage_limit_gb": 10
+  },
+  "provisioning_steps": [
+    "Clone-Logic-Manifests",
+    "Initialize-Vector-Namespace",
+    "Rotate-API-Keys",
+    "Start-Billing-Sentinel"
+  ],
+  "monitoring_hook": "https://audit.sovereign.local/v1/telemetry"
+}

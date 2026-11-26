@@ -1,0 +1,85 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Corporate Treasury & Ledger API",
+    "version": "1.0.0",
+    "description": "API for querying financial balances and executing ledger reconciliations."
+  },
+  "paths": {
+    "/accounts/{accountId}/balance": {
+      "get": {
+        "summary": "Get Account Balance",
+        "description": "Retrieves the current cleared balance and currency for a specific corporate account.",
+        "operationId": "getAccountBalance",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "required": true,
+            "description": "The unique 12-digit corporate account identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9]{12}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account balance returned successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accountId": { "type": "string" },
+                    "balance": { "type": "number" },
+                    "currency": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions/reconcile": {
+      "post": {
+        "summary": "Reconcile Transaction",
+        "description": "Executes automated reconciliation against ledger entries.",
+        "operationId": "reconcileTransaction",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["transactionId", "amount", "targetLedger"],
+                "properties": {
+                  "transactionId": { "type": "string" },
+                  "amount": { "type": "number" },
+                  "targetLedger": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Reconciliation status returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string" },
+                    "reconciliationId": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

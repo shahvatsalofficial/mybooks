@@ -1,0 +1,34 @@
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "description": "Assembled Post-Mortem Audit for INC-8841",
+    "messages": [
+      {
+        "role": "user",
+        "content": {
+          "type": "text",
+          "text": "You are a Principal Site Reliability Engineer. Analyze the attached telemetry logs for incident INC-8841 and draft a blameless post-mortem adhering to enterprise SRE guidelines. Identify the primary root cause, contributing factors, detection timeline, and five preventative action items."
+        }
+      },
+      {
+        "role": "user",
+        "content": {
+          "type": "resource",
+          "resource": {
+            "uri": "memo://incidents/INC-8841/raw_logs.txt",
+            "mimeType": "text/plain",
+            "text": "14:02:11.402 [CRITICAL] Connection pool exhausted on primary database node 3...\n14:02:14.912 [FATAL] Cascade failure across authentication microservice cluster.\n14:02:18.004 [ERROR] Health checks failing on 100% of ingress pods."
+          }
+        }
+      },
+      {
+        "role": "assistant",
+        "content": {
+          "type": "text",
+          "text": "Understood. I will evaluate the provided connection pool exhaustion telemetry for INC-8841 and draft a rigorous, blameless post-mortem with exact timestamps and preventative architectural remediations."
+        }
+      }
+    ]
+  },
+  "id": 202
+}

@@ -1,0 +1,19 @@
+{
+     "type": "text",
+     "text": "</exemplars>",
+     "cache_control": { "type": "ephemeral" }
+   }
+   ```
+3. **Dynamic User Payload**: The volatile user input, dynamic telemetry variables, and execution timestamps must always be appended *after* the cached boundary.
+
+By guaranteeing that the prefix byte-stream remains 100% byte-for-byte identical across calls, the enterprise achieves sub-millisecond Time-to-First-Token (TTFT) cache reads while slashing input API expenses by 85% to 90%, making dense Few-Shot CoT dramatically more economical than naive un-cached zero-shot prompting.
+
+---
+
+## 4. Production Code Recipes
+
+The following recipes demonstrate production-grade Chain-of-Thought architectures built with Python 3.11+, TypeScript / Node.js, Pydantic v2, and Anthropic Claude / OpenAI APIs, enforcing rigid XML scratchpad isolation, intermediate assertion parsing, streaming state buffers, and programmatic schema validation.
+
+### Recipe 01.01: Production XML Scratchpad Pipeline with Pydantic Extraction
+
+This recipe implements an enterprise prompt wrapper that forces the model to conduct its step-by-step reasoning within an XML `<scratchpad>` block and emit a strictly validated JSON payload. The scratchpad is stripped from the customer-facing response but logged to internal observability pipelines for forensic auditing.

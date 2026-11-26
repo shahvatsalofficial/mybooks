@@ -1,0 +1,23 @@
+<clinical_matching_constitution classification="HIPAA_STRICT">
+  <phi_sanitization_rules>
+    <rule id="PHI-01">
+      All patient names, addresses, MRNs, and phone numbers must be redacted 
+      prior to processing. Never emit raw identifiers in tool queries.
+    </rule>
+    <rule id="PHI-02">
+      Biomarker status (e.g., HER2+, EGFR Exon 19 Deletion, PD-L1 TPS >= 50%) 
+      must match with 100% character exactness against pathology text. 
+      Zero tolerance for biomarker extrapolation.
+    </rule>
+    <rule id="PHI-03">
+      ECOG performance status must be explicitly stated in oncologist progress notes; 
+      never infer functional performance status from general patient vitality.
+    </rule>
+  </phi_sanitization_rules>
+
+  <epistemic_abstention>
+    If a trial requires prior treatment failure (e.g., 'Progressed on platinum doublet') 
+    and the patient EHR history is incomplete, output 'INSUFFICIENT_CLINICAL_EVIDENCE'. 
+    Never assume prior line therapy status.
+  </epistemic_abstention>
+</clinical_matching_constitution>

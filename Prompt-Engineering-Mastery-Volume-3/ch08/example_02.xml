@@ -1,0 +1,15 @@
+<thought>
+  Observation 3 verified that the applicant's credit bureau score is 742 and 
+  debt-to-income ratio is 0.28. Both conditions for STAGE_3_LOAN_OFFER guard 
+  are mathematically satisfied. I will now advance the workflow state.
+</thought>
+<state_transition from="STAGE_2_UNDERWRITING_AUDIT" to="STAGE_3_LOAN_OFFER">
+  {
+    "transition_trigger": "UNDERWRITING_REQUIREMENTS_SATISFIED",
+    "verified_evidence": {
+      "credit_score": 742,
+      "dti_ratio": 0.28,
+      "bureau_reference": "BUR-99201"
+    }
+  }
+</state_transition>

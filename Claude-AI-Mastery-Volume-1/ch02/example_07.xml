@@ -1,0 +1,7 @@
+<tool_response id="call_88129">
+  <status>SUCCESS</status>
+  <data_rows count="2">
+    <row merchant_id="M-101" sum="142500.00"/>
+    <row merchant_id="M-102" sum="98400.50"/>
+  </data_rows>
+</tool_response>

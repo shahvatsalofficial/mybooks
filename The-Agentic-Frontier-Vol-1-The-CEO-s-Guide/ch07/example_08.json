@@ -1,0 +1,14 @@
+{
+  "manifest_id": "ASF_ALTERNATIVE_DATA_PIPELINE",
+  "ingestion_streams": {
+    "satellite_synthetic_aperture_radar": { "weight": 0.35, "latency_max_hours": 2 },
+    "global_developer_commit_velocity": { "weight": 0.40, "evaluation_window_days": 90 },
+    "real_time_shipping_bol_manifests": { "weight": 0.25, "update_cadence_minutes": 15 }
+  },
+  "portfolio_guardrails": {
+    "max_drawdown_hard_circuit_breaker_pct": 4.5,
+    "single_asset_exposure_cap_pct": 8.0,
+    "leverage_ceiling": 1.5,
+    "holding_horizon_min_months": 12
+  }
+}

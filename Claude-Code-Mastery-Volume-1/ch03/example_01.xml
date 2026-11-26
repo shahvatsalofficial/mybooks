@@ -1,0 +1,41 @@
+<agent_execution_envelope version="2.4" project="EnterpriseCore">
+    
+    <!-- TIER 1: SYSTEM DIRECTIVES (IMMUTABLE CONSTITUTION) -->
+    <system_directives priority="P0" enforce_safety="strict">
+        <invariant id="INV-01">Never execute destructive git commands (reset --hard, clean -fdx) without user confirmation.</invariant>
+        <invariant id="INV-02">All source file modifications must use exact string replacement with 3 lines of contextual anchor.</invariant>
+        <invariant id="INV-03">All public TypeScript interfaces must be strictly typed; use of 'any' is a blocking build defect.</invariant>
+        <invariant id="INV-04">All shell commands must run in non-interactive mode with explicit timeout constraints.</invariant>
+    </system_directives>
+
+    <!-- TIER 2: PROJECT ARCHITECTURE & REPOSITORY CONTEXT -->
+    <repository_context branch="feature/auth-v2" base_commit="f91c8a3">
+        <ast_index>
+            <module name="auth" path="src/core/auth/">
+                <file path="src/core/auth/jwt.ts" symbols="verifyToken,signToken" />
+                <file path="src/core/auth/session.ts" symbols="SessionStore,MemoryStore" />
+            </module>
+        </ast_index>
+        <active_rules_file path="CLAUDE.md" checksum="e3b0c44" />
+    </repository_context>
+
+    <!-- TIER 3: UNTRUSTED USER OBJECTIVE & PAYLOAD -->
+    <untrusted_user_payload role="objective" sanitize="true" origin="cli_argument">
+        Refactor the verifyToken function in src/core/auth/jwt.ts to support asymmetric RS256 public keys alongside legacy HS256 HMAC tokens. Ensure backwards compatibility.
+    </untrusted_user_payload>
+
+    <!-- TIER 4: OPERATIONAL ENVIRONMENT STATE -->
+    <environment_telemetry os="linux" arch="x64" node_version="v20.11.0">
+        <terminal_cwd>/d/MyData/EnterpriseCore</terminal_cwd>
+        <last_command exit_code="0">npm test -- src/core/auth/</last_command>
+    </environment_telemetry>
+
+    <!-- TIER 5: OUTPUT CONTRACT & TOOL INVOCATION SCHEMA -->
+    <output_contract format="structured_cot_rpc" schema_version="draft-07">
+        <mandatory_elements>
+            <element name="thinking" description="Closed-loop step-by-step reasoning trace" />
+            <element name="tool_call" description="Deterministic JSON schema RPC invocation" />
+        </mandatory_elements>
+    </output_contract>
+
+</agent_execution_envelope>

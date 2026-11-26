@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "contents": [
+      {
+        "uri": "memo://assets/system-diagram.png",
+        "mimeType": "image/png",
+        "blob": "iVBORw0KGgoAAAANSUhEUgAABAAAAAMACAYAAACWqTNuAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz..."
+      }
+    ]
+  },
+  "id": 14
+}

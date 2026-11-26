@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": 142,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "[{\"tenant_id\": \"10a9b\", \"organization_name\": \"Acme Corp\"}, {\"tenant_id\": \"82c1f\", \"organization_name\": \"Sovereign AI Systems\"}]"
+      }
+    ],
+    "isError": false
+  }
+}

@@ -1,0 +1,5 @@
+INCIDENT ID:          INC-7821-LANGCHAIN-TELEMETRY
+SEVERITY:             SEV-1 (Critical Business Impact)
+IMPACT:               $310,000 mistaken credit line approval; 48 hours undetected
+ROOT CAUSE:           Unguarded LCEL chain dropped intermediate steps; tool error swallowed
+PRIMARY VIOLATION:    Zero Unobserved Intermediate Steps Standard; Missing Callback Telemetry

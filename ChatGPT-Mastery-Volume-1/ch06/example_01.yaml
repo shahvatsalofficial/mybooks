@@ -1,0 +1,92 @@
+openapi: 3.0.3
+info:
+  title: Enterprise Infrastructure Provisioning Gateway
+  description: Autonomous management gateway for sovereign Kubernetes tenant clusters and compute namespaces.
+  version: 1.4.0
+servers:
+  - url: https://api.infra.suhana-enterprises.com/v1
+    description: Production US-East Multi-Region Gateway
+
+paths:
+  /clusters/{cluster_id}/namespaces:
+    post:
+      operationId: provisionTenantNamespace
+      summary: Provisions an isolated Kubernetes compute namespace for a verified corporate tenant.
+      description: |
+        Use this operation when the user explicitly requests the creation or provisioning of an isolated compute environment, testing sandbox, or tenant namespace.
+        Requires cluster_id in the URL path. Strictly enforce that memory limits do not exceed 64Gi.
+      parameters:
+        - name: cluster_id
+          in: path
+          required: true
+          description: The unique identifier of the target Kubernetes cluster (e.g., 'k8s-us-east-prod-01').
+          schema:
+            type: string
+            pattern: '^k8s-[a-z0-9-]+$'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProvisionNamespaceRequest'
+      responses:
+        '201':
+          description: Namespace provisioned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NamespaceProvisionResult'
+        '400':
+          description: Invalid input parameters or cluster resource quota exceeded.
+        '401':
+          description: Unauthorized; expired or invalid OAuth2 bearer token.
+        '409':
+          description: Conflict; namespace name already exists in target cluster.
+
+components:
+  schemas:
+    ProvisionNamespaceRequest:
+      type: object
+      required:
+        - tenant_id
+        - namespace_name
+        - memory_limit_gib
+        - environment_tier
+      properties:
+        tenant_id:
+          type: string
+          description: The corporate tenant UUID (e.g., 'TENANT-9842-X').
+        namespace_name:
+          type: string
+          description: Clean alphanumeric namespace identifier. Must be lowercase without spaces.
+          pattern: '^[a-z0-9-]+$'
+        memory_limit_gib:
+          type: integer
+          minimum: 2
+          maximum: 64
+          description: Memory ceiling allocated to the namespace in GiB (Gigabytes).
+        environment_tier:
+          type: string
+          enum: [DEVELOPMENT, STAGING, PRODUCTION]
+          description: Deployment isolation tier governing security scanning and backup schedules.
+      additionalProperties: false
+
+    NamespaceProvisionResult:
+      type: object
+      required:
+        - namespace_id
+        - status
+        - endpoint_url
+        - created_at
+      properties:
+        namespace_id:
+          type: string
+        status:
+          type: string
+          enum: [PROVISIONED, ACTIVE, FAILED]
+        endpoint_url:
+          type: string
+          format: uri
+        created_at:
+          type: string
+          format: date-time

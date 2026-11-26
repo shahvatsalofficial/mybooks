@@ -1,0 +1,24 @@
+{
+  "_aws": {
+    "Timestamp": 1724500000000,
+    "CloudWatchMetrics": [
+      {
+        "Namespace": "IndustrialCloud/PaymentService",
+        "Dimensions": [["Environment", "Region"], ["Environment", "PaymentMethod"]],
+        "Metrics": [
+          { "Name": "ProcessingLatencyMs", "Unit": "Milliseconds" },
+          { "Name": "TransactionValueUSD", "Unit": "None" },
+          { "Name": "PaymentSuccessCount", "Unit": "Count" }
+        ]
+      }
+    ]
+  },
+  "Environment": "Production",
+  "Region": "us-east-1",
+  "PaymentMethod": "CreditCard",
+  "ProcessingLatencyMs": 42.5,
+  "TransactionValueUSD": 149.99,
+  "PaymentSuccessCount": 1,
+  "OrderId": "ord-883921-xyz",
+  "CustomerId": "cust-110293"
+}

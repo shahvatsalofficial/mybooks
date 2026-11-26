@@ -1,0 +1,13 @@
+# Hybrid Search Reranking Configuration
+reranker:
+  model: BAAI/bge-reranker-large
+  batch_size: 16
+  max_length: 512
+  top_n_output: 5
+  score_threshold: 0.65
+fusion:
+  algorithm: reciprocal_rank_fusion
+  k: 60
+  weights:
+    dense_vector: 0.60
+    sparse_bm25: 0.40

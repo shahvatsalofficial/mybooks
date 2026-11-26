@@ -1,0 +1,28 @@
+{
+  "brand": "Aethel-Core",
+  "version": "4.2.0",
+  "governance_mode": "AUTONOMOUS_SOVEREIGN",
+  "style_vector": {
+    "aesthetic_domain": "Minimalist-Monolithic-Luxury",
+    "color_palette_hex": ["#080B11", "#101622", "#D4AF37", "#2C2C2C"],
+    "permitted_materials": [
+      "Sustainable-FSC-Walnut",
+      "Aerospace-Recycled-Alloy",
+      "Bio-Leather-Carbon-Negative"
+    ],
+    "prohibited_elements": ["Exposed-Fasteners", "Synthetic-Plastics", "Non-Recyclable-Foams"]
+  },
+  "logic_gates": {
+    "margin_floor_pct": 90.0,
+    "max_co2_kg_per_unit": 4.5,
+    "structural_safety_factor": 1.75,
+    "max_delivery_sla_days": 10,
+    "pallet_tetris_optimization": true,
+    "auto_cad_revision_permitted": true
+  },
+  "customer_empathy_protocol": {
+    "max_autonomous_refund_usd": 5000.0,
+    "instant_cad_customization_enabled": true,
+    "satisfaction_target_pct": 99.5
+  }
+}

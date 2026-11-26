@@ -1,0 +1,13 @@
+<action name="escalate_to_human_operator">
+  {
+    "severity": "SEV-2",
+    "target_team": "cloud-infrastructure-oncall",
+    "incident_summary": "Automated Kafka rebalancing blocked by IAM permission boundary.",
+    "attempted_remediations": [
+      {"action": "restart_broker_04", "result": "HTTP 500 Connection Refused"},
+      {"action": "query_broker_metrics", "result": "HTTP 403 Access Denied"}
+    ],
+    "root_cause_analysis": "The agent service principal lacks 'kafka:DescribeCluster' permission.",
+    "required_human_action": "Add policy 'arn:aws:iam::123:policy/KafkaReadOnly' to agent IAM role."
+  }
+</action>

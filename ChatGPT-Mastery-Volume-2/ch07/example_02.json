@@ -1,0 +1,15 @@
+{
+  "invoice_number": "INV-2026-994",
+  "bounding_box": [120, 450, 160, 820],
+  "vendor_name": "Apex Cloud Infrastructure Ltd",
+  "total_amount": 14250.00,
+  "currency": "USD",
+  "line_items": [
+    {
+      "description": "Enterprise GPU Compute Cluster - Month of August",
+      "quantity": 1,
+      "unit_price": 14250.00,
+      "bounding_box": [480, 100, 520, 900]
+    }
+  ]
+}

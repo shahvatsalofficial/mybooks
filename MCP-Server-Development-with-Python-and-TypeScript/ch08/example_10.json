@@ -1,0 +1,38 @@
+{
+  "mcpServers": {
+    "notes-server": {
+      "command": "/Users/vatsal/.local/bin/uvx",
+      "args": [
+        "--python", "3.12",
+        "notes-mcp"
+      ],
+      "env": {
+        "DB_FILE": "/Users/vatsal/Library/Application Support/notes/notes.db",
+        "LOG_LEVEL": "INFO",
+        "PATH": "/Users/vatsal/.local/bin:/usr/local/bin:/usr/bin:/bin"
+      }
+    },
+    "typescript-cloud-tools": {
+      "command": "/Users/vatsal/.nvm/versions/node/v20.12.0/bin/node",
+      "args": [
+        "/Users/vatsal/projects/enterprise-cloud-tools/dist/index.js"
+      ],
+      "env": {
+        "NODE_ENV": "production",
+        "AWS_REGION": "us-east-1",
+        "PATH": "/Users/vatsal/.nvm/versions/node/v20.12.0/bin:/usr/local/bin:/usr/bin:/bin"
+      }
+    },
+    "remote-gateway": {
+      "command": "/usr/local/bin/npx",
+      "args": [
+        "-y",
+        "mcp-remote-bridge",
+        "https://mcp.internal.corp/sse"
+      ],
+      "env": {
+        "GATEWAY_AUTH_TOKEN": "secret-bearer-token-8841"
+      }
+    }
+  }
+}

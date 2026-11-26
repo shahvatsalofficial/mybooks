@@ -1,0 +1,17 @@
+{
+  "contract_type": "LOGIC_YIELD_PERFORMANCE_AGREEMENT",
+  "client": "Global_Industrial_Holdings_Corp",
+  "provider": "The_Ghost_Consultancy",
+  "terms": {
+    "upfront_retainer_usd": 0.0,
+    "scope": "Full_Enterprise_Supply_Chain_EBITDA_Audit",
+    "guarantee_floor_ebitda_pct": 5.0,
+    "performance_royalty_pct": 2.5,
+    "audit_interval_days": 90
+  },
+  "data_sovereignty": {
+    "execution_boundary": "CLIENT_LOCAL_ENCLAVE",
+    "zero_cloud_leakage_guarantee": true,
+    "cryptographic_trace_logging": "ENABLED"
+  }
+}

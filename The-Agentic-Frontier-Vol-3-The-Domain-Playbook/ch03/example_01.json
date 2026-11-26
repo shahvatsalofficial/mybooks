@@ -1,0 +1,30 @@
+{
+  "protocol_id": "NCT04829148",
+  "target_condition": "SNOMED:254637007", // Non-small cell lung cancer
+  "inclusion_criteria": {
+    "all_of": [
+      {"predicate": "age_years", "operator": ">=", "value": 18},
+      {"predicate": "histological_stage", "operator": "IN", "value": ["Stage IIIB", "Stage IV"]},
+      {"predicate": "genomic_variant", "gene": "EGFR", "variant_type": "exon_19_deletion_or_L858R", "status": "POSITIVE"},
+      {"predicate": "ecog_performance_status", "operator": "<=", "value": 1},
+      {
+        "predicate": "temporal_lab_range",
+        "loinc_code": "2160-0", // Serum Creatinine
+        "max_value_mg_dl": 1.5,
+        "window_days": 14
+      },
+      {
+        "predicate": "calculated_egfr_min",
+        "min_value_ml_min": 45.0,
+        "window_days": 30
+      }
+    ]
+  },
+  "exclusion_criteria": {
+    "none_of": [
+      {"predicate": "active_brain_metastases", "status": "UNSTABLE_OR_SYMPTOMATIC"},
+      {"predicate": "prior_treatment", "agent_class": "3rd_gen_EGFR_TKI", "window_days": 180},
+      {"predicate": "cardiac_qtc_interval_ms", "operator": ">", "value": 470}
+    ]
+  }
+}

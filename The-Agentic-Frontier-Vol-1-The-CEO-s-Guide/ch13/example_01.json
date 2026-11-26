@@ -1,0 +1,20 @@
+{
+  "node_id": "ORBITAL-SENTINEL-SIGMA",
+  "autonomy_mode": "Asynchronous-Sovereign",
+  "reasoning_kernel": {
+    "type": "Radiation-Resilient-LLM",
+    "redundancy_factor": 3,
+    "state_sync_interval": "1000ms"
+  },
+  "logic_fallback": {
+    "latency_threshold_ms": 3600000,
+    "local_decision_envelope": {
+      "max_expenditure_tokens": 1000000,
+      "navigation_safety_margin": 0.25,
+      "emergency_thermal_cutoff": "Enabled"
+    }
+  },
+  "communication_protocol": "DTR-v2-Bundle-Logic",
+  "power_management": "Predictive-Solar-Inference",
+  "hardware_health": "Self-Healing-Circuit-Mesh"
+}

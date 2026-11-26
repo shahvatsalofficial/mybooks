@@ -1,0 +1,20 @@
+// Account B (444455556666) IAM Policy: Attached to Production EKS Role
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowDecryptFromAccountAKey",
+      "Effect": "Allow",
+      "Action": [
+        "kms:Decrypt",
+        "kms:GenerateDataKey"
+      ],
+      "Resource": "arn:aws:kms:us-east-1:111122223333:key/cmk-finance-ledger",
+      "Condition": {
+        "StringEquals": {
+          "kms:EncryptionContext:Environment": "Production"
+        }
+      }
+    }
+  ]
+}

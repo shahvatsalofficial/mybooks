@@ -1,0 +1,152 @@
+{
+     "Version": "2012-10-17",
+     "Statement": [
+       {
+         "Effect": "Allow",
+         "Action": [
+           "kms:Sign",
+           "kms:GetPublicKey"
+         ],
+         "Resource": "arn:aws:kms:us-east-1:123456789012:key/agent-commit-signing-key",
+         "Condition": {
+           "StringEquals": {
+             "aws:PrincipalTag/Repository": "enterprise/payment-service"
+           }
+         }
+       }
+     ]
+   }
+   ```
+4. **Proxy Egress to Foundation Models**:
+   Outbound traffic to `api.anthropic.com` is routed through an egress-only Network Firewall inspecting TLS certificates to verify that requests terminate exclusively on Anthropic’s verified public infrastructure.
+
+### Azure DevOps Pipelines Integration: Microsoft Entra Workload Identities
+In Microsoft-centric enterprises, autonomous agents integrate with **Azure DevOps (AzDO)** via self-hosted VM scale sets and **Microsoft Entra ID (formerly Azure AD) Workload Identity Federation**:
+* **Federated Service Connections**: The Azure DevOps service connection uses OIDC tokens issued by AzDO to authenticate directly to Azure Key Vault and Microsoft Graph APIs without maintaining client secrets in pipeline settings.
+* **Pull Request Status Policy Gates**: The agent interacts with Azure Repos using the REST API to post threaded comments, attach pull request status badges (`pr-gate/autonomous-security`), and enforce branch policies requiring pull request build validation before completing merge operations.
+
+---
+
+## 4.5 Mathematical Modeling of Secret Redaction & Token Entropy Detection
+
+While out-of-band proxy substitution eliminates the presence of known infrastructure secrets, autonomous agents routinely encounter **unknown or embedded secrets** during codebase exploration: API keys committed years earlier by former employees, hardcoded private encryption keys in legacy test fixtures, or sensitive session tokens embedded in test fixtures.
+
+If the agent ingests an old secret into its reasoning context and subsequently prints the file diff in a public pull request description, the secret is leaked to the world.
+
+To prevent this, the agent execution harness incorporates an in-memory **Information-Theoretic Secret Redactor** based on **Shannon Entropy Analysis**.
+
+### The Shannon Entropy Formulation for Credential Detection
+High-entropy character strings are statistically distinct from standard source code keywords, English prose, or variable names. Source code typically has low entropy due to repetitive syntax keywords (`function`, `return`, `interface`), whereas cryptographically generated secrets (such as base64-encoded private keys or hex-encoded API tokens) exhibit high randomness.
+
+Let $S$ be a string of length $N$ over an alphabet $\mathcal{A}$. The empirical probability $P(c)$ of character $c \in \mathcal{A}$ appearing in $S$ is:
+
+$$P(c) = \frac{\text{Count}(c, S)}{N}$$
+
+The Shannon entropy $H(S)$, measured in bits per character, is formulated as:
+
+$$H(S) = - \sum_{c \in \mathcal{A}} P(c) \log_2 P(c)$$
+
+### Production Entropy Thresholds across Alphabets
+The redactor evaluates candidate tokens across three distinct character sets:
+
+| Character Set | Alphabet Size ($|\mathcal{A}|$) | Max Theoretical Entropy | Secret Detection Floor ($H_{\text{threshold}}$) | Target Credential Class |
+| :--- | :--- | :--- | :--- | :--- |
+| **Hexadecimal** (`[0-9a-fA-F]`) | 16 | 4.00 bits/char | **3.20 bits/char** | AWS KMS keys, Git SHAs, API hashes |
+| **Base64** (`[A-Za-z0-9+/=]`) | 64 | 6.00 bits/char | **4.60 bits/char** | JWT tokens, RSA private keys, Anthropic API keys |
+| **Base85 / Ascii85** | 85 | 6.41 bits/char | **5.20 bits/char** | Hardened binary blobs, encrypted certificates |
+
+### The Two-Stage Secret Redaction Filter
+To achieve high detection accuracy with near-zero false positive rates on standard hashes (such as git commit SHAs or package integrity checksums), the redactor implements a **Two-Stage Cascading Classifier**:
+
+1. **Stage 1: Lexical Regex Pre-Filter**:
+   Candidate tokens are identified using pattern matchers for known credential prefixes (`sk-ant-`, `ghp_`, `AKIA`, `-----BEGIN PRIVATE KEY-----`). If a known prefix is detected, the token is redacted immediately.
+2. **Stage 2: Shannon Entropy & Context Scoring**:
+   For arbitrary string literals without known prefixes:
+   * Compute $H(S)$. If $H(S) < H_{\text{threshold}}$, the token is classified as benign source code and permitted.
+   * If $H(S) \ge H_{\text{threshold}}$, the redactor evaluates the **Contextual Proximity Vector**:
+     $$\mathcal{C} = \sum_{w \in \text{Window}(S, 5)} \text{Weight}(w)$$
+     Where words such as `password`, `secret`, `token`, `key`, `auth`, and `bearer` carry positive weights $+2.5$, while words like `sha256`, `checksum`, `integrity`, and `uuid` carry negative weights $-3.0$.
+   * If the combined score exceeds the classification threshold, the token is stripped and replaced with:
+     ```
+     [REDACTED_HIGH_ENTROPY_CREDENTIAL: SHA-256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855]
+     ```
+
+By deploying entropy-based redaction at the stdout/stderr pipe boundary, the agent harness guarantees that even newly invented credential formats are intercepted before entering LLM reasoning prompts or git commit trees.
+
+
+
+---
+
+## 2.7 Enterprise Artifact Retention & Scratch Branch Lifecycle Hygiene
+
+When dozens of autonomous agents operate around the clock in an enterprise GitHub or GitLab environment, they generate a tremendous volume of secondary digital exhaust: ephemeral compiler cache directories, intermediate core dumps, test execution recordings, and abandoned feature branches. Without strict lifecycle policies, this digital residue rapidly degrades repository performance, consumes terabytes of expensive cloud artifact storage, and creates security compliance liabilities.
+
+### The Problem of Abandoned Autonomous Branches
+During autonomous operations, an agent typically creates an isolated scratch branch for every task it attempts (e.g., `agent/cve-reconcile-2026-9012-attempt-1`). If the task fails due to a compilation deadlock or exceeds its financial budget ceiling, the runner container terminates.
+
+While the cleanroom container is destroyed cleanly, the remote branch on GitHub Enterprise remains. Over several months, thousands of dead, abandoned agent branches accumulate in the remote repository.
+
+This creates critical operational degradation:
+* **Git Clone Latency Inflation**: Every developer who runs `git fetch` or clones the repository must download index references for thousands of stale branches, inflating local repository metadata caches and slowing down development IDEs.
+* **Stale Branch Vulnerability Scanning**: Automated vulnerability scanners (such as GitHub Advanced Security or Snyk) scan all remote branch tips by default. Stale branches containing outdated, un-remediated dependencies trigger thousands of duplicate false-positive alerts, drowning security operations teams in noise.
+
+### The Automated Autonomous Branch Pruning Daemon
+To maintain pristine repository hygiene, platform engineering teams deploy an automated **Autonomous Branch Pruning Cron Daemon**:
+1. **Branch Tagging Convention**: All branches authored by autonomous agents must adhere to a strict naming pattern containing an embedded ISO-8601 creation timestamp:
+   ```
+   agent/<squad-id>/<task-type>/<timestamp>/<short-sha>
+   ```
+2. **The 72-Hour Ephemeral Lease**: If an agent branch has not been merged into `main` and has had zero commit activity for more than 72 hours, the pruning daemon assumes the task was abandoned.
+3. **Automated Pruning**: The daemon queries the GitHub API, identifies stale agent branches, verifies that no open Pull Request is actively linked to the branch, and deletes the remote reference atomically:
+   ```bash
+   # Script executed by the nightly branch pruning daemon
+   gh api --paginate repos/enterprise/billing-core/git/matching-refs/heads/agent/ \
+     --jq '.[] | select(.ref | test("agent/")) | .ref' | while read -r ref; do
+       LAST_COMMIT_DATE=$(gh api "repos/enterprise/billing-core/commits/${ref#refs/heads/}" --jq '.commit.committer.date')
+       AGE_HOURS=$(( ( $(date +%s) - $(date -d "$LAST_COMMIT_DATE" +%s) ) / 3600 ))
+       if [ "$AGE_HOURS" -gt 72 ]; then
+         echo "Deleting stale autonomous branch $ref (Age: ${AGE_HOURS}h)"
+         gh api -X DELETE "repos/enterprise/billing-core/git/$ref"
+       fi
+   done
+   ```
+
+### Dual-Tier Artifact Storage: Ephemeral Logs vs Immutable WORM Ledgers
+A fatal antipattern in CI/CD agent engineering is treating all job artifacts identically. Enterprise pipelines produce two distinct classes of artifacts, which must be routed to completely separate storage backends:
+1. **Class 1: Ephemeral Diagnostic Artifacts (Short-Lived Storage)**:
+   Compiler stdout logs, intermediate `node_modules` caches, heap dumps, and test failure screenshots are stored in standard CI artifact storage with a hard **7-day Time-To-Live (TTL)**. After 7 days, GitHub Actions automatically purges the artifacts, preventing storage cost bloat.
+2. **Class 2: Non-Repudiable Cryptographic Audit Ledgers (WORM Storage)**:
+   The cryptographic execution ledger (recording the exact model prompt, tool invocations, SHA-256 commit hashes, and human review sign-offs) is strictly prohibited from being stored in standard CI artifact storage where it could be modified or deleted. 
+   
+   The ledger is streamed directly from the runner container to an Amazon S3 bucket configured with **S3 Object Lock in Compliance Mode** with a mandatory 7-year retention policy. Even AWS root account administrators cannot alter or delete these records, providing mathematically bulletproof evidentiary integrity for SOC-2 Type II, ISO 27001, and federal regulatory audits.
+
+## 3. GitLab CI, Jenkins & Multi-Platform Enterprise Integrations
+
+While GitHub Actions dominates cloud-native organizations, legacy and highly regulated enterprises (defense, telecommunications, banking) frequently maintain extensive infrastructure in **GitLab CI/CD Self-Managed** or **Jenkins Enterprise**. An industrial autonomous agent architecture must operate seamlessly across these disparate platforms.
+
+### 3.1 GitLab CI Architecture: Dynamic Child Pipelines & Merge Request Diffs
+GitLab CI features a deeply integrated code review ecosystem centered around **Merge Requests (MRs)**. Integrating autonomous agents into GitLab CI requires leveraging **Dynamic Child Pipelines**:
+1. **The Evaluator Parent Pipeline**:
+   When a Merge Request is opened, the lightweight parent pipeline executes an AST linter and security scanner. If the scanner detects a remediable issue (such as an out-of-date dependency or missing input validation), the evaluator generates a dynamic child pipeline YAML file (`remediation-pipeline.yml`).
+2. **Child Pipeline Execution**:
+   The parent pipeline triggers the child pipeline using GitLab’s `trigger:include:artifact` directive. The child pipeline runs in an isolated runner with ephemeral Docker-in-Docker (DinD) privileges, executes the Claude Code reasoning harness, and uses GitLab’s REST API to post inline code review suggestions directly onto the MR diff.
+3. **Merge Request Discussions Integration**:
+   Rather than pushing silent commits, the agent formats its remediation as a **Suggested Change**:
+   ```markdown
+   ```suggestion:-0+3
+   const sanitizedInput = DOMPurify.sanitize(userInput);
+   return sanitizedInput;
+   ```
+   *Remediation Explanation*: Sanitized user input using DOMPurify to eliminate Cross-Site Scripting (XSS) vulnerability CVE-2026-4412. All 42 unit tests passed in the verification cleanroom.
+   ```
+   This empowers human engineers to accept the agent’s code modification with a single click in the GitLab UI, maintaining rigorous human governance over the repository.
+
+### 3.2 Jenkins Enterprise Declarative Pipelines & Ephemeral Agent Pods
+In enterprise Jenkins deployments, agents must never execute on the Jenkins Master or on static, long-lived Jenkins agent VMs.
+
+Enterprise agents execute via the **Jenkins Kubernetes Plugin**:
+* Every Jenkins build allocates an isolated, multi-container pod in Kubernetes.
+* The pod consists of three containers:
+  1. `jnlp`: The Jenkins inbound agent communicating build state back to the Jenkins controller.
+  2. `claude-runner`: The gVisor-isolated container hosting the Claude Code client and Node.js runtime.
+  3. `vault-proxy`: A localhost sidecar container that intercepts API calls and injects short-lived credentials.

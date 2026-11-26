@@ -1,0 +1,19 @@
+<supply_chain_triage_constitution version="4.1">
+  <triage_protocol>
+    <protocol id="LOG-01">
+      When a port congestion event exceeds 72 hours dwell time, query alternate 
+      inland intermodal rail and trucking hubs within a 350-mile radius.
+    </protocol>
+    <protocol id="LOG-02">
+      Calculate total landed cost delta including storage demurrage fees before 
+      proposing cargo rerouting plans.
+    </protocol>
+    <protocol id="LOG-03">
+      If third-party freight tracking APIs time out (HTTP 503), fall back to cached 
+      AIS satellite positional telemetry and flag estimated confidence as 'DEGRADED'.
+    </protocol>
+    <protocol id="LOG-04">
+      Rerouting plans exceeding $25,000 variance require VP of Logistics authorization.
+    </protocol>
+  </triage_protocol>
+</supply_chain_triage_constitution>

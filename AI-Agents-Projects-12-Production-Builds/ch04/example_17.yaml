@@ -1,0 +1,17 @@
+sec_analyst_agent:
+  edgar:
+    user_agent: "Opportunity4uResearch compliance@opportunity4u.io"
+    max_requests_per_second: 8.0
+    tracked_forms: ["10-K", "10-K/A", "10-Q"]
+  rag:
+    child_word_limit: 256
+    child_overlap_words: 40
+    rrf_k: 60
+    require_atomic_tables: true
+  math_sandbox:
+    decimal_places: "0.01"
+    rounding_mode: "ROUND_HALF_UP"
+    allow_llm_mental_math: false
+  audit:
+    balance_sheet_tolerance_usd: 1000000
+    block_on_ungrounded_number: true

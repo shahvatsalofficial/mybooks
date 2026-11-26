@@ -1,0 +1,61 @@
+# docker-compose.sovereign-agent-hub.yaml
+version: '3.8'
+
+services:
+  # 1. vLLM High-Performance OpenAI-Compatible Inference Server
+  vllm-inference-engine:
+    image: vllm/vllm-openai:v0.6.0
+    container_name: sovereign-vllm-engine
+    runtime: nvidia
+    restart: always
+    environment:
+      - CUDA_VISIBLE_DEVICES=0,1,2,3
+      - HUGGING_FACE_HUB_OFFLINE=1 # Strict offline mode
+    volumes:
+      - /opt/sovereign-ai/models/llama-3.1-70b-awq:/models/llama-3.1-70b:ro
+    command: >
+      --model /models/llama-3.1-70b
+      --tensor-parallel-size 4
+      --gpu-memory-utilization 0.92
+      --max-model-len 8192
+      --quantization awq
+      --port 8000
+    networks:
+      agent-internal-mesh:
+        ipv4_address: 172.28.0.10
+
+  # 2. Local Qdrant Vector Search Engine
+  qdrant-vector-vault:
+    image: qdrant/qdrant:v1.11.0
+    container_name: sovereign-qdrant-vault
+    restart: always
+    volumes:
+      - /opt/sovereign-ai/vector-data:/qdrant/storage
+    networks:
+      agent-internal-mesh:
+        ipv4_address: 172.28.0.20
+
+  # 3. Sovereign Multi-Agent Runtime Orchestrator
+  sovereign-agent-runtime:
+    image: registry.opportunity4u.in/agentic/sovereign-runtime:v2.4.0
+    container_name: sovereign-agent-orchestrator
+    restart: always
+    environment:
+      - OPENAI_API_BASE=http://172.28.0.10:8000/v1
+      - OPENAI_API_KEY=sovereign-airgap-internal-token
+      - VECTOR_STORE_URL=http://172.28.0.20:6333
+      - AGENT_AIRGAP_ENFORCED=true
+    depends_on:
+      - vllm-inference-engine
+      - qdrant-vector-vault
+    networks:
+      agent-internal-mesh:
+        ipv4_address: 172.28.0.30
+
+networks:
+  agent-internal-mesh:
+    driver: bridge
+    internal: true # STRICT AIRGAP: Disables all outbound Internet routing at Linux bridge level
+    ipam:
+      config:
+        - subnet: 172.28.0.0/24

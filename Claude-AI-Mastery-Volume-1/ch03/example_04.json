@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-09-30T00:15:00Z",
+  "event_type": "CLAUDE_PROJECT_QUERY",
+  "project_id": "proj_fintech_core_01",
+  "user_id": "usr_dev_8812",
+  "department": "Treasury_Engineering",
+  "tokens_input_base": 3220,
+  "tokens_input_cached": 115200,
+  "tokens_output": 842,
+  "cache_hit_rate": 0.972,
+  "latency_ms": 1120,
+  "dlp_status": "CLEARED_ZERO_PII",
+  "canary_token_status": "INTACT"
+}

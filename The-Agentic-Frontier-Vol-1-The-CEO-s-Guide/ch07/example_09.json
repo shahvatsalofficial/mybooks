@@ -1,0 +1,14 @@
+{
+  "manifest_id": "LUMOS_FAB_OPTICAL_GATE",
+  "cleanroom_telemetry": {
+    "target_particulate_count_per_m3": 0.0,
+    "temperature_stability_tolerance_c": 0.005,
+    "relative_humidity_pct_range": [42.0, 42.5]
+  },
+  "euv_lithography_control": {
+    "interferometer_sample_rate_hz": 10000,
+    "sub_nanometer_drift_correction_limit_pm": 20,
+    "magnetic_levitation_active_damping": true,
+    "instant_cryo_jet_cooldown_threshold_c": 64.2
+  }
+}

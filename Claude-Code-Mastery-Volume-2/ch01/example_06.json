@@ -1,0 +1,10 @@
+{
+  "jsonrpc": "2.0",
+  "method": "notifications/progress",
+  "params": {
+    "progressToken": "token-test-run-991",
+    "progress": 42,
+    "total": 100,
+    "message": "Executed 42 of 100 test cases (Passing: 42, Failing: 0)..."
+  }
+}

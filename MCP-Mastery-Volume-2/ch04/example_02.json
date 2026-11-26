@@ -1,0 +1,13 @@
+{
+  "status": "success",
+  "items": [
+    { "id": "inv_101", "amount": 250.00, "status": "PAID" },
+    { "id": "inv_102", "amount": 420.50, "status": "PENDING" }
+  ],
+  "pagination": {
+    "has_more": true,
+    "next_cursor": "eyJvZmZzZXQiOjEwMCwidGVuYW50IjoiYWxwaGEifQ==",
+    "total_count": 5420,
+    "page_size": 2
+  }
+}

@@ -1,0 +1,19 @@
+{
+     "error": "DeadlockPreemptionException",
+     "message": "Resource lock on 'Ledger_Audit' was revoked by Deadlock Governor to resolve circular cycle. Release all held locks and retry after randomized backoff.",
+     "retry_after_ms": 1450
+   }
+   ```
+3. The preempted agent gracefully unwinds its uncommitted transactions, releases all remaining locks, and schedules a retry using exponential backoff with full jitter:
+
+$$T_{\text{backoff}} = \text{Uniform}(0, \min(T_{\text{max}}, T_{\text{base}} \cdot 2^{\text{attempt}}))$$
+
+4. The surviving agents acquire the freed resource and complete their execution without manual human intervention.
+
+---
+
+## 3. Production Implementation & Code Architecture
+
+### 3.1 Recipe 04.1: Production LangGraph Hierarchical Supervisor-Worker Architecture
+
+The following complete, production-grade Python implementation builds a fully typed Hierarchical Supervisor-Worker engine using LangGraph and Anthropic Claude 3.5 Sonnet. It features strongly-typed Pydantic state schemas, dynamic worker routing, and state reduction.

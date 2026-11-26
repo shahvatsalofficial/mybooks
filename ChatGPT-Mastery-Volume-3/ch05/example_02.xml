@@ -1,0 +1,25 @@
+<policies>
+    <inbound>
+        <base />
+        <!-- Authenticate caller and extract departmental tenant ID -->
+        <validate-jwt header-name="Authorization" failed-validation-httpcode="401">
+            <openid-config url="https://login.microsoftonline.com/{tenantId}/v2.0/.well-known/openid-configuration" />
+        </validate-jwt>
+        <set-variable name="departmentId" value="@(context.Request.Headers.GetValueOrDefault("X-Department-Id", "Unassigned"))" />
+        <!-- Enforce per-department Token Quota -->
+        <azure-openai-token-limit 
+            counter-key="@((string)context.Variables["departmentId"])"
+            tokens-per-minute="200000"
+            estimate-prompt-tokens="true" />
+    </inbound>
+    <outbound>
+        <base />
+        <!-- Log exact token consumption to Azure Log Analytics for billing -->
+        <azure-openai-emit-token-metric
+            namespace="EnterpriseFinOps"
+            dimensions="@(new Dictionary<string, string> {
+                {"Department", (string)context.Variables["departmentId"]},
+                {"Model", context.Response.Headers.GetValueOrDefault("x-ms-model-deployment", "gpt-4o")}
+            })" />
+    </outbound>
+</policies>

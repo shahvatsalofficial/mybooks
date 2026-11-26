@@ -1,0 +1,33 @@
+name: Project Memory Audit
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  audit-memory:
+    name: Verify CLAUDE.md & Rules Integrity
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js Runtime
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Audit Dependencies
+        run: npm install glob
+
+      - name: Execute Memory Architecture Linter
+        run: node scripts/validate-claude-rules.js
+
+      - name: Check for Uncommitted Changes
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "Memory linter caused uncommitted changes or dirty state."
+            exit 1
+          fi

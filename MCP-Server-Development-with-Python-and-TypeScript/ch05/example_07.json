@@ -1,0 +1,15 @@
+{
+  "jsonrpc": "2.0",
+  "method": "initialize",
+  "params": {
+    "protocolVersion": "2024-11-05",
+    "capabilities": {
+      "sampling": {}
+    },
+    "clientInfo": {
+      "name": "Claude Desktop",
+      "version": "0.7.8"
+    }
+  },
+  "id": 1
+}

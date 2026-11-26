@@ -1,0 +1,40 @@
+# envoy-ai-gateway-filter.yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: ai-token-rate-limiter
+  namespace: istio-system
+spec:
+  workloadSelector:
+    labels:
+      app: ai-gateway-ingress
+  configPatches:
+    - applyTo: HTTP_FILTER
+      match:
+        context: SIDECAR_INBOUND
+        listener:
+          filterChain:
+            filter:
+              name: "envoy.filters.network.http_connection_manager"
+      patch:
+        operation: INSERT_BEFORE
+        value:
+          name: envoy.filters.http.lua
+          typed_config:
+            "@type": "type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua"
+            inlineCode: |
+              function envoy_on_request(handle)
+                local tenant_id = handle:headers():get("x-tenant-id")
+                if not tenant_id then
+                  handle:respond({[":status"] = "401"}, "Missing Tenant Identification Header")
+                  return
+                end
+                -- In production: interact with Redis cluster via non-blocking socket
+              end
+
+              function envoy_on_response(handle)
+                local tokens_used = handle:headers():get("x-openai-total-tokens")
+                if tokens_used then
+                  handle:logInfo("Tokens consumed: " .. tokens_used)
+                end
+              end

@@ -1,0 +1,108 @@
+# mcp-server-rollout.yaml — Declarative GitOps Canary Pipeline for MCP Tool Servers
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mcp-crm-server-prod
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/opportunity4u-press/enterprise-mcp-fleet.git'
+    targetRevision: HEAD
+    path: deployments/mcp-crm-server/prod
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: mcp-production
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: mcp-crm-server
+  namespace: mcp-production
+spec:
+  replicas: 5
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: mcp-crm-server
+  template:
+    metadata:
+      labels:
+        app: mcp-crm-server
+    spec:
+      containers:
+        - name: server
+          image: opportunity4u/mcp-crm-server:v2.1.0
+          ports:
+            - containerPort: 8080
+              name: mcp-http
+          env:
+            - name: MCP_SEMVER_VERSION
+              value: "2.1.0"
+            - name: SLA_TIER
+              value: "GOLD"
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+            limits:
+              cpu: "2000m"
+              memory: "2048Mi"
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+  strategy:
+    canary:
+      canaryService: mcp-crm-server-canary
+      stableService: mcp-crm-server-stable
+      trafficRouting:
+        nginx:
+          stableIngress: mcp-crm-server-ingress
+      steps:
+        - setWeight: 10
+        - pause: { duration: 10m }
+        - analysis:
+            templates:
+              - templateName: mcp-success-rate-analysis
+        - setWeight: 50
+        - pause: { duration: 15m }
+        - analysis:
+            templates:
+              - templateName: mcp-success-rate-analysis
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: mcp-success-rate-analysis
+  namespace: mcp-production
+spec:
+  metrics:
+    - name: success-rate
+      interval: 1m
+      successCondition: result[0] >= 0.999
+      failureLimit: 3
+      provider:
+        prometheus:
+          address: http://prometheus.monitoring.svc:9090
+          query: |
+            sum(rate(mcp_tool_calls_total{app="mcp-crm-server-canary", status="success"}[2m]))
+            /
+            sum(rate(mcp_tool_calls_total{app="mcp-crm-server-canary"}[2m]))
+    - name: p99-latency
+      interval: 1m
+      successCondition: result[0] <= 50.0
+      failureLimit: 2
+      provider:
+        prometheus:
+          address: http://prometheus.monitoring.svc:9090
+          query: |
+            histogram_quantile(0.99, sum(rate(mcp_tool_duration_seconds_bucket{app="mcp-crm-server-canary"}[2m])) by (le)) * 1000

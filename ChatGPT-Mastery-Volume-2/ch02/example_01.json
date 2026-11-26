@@ -1,0 +1,31 @@
+"secondary_email": {
+     "type": ["string", "null"],
+     "description": "Optional secondary contact email, or null if unassigned."
+   }
+   ```
+3. **Grammar Compilation Latency**: Compiling a massive, deeply nested schema containing hundreds of properties into a grammar automaton requires non-trivial computational overhead at the gateway (typically 100ms to 500ms on the initial request). However, OpenAI caches compiled grammar state machines globally based on the schema's SHA-256 hash. Once compiled, subsequent invocations reuse the cached automaton with zero compilation latency.
+
+---
+
+## 3. The Function Calling Protocol: Tools, Parameters & Tool Choice
+
+### 3.1 Architectural Decomposition of the Tool Call Cycle
+Function Calling (formally designated as the **Tools API**) transforms a foundation model from a passive conversational engine into an active, tool-wielding agent capable of querying external databases, executing code, calling enterprise APIs, and triggering physical infrastructure workflows.
+
+It is vital to understand that **the OpenAI API never executes your code directly.** The execution loop is an asynchronous, cooperative client-server protocol mediated via structured JSON exchanges.
+
+<div class="diagram-container">
+  <img src="../assets/svg/diag_ch02_function_calling_flow.svg" alt="Function Calling Tool Execution & Return Response Cycle" />
+  <p class="diagram-caption">Figure 2.2: The Asynchronous Function Calling Execution &amp; Response Re-injection Lifecycle</p>
+</div>
+
+The complete operational lifecycle proceeds across five distinct stages:
+
+1. **Declaration Stage**: The client application submits a request containing both the conversation context (`messages`) and a list of available `tools`. Each tool declares its `name`, a comprehensive natural-language `description` explaining its operational intent, and a formal `parameters` block defining its arguments via JSON Schema.
+2. **Reasoning & Tool Selection**: The foundation model processes the user’s request, attends across the tool descriptions, and determines whether fulfilling the request requires external capabilities. If so, the model sets `finish_reason: "tool_calls"` and emits a structured message containing an array of `tool_calls`. Each tool call includes a unique cryptographic identifier (`id: "call_abc123"`), the target `function.name`, and a JSON-encoded string of validated `function.arguments`.
+3. **Client-Side Dispatch**: The client application receives the response, inspects `tool_calls`, deserializes the arguments, and executes the corresponding local Python, TypeScript, or Go function (e.g., executing a SQL query against PostgreSQL or querying a Stripe billing endpoint).
+4. **Tool Result Serialization**: The client captures the execution output (whether a JSON object, a raw string, or an error traceback) and wraps it in a specialized message with `role: "tool"`, referencing the exact `tool_call_id` emitted by the model.
+5. **Final Synthesis**: The client re-submits the entire conversation history—including the original prompt, the assistant’s tool call emission, and the tool’s output message—back to the API. The model ingests the execution result and synthesizes an authoritative, natural-language response for the end user.
+
+### 3.2 Granular Control with `tool_choice`
+Enterprise software must govern exactly when and how tools are invoked. The API exposes the `tool_choice` parameter to enforce deterministic behavior across diverse runtime contexts:

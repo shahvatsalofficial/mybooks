@@ -1,0 +1,8 @@
+{
+  "runtime": "runsc",
+  "runtimeArgs": [
+    "--platform=kvm",
+    "--network=sandbox",
+    "--file-access=shared"
+  ]
+}

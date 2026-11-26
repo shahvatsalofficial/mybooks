@@ -1,0 +1,14 @@
+{
+  "messageVersion": "1.0",
+  "response": {
+    "actionGroup": "trade_recon_group",
+    "apiPath": "/trades/{trade_id}",
+    "httpMethod": "GET",
+    "httpStatusCode": 200,
+    "responseBody": {
+      "application/json": {
+        "body": "{\"trade_id\":\"TX-9842\",\"status\":\"SETTLED\",\"amount\":1450000.00}"
+      }
+    }
+  }
+}

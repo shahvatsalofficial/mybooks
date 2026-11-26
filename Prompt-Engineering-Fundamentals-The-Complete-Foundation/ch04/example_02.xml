@@ -1,0 +1,13 @@
+<conversation_state_summary>
+  <session_metadata>
+    <tenant_id>tenant_omnicorp_882</tenant_id>
+    <active_incident>INC-88902</active_incident>
+  </session_metadata>
+  <resolved_issues>
+    - Confirmed TCP socket pool exhaustion on gateway node 4.
+    - Successfully restarted the socket pool worker.
+  </resolved_issues>
+  <pending_actions>
+    - Verify if transaction latency has dropped below 50ms.
+  </pending_actions>
+</conversation_state_summary>

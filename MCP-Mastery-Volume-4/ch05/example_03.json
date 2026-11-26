@@ -1,0 +1,12 @@
+{
+  "status": 200,
+  "statusText": "OK",
+  "executionDurationMs": 84,
+  "truncated": false,
+  "data": {
+    "id": 12345,
+    "name": "Doggie",
+    "status": "available",
+    "category": { "id": 1, "name": "Canine" }
+  }
+}

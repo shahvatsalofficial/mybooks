@@ -1,0 +1,6 @@
+{
+  "CronExpression": "*/5 * * * *",
+  "Prompt": "Check status of CI build for commit 4a2f8; if passed, deploy to staging",
+  "MaxIterations": 12,
+  "IsDaemon": false
+}

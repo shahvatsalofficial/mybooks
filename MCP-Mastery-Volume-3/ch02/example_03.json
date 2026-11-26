@@ -1,0 +1,24 @@
+{
+  "name": "provision_database_instance",
+  "description": "Provisions a managed PostgreSQL cluster in the designated cloud VPC.",
+  "inputSchema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$defs": {
+      "VpcConfig": {
+        "type": "object",
+        "properties": {
+          "subnet_id": { "type": "string" },
+          "cidr_block": { "type": "string" }
+        },
+        "required": ["subnet_id"]
+      }
+    },
+    "type": "object",
+    "properties": {
+      "cluster_name": { "type": "string", "minLength": 3 },
+      "node_count": { "type": "integer", "default": 3 },
+      "network": { "$ref": "#/$defs/VpcConfig" }
+    },
+    "required": ["cluster_name"]
+  }
+}

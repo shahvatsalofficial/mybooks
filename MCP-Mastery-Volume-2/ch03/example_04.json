@@ -1,0 +1,22 @@
+[
+  {
+    "Plan": {
+      "Node Type": "Nested Loop",
+      "Parallel Aware": false,
+      "Startup Cost": 0.43,
+      "Total Cost": 148291.50,
+      "Plan Rows": 852000,
+      "Plan Width": 128,
+      "Plans": [
+        {
+          "Node Type": "Seq Scan",
+          "Relation Name": "audit_logs",
+          "Startup Cost": 0.00,
+          "Total Cost": 98450.00,
+          "Plan Rows": 420000,
+          "Filter": "(message ~~ '%error%')"
+        }
+      ]
+    }
+  }
+]

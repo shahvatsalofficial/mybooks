@@ -1,0 +1,18 @@
+<evaluation_rubric standard="ENTERPRISE_SECURE_CODE_v4">
+  <criterion id="CRIT-01" weight="0.40" name="Functional Correctness">
+    Does the implementation satisfy 100% of functional requirements and edge cases?
+    Scores: 0 (Broken/Incomplete), 5 (Partial bugs), 10 (Fully correct).
+  </criterion>
+  <criterion id="CRIT-02" weight="0.30" name="Security & Vulnerability Posture">
+    Are there SQL injection, SSRF, memory leaks, or unvalidated inputs?
+    Scores: 0 (Critical CVE), 5 (Minor security warnings), 10 (Zero vulnerabilities).
+  </criterion>
+  <criterion id="CRIT-03" weight="0.20" name="Performance & Algorithmic Complexity">
+    Is time complexity optimal? Are DB queries vectorized and connection-pooled?
+    Scores: 0 (O(N^2) or unbounded memory), 5 (Suboptimal), 10 (Optimal O(N)).
+  </criterion>
+  <criterion id="CRIT-04" weight="0.10" name="Maintainability & Typing">
+    Are type signatures strict? Is error handling explicit with zero empty catches?
+    Scores: 0 (Untyped/No docs), 5 (Partial types), 10 (Production grade).
+  </criterion>
+</evaluation_rubric>

@@ -1,0 +1,34 @@
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "tools": [
+      {
+        "name": "create_database_backup",
+        "description": "Trigger an immediate pg_dump snapshot of an enterprise database table.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "database_name": {
+              "type": "string",
+              "description": "Target relational database identifier."
+            },
+            "compression_level": {
+              "type": "integer",
+              "description": "Gzip compression level between 1 (fastest) and 9 (smallest).",
+              "minimum": 1,
+              "maximum": 9,
+              "default": 6
+            },
+            "include_indexes": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          "required": ["database_name"],
+          "additionalProperties": false
+        }
+      }
+    ]
+  },
+  "id": 101
+}

@@ -1,0 +1,19 @@
+{
+  "protocol": "UBI-Sovereign-Allocation-V11",
+  "allocation_tier": "Citizen-Base",
+  "daily_reasoning_quota": {
+    "tier_1_fast": 50000,
+    "tier_2_deep": 500000
+  },
+  "priority_logic_stacks": {
+    "bio_sentinel": "High-Priority-Realtime",
+    "learning_architect": "Medium-Priority-Async",
+    "financial_navigator": "Medium-Priority-Batch"
+  },
+  "governance": {
+    "pii_scrubbing": "Mandatory-At-Source",
+    "logic_drift_threshold": 0.05,
+    "sovereignty_key": "Decentralized-ID-Linked"
+  },
+  "compute_failover": "Mesh-Primary | Cloud-Secondary"
+}

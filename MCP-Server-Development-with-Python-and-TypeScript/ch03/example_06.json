@@ -1,0 +1,91 @@
+{
+     "jsonrpc": "2.0",
+     "method": "resources/subscribe",
+     "params": {
+       "uri": "file:///workspace/package.json"
+     },
+     "id": 20
+   }
+   ```
+   The server records the client's session in its subscription registry and responds with an empty success object `{}`.
+
+2. **Server-Side Invalidation: `notifications/resources/updated`**:
+   When the underlying storage changes (e.g., an engineer saves `package.json` in their editor), the server dispatches a one-way notification:
+   ```json
+   {
+     "jsonrpc": "2.0",
+     "method": "notifications/resources/updated",
+     "params": {
+       "uri": "file:///workspace/package.json"
+     }
+   }
+   ```
+   **Critical Protocol Rule**: Notice that the notification does **NOT** contain the new file contents! It contains only the `uri`. This deliberate design eliminates broadcast waste. If 1,000 clients are subscribed to a frequently changing metrics dashboard, the server does not broadcast 1,000 heavy JSON payloads. Instead, it invalidates the clients' caches. Clients that currently have the resource open in active view will execute a lazy `resources/read`; idle clients simply discard the stale cache entry.
+
+3. **Catalog Mutations: `notifications/resources/list_changed`**:
+   If a new file is created on disk or a table is dropped, altering the list of resources returned by `resources/list`, the server emits:
+   ```json
+   {
+     "jsonrpc": "2.0",
+     "method": "notifications/resources/list_changed"
+   }
+   ```
+   This signals the client host to refresh its file tree or resource picker menu.
+
+4. **Unsubscribing: `resources/unsubscribe`**:
+   When the user closes the document or navigates away, the client cleans up the subscription:
+   ```json
+   {
+     "jsonrpc": "2.0",
+     "method": "resources/unsubscribe",
+     "params": {
+       "uri": "file:///workspace/package.json"
+     },
+     "id": 21
+   }
+   ```
+
+### 3.5.3 Catalog Pagination & Cursor Architecture
+
+When an enterprise MCP server exposes large catalogs—such as 10,000 files in an enterprise monorepo or 50,000 database tables in an enterprise data warehouse—returning the entire array in a single `resources/list` response will overwhelm client JSON parsers, trigger IPC frame limits, and inflate client memory usage.
+
+To ensure resilience, the MCP protocol specifies **Opaque Cursor-Based Pagination**:
+
+1. **Initial Request**: The client issues an initial `resources/list` request without a cursor parameter.
+2. **Chunked Response**: The server returns an initial batch (e.g., 50 items) accompanied by an opaque `nextCursor` string:
+   ```json
+   {
+     "jsonrpc": "2.0",
+     "result": {
+       "resources": [
+         { "uri": "db://table_01", "name": "Table 01" }
+       ],
+       "nextCursor": "eyJvZmZzZXQiOjUwLCJzaWduIjoiM2E4YjQifQ=="
+     },
+     "id": 22
+   }
+   ```
+3. **Cursor Continuation**: The client requests the subsequent batch by echoing the cursor value:
+   ```json
+   {
+     "jsonrpc": "2.0",
+     "method": "resources/list",
+     "params": {
+       "cursor": "eyJvZmZzZXQiOjUwLCJzaWduIjoiM2E4YjQifQ=="
+     },
+     "id": 23
+   }
+   ```
+4. **Catalog Termination**: When the entire catalog has been traversed, the server returns `"nextCursor": null` or omits the key.
+
+**Design Rule**: Cursors must be treated as completely opaque by the client. Servers should encode pagination offsets or database keys inside HMAC-signed or Base64-encoded tokens to prevent client tampering.
+
+---
+
+## 3.6 Production Recipes: Building Hardened Resource Providers
+
+The following copy-paste recipes provide hardened, enterprise-grade resource server implementations with full type safety and error boundaries.
+
+### Recipe 3.1: Python Static Resource Server with Live File Watcher
+
+This recipe implements an MCP server in Python using `watchdog` and `mcp.server.fastmcp`. It exposes workspace configuration files as static resources and automatically emits real-time `updated` notifications whenever files are edited on disk.

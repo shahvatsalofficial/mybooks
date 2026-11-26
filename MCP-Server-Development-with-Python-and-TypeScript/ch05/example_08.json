@@ -1,0 +1,29 @@
+{
+  "jsonrpc": "2.0",
+  "method": "sampling/createMessage",
+  "params": {
+    "messages": [
+      {
+        "role": "user",
+        "content": {
+          "type": "text",
+          "text": "Summarize the primary behavioral changes in this diff in 3 bullet points:\n\n+ def verify_jwt(token):\n+     return jwt.decode(token, algorithms=['RS256'])"
+        }
+      }
+    ],
+    "modelPreferences": {
+      "hints": [
+        { "name": "claude-3-5-sonnet" },
+        { "name": "gpt-4o-mini" }
+      ],
+      "costPriority": 0.2,
+      "speedPriority": 0.8,
+      "intelligencePriority": 0.9
+    },
+    "systemPrompt": "You are a senior cybersecurity code auditor. Be concise.",
+    "includeContext": "none",
+    "temperature": 0.1,
+    "maxTokens": 300
+  },
+  "id": 301
+}

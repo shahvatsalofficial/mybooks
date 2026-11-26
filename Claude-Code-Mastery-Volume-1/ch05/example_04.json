@@ -1,0 +1,8 @@
+{
+  "envelopeVersion": "1.0",
+  "idempotencyKey": "idem_8f3d1a49_ch05_auth_migration",
+  "dispatchTimestamp": 1794128400000,
+  "ttlSeconds": 300,
+  "retryCount": 0,
+  "payload": { ... }
+}

@@ -1,0 +1,39 @@
+{
+  "Comment": "Automated Multi-Service Chaos Verification Suite",
+  "StartAt": "VerifyBaselineSteadyState",
+  "States": {
+    "VerifyBaselineSteadyState": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:us-east-1:112233445566:function:VerifySteadyStateLambda"
+      },
+      "Next": "StartSyntheticLoad"
+    },
+    "StartSyntheticLoad": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::ecs:runTask.sync",
+      "Parameters": {
+        "Cluster": "arn:aws:ecs:us-east-1:112233445566:cluster/load-testing-cluster",
+        "TaskDefinition": "locust-load-generator:12"
+      },
+      "Next": "TriggerFisFault"
+    },
+    "TriggerFisFault": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::fis:startExperiment.sync",
+      "Parameters": {
+        "ExperimentTemplateId": "EXT1122334455"
+      },
+      "Next": "EvaluateResilienceVerdict"
+    },
+    "EvaluateResilienceVerdict": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:us-east-1:112233445566:function:EvaluateChaosReportLambda"
+      },
+      "End": true
+    }
+  }
+}

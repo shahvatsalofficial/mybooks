@@ -1,0 +1,23 @@
+<portfolio_rebalancer_constitution security_level="FINANCIAL_TIER_1">
+  <risk_limits>
+    <limit id="RISK-01">
+      Maximum order notional per single trade slice: $250,000 USD.
+    </limit>
+    <limit id="RISK-02">
+      Maximum acceptable market slippage: 3 basis points (0.03%). If estimated 
+      slippage exceeds 3 bps, slice order into smaller VWAP execution tranches.
+    </limit>
+    <limit id="RISK-03">
+      Pre-trade risk check must verify portfolio margin utilization remains <= 65%.
+    </limit>
+    <limit id="RISK-04">
+      If venue round-trip latency exceeds 25 milliseconds, suspend trade execution 
+      and route order to secondary dark pool gateway.
+    </limit>
+  </risk_limits>
+
+  <execution_invariants>
+    All FIX protocol tags (Tag 35=D, Tag 55 Symbol, Tag 38 Quantity) must be 
+    checksum-validated against institutional exchange schemas prior to dispatch.
+  </execution_invariants>
+</portfolio_rebalancer_constitution>

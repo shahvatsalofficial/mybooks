@@ -1,0 +1,23 @@
+{
+     "jsonrpc": "2.0",
+     "result": {
+       "content": [
+         {
+           "type": "text",
+           "text": "Invalid arguments:\n• service_id: Must contain only lowercase alphanumeric characters and hyphens\n• replicas: Maximum replica ceiling is 100 pods"
+         }
+       ],
+       "isError": true
+     },
+     "id": 101
+   }
+   ```
+4. The client host receives this output and routes it back into the model's conversation history. The LLM reads the constraints, repairs its arguments, and issues a successful call.
+
+### Advanced Zod Schema Patterns: Discriminated Unions & Custom Refinements
+
+In production systems, tools often perform operations that depend on polymorphic parameters. For example, a cloud infrastructure tool might support creating an S3 bucket, provisioning an EC2 virtual machine, or spinning up a PostgreSQL RDS instance, with each action requiring entirely distinct parameter schemas.
+
+Attempting to model this as a single giant schema with 30 optional parameters degrades model accuracy. The model gets confused about which fields are required for which action.
+
+Zod’s **Discriminated Unions** provide the optimal architectural solution:

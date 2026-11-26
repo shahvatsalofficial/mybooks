@@ -1,0 +1,12 @@
+{
+  "jsonrpc": "2.0",
+  "id": "req-402",
+  "error": {
+    "code": -32602,
+    "message": "Invalid params: Missing required argument 'repository'",
+    "data": {
+      "field": "repository",
+      "expected": "string"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: "harden-agent-egress-policy"
+  namespace: "production-agents"
+spec:
+  endpointSelector:
+    matchLabels:
+      role: "autonomous-agent-worker"
+  egress:
+    # 1. Allow internal DNS resolution
+    - toEndpoints:
+        - matchLabels:
+            "k8s:io.kubernetes.pod.namespace": "kube-system"
+            k8s-app: "kube-dns"
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+    # 2. Allow HTTPS strictly to verified corporate AWS endpoints
+    - toFQDNs:
+        - matchName: "bedrock-runtime.us-east-1.amazonaws.com"
+        - matchName: "secretsmanager.us-east-1.amazonaws.com"
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP

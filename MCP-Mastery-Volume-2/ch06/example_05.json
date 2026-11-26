@@ -1,0 +1,34 @@
+{
+     "role": "tool",
+     "tool_call_id": "call_98f12a",
+     "content": "{\"status\": \"success\", \"rows_affected\": 1}"
+   }
+   ```
+7. **Synthesis Turn**: The updated message array is resent to OpenAI. The model reads the tool output and synthesizes a final natural language answer for the user (`finish_reason: "stop"`).
+
+### 6.4.2 Parallel Tool Dispatch & Concurrency Control
+
+Modern OpenAI models (`gpt-4o`) frequently generate multiple tool calls in a single turn—for example, querying customer demographics and billing records simultaneously.
+
+A naive agent processes these tool calls sequentially, multiplying network latency. A production MCP adapter leverages asynchronous concurrency (`asyncio.gather` in Python or `Promise.allSettled` in TypeScript) to dispatch all tool calls to their respective MCP servers in parallel. 
+
+Furthermore, to protect backend services from resource exhaustion, the adapter wraps concurrent calls with an `asyncio.Semaphore`, capping peak outbound RPC concurrency to a safe threshold (e.g., 10 concurrent requests).
+
+---
+
+### 6.4.3 Streaming Token Handling and Partial JSON Parsing
+
+In modern user-facing applications, latency is paramount. End users expect immediate visual feedback as the AI generates text, rather than waiting several seconds for a full generation cycle to complete. Consequently, production OpenAI agents operate almost exclusively with streaming enabled (`stream=True`).
+
+When streaming is active in the OpenAI Chat Completions API, the model emits a sequence of small chunks (`ChatCompletionChunk`). When the model decides to issue a tool call, the payload structure changes fundamentally:
+1. The first chunk containing tool call intent includes `delta.tool_calls[0].index`, `delta.tool_calls[0].id` (e.g., `call_AbCd123`), and `delta.tool_calls[0].function.name`.
+2. Subsequent chunks emit tiny fragments of the JSON arguments string inside `delta.tool_calls[0].function.arguments`:
+   - Chunk 1: `{"custo`
+   - Chunk 2: `mer_id":`
+   - Chunk 3: ` "C-10`
+   - Chunk 4: `2"}`
+3. If the model invokes multiple tools in parallel, multiple `delta.tool_calls` arrays appear, differentiated by their integer `index` property.
+
+Operating a Model Context Protocol bridge over a streaming token flow requires strict accumulator state management. The agent cannot attempt to dispatch an MCP RPC call on the first chunk, because the JSON arguments payload is incomplete and syntactically invalid. 
+
+The agent architecture must maintain an **Active Tool Call Accumulator**:

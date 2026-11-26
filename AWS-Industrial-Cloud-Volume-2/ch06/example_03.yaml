@@ -1,0 +1,28 @@
+# network-chaos-delay.yaml
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: payment-stripe-latency-injection
+  namespace: payment-tier
+spec:
+  action: delay
+  mode: fixed
+  value: '3'
+  selector:
+    namespaces:
+      - payment-tier
+    labelSelectors:
+      app: payment-processor
+  delay:
+    latency: '300ms'
+    jitter: '50ms'
+    correlation: '50'
+  direction: to
+  target:
+    mode: all
+    selector:
+      namespaces:
+        - payment-tier
+      labelSelectors:
+        app: external-payment-gateway
+  duration: '5m'

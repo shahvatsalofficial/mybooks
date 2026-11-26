@@ -1,0 +1,53 @@
+# canary_deployment_config.yaml
+# Compatible with Kubernetes with Istio service mesh
+
+agent_service:
+  name: agentic-frontier-api
+  canary_phases:
+    - phase: shadow
+      traffic_pct: 0
+      shadow: true
+      duration_hours: 48
+      eval_threshold: 0.80
+    
+    - phase: canary_10
+      traffic_pct: 10
+      shadow: false
+      duration_hours: 72
+      eval_threshold: 0.82
+      rollback_on_error_rate_pct: 3.0
+    
+    - phase: canary_25
+      traffic_pct: 25
+      shadow: false
+      duration_hours: 48
+      eval_threshold: 0.82
+      rollback_on_latency_p95_ms: 2500
+    
+    - phase: canary_50
+      traffic_pct: 50
+      shadow: false
+      duration_hours: 24
+      eval_threshold: 0.83
+      requires_manual_approval: true
+    
+    - phase: full_production
+      traffic_pct: 100
+      shadow: false
+      standby_days: 7
+
+evaluation:
+  scorer: llm_judge
+  judge_model: gpt-4o
+  sample_rate: 0.15  # Evaluate 15% of production calls
+  min_sample_per_phase: 500
+  metrics:
+    - name: overall_quality
+      threshold: 0.82
+      rollback_on_breach: true
+    - name: safety_score
+      threshold: 0.95
+      rollback_on_breach: true
+    - name: latency_p95_ms
+      threshold: 2000
+      rollback_on_breach: true

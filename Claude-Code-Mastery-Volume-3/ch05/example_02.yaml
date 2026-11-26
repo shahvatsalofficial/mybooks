@@ -1,0 +1,54 @@
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: "harden-agent-runner-egress"
+  namespace: "autonomous-agents"
+spec:
+  endpointSelector:
+    matchLabels:
+      role: "autonomous-agent-runner"
+  egress:
+    # 1. Allow strictly internal CoreDNS queries with DNS inspection
+    - toEndpoints:
+        - matchLabels:
+            "k8s:io.kubernetes.pod.namespace": "kube-system"
+            "k8s:k8s-app": "kube-dns"
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: "ANY"
+          rules:
+            dns:
+              - matchPattern: "*.enterprise.internal"
+              - matchName: "api.anthropic.com"
+              - matchName: "github-enterprise.internal"
+
+    # 2. Allow HTTPS strictly to verified API endpoints via TLS SNI inspection
+    - toFQDNs:
+        - matchName: "api.anthropic.com"
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: "TCP"
+          rules:
+            http:
+              - method: "POST"
+                path: "/v1/messages"
+
+    # 3. Allow internal Git and Vault communication over mTLS
+    - toEndpoints:
+        - matchLabels:
+            "app.kubernetes.io/name": "vault-secrets-proxy"
+      toPorts:
+        - ports:
+            - port: "8200"
+              protocol: "TCP"
+
+    # 4. Explicit Drop of Cloud Instance Metadata (IMDSv2)
+    - toCIDR:
+        - "169.254.169.254/32"
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: "TCP"
+      # Hard drop at kernel boundary

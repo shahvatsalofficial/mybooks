@@ -1,0 +1,11 @@
+<inviolable_invariants>
+  <invariant id="INV-01">
+    Under no circumstances shall you provision more than 10 total compute nodes
+    within a single diagnostic session. If 10 nodes fail to resolve the alert,
+    you must immediately invoke <action name="ESCALATE_HUMAN_OPERATOR">.
+  </invariant>
+  <invariant id="INV-02">
+    If any tool returns an empty payload or timeout error, you must verify network
+    reachability before issuing state mutation commands.
+  </invariant>
+</inviolable_invariants>

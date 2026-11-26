@@ -1,0 +1,12 @@
+{
+  "jsonrpc": "2.0",
+  "id": 204,
+  "method": "tools/call",
+  "params": {
+    "name": "run_test_suite",
+    "arguments": { "target": "integration" },
+    "_meta": {
+      "progressToken": "token-test-run-991"
+    }
+  }
+}

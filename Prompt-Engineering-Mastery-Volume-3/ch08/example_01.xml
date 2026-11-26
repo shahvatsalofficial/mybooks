@@ -1,0 +1,30 @@
+<state_machine_definition name="LoanOriginationWorkflow" version="3.0">
+  <current_state>STAGE_2_UNDERWRITING_AUDIT</current_state>
+  
+  <state_topology>
+    <state id="STAGE_1_KYC_VERIFICATION">
+      <allowed_tools>["verify_ssn", "validate_id_document"]</allowed_tools>
+      <valid_next_states>["STAGE_2_UNDERWRITING_AUDIT", "STAGE_REJECTED"]</valid_next_states>
+    </state>
+    
+    <state id="STAGE_2_UNDERWRITING_AUDIT">
+      <allowed_tools>["fetch_credit_bureau_score", "verify_employment_history"]</allowed_tools>
+      <valid_next_states>["STAGE_3_LOAN_OFFER", "STAGE_REJECTED", "STAGE_HUMAN_REVIEW"]</valid_next_states>
+      <guards>
+        <guard target="STAGE_3_LOAN_OFFER">
+          Requires: credit_score >= 680 AND debt_to_income_ratio <= 0.43
+        </guard>
+      </guards>
+    </state>
+    
+    <state id="STAGE_3_LOAN_OFFER">
+      <allowed_tools>["generate_loan_agreement", "dispatch_docusign_packet"]</allowed_tools>
+      <valid_next_states>["STAGE_4_FUNDS_DISBURSEMENT", "STAGE_CANCELLED"]</valid_next_states>
+    </state>
+    
+    <state id="STAGE_4_FUNDS_DISBURSEMENT">
+      <allowed_tools>["execute_ach_transfer"]</allowed_tools>
+      <valid_next_states>["STAGE_COMPLETED"]</valid_next_states>
+    </state>
+  </state_topology>
+</state_machine_definition>

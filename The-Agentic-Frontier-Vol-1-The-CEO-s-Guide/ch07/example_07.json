@@ -1,0 +1,15 @@
+{
+  "manifest_id": "GHOST_CONSULTANCY_LOGIC_GATE",
+  "reasoning_engine": {
+    "model_backbone": "SOVEREIGN_70B_LOCKED_WEIGHTS",
+    "context_retrieval_depth_k": 250,
+    "factuality_cross_verification_quorums": 3,
+    "max_hallucination_tolerance_score": 0.0000
+  },
+  "billing_integration": {
+    "model": "OUTCOME_ROYALTY_PERCENTAGE",
+    "verified_ebitda_floor_pct": 5.0,
+    "royalty_fee_pct": 2.5,
+    "audit_ledger": "SOVEREIGN_IMMUTABLE_CHAIN"
+  }
+}

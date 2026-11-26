@@ -1,0 +1,9 @@
+# eniconfig-us-east-1a.yaml
+apiVersion: crd.k8s.amazonaws.com/v1alpha1
+kind: ENIConfig
+metadata:
+  name: us-east-1a
+spec:
+  subnet: subnet-0a1b2c3d4e5f6789a  # Secondary CGNAT Subnet (100.64.0.0/18)
+  securityGroups:
+    - sg-0987654321fedcba0          # Pod Application Security Group

@@ -1,0 +1,17 @@
+{
+  "owner": "enterprise-org",
+  "repo": "payment-service",
+  "pullNumber": 42,
+  "totalModifiedFiles": 1,
+  "files": [
+    {
+      "file": "src/config/aws.ts",
+      "addedLines": [
+        { "lineNum": 12, "content": "export const AWS_KEY = 'AKIAIOSFODNN7EXAMPLE';" }
+      ],
+      "secretAlerts": [
+        { "lineNum": 12, "rule": "AWS Access Key" }
+      ]
+    }
+  ]
+}

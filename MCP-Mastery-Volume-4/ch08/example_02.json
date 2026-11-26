@@ -1,0 +1,24 @@
+{
+  "name": "@enterprise/mcp-database-suite",
+  "version": "1.0.0",
+  "description": "Production Model Context Protocol Database Gateway",
+  "type": "module",
+  "bin": {
+    "mcp-db": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "pg": "^8.11.5"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.5"
+  }
+}

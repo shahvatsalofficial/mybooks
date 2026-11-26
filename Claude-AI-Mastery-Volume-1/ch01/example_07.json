@@ -1,0 +1,13 @@
+{
+  "model": "claude-3-5-sonnet-20241022",
+  "max_tokens": 1,
+  "temperature": 0.0,
+  "system": [
+    {
+      "type": "text",
+      "text": "<static_enterprise_context>...[150,000 tokens of core documentation]...</static_enterprise_context>",
+      "cache_control": {"type": "ephemeral"}
+    }
+  ],
+  "messages": [{"role": "user", "content": "HEARTBEAT_PROBE"}]
+}

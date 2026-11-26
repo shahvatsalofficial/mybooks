@@ -1,0 +1,12 @@
+{
+  "jsonrpc": "2.0",
+  "id": "req_847129",
+  "method": "tools/call",
+  "params": {
+    "name": "postgres.execute_query",
+    "arguments": {
+      "sql": "SELECT customer_id, account_balance FROM customer_accounts WHERE risk_score > 0.85 LIMIT 10;",
+      "read_only": true
+    }
+  }
+}

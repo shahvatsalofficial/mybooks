@@ -1,0 +1,53 @@
+{
+  "description": "Multi-AZ Node Termination and Aurora Failover Chaos Test",
+  "targets": {
+    "PaymentNodesAZ-A": {
+      "resourceType": "aws:ec2:instance",
+      "resourceTags": {
+        "Environment": "Production",
+        "Tier": "PaymentAPI"
+      },
+      "filters": [
+        {
+          "path": "Placement.AvailabilityZone",
+          "values": ["us-east-1a"]
+        },
+        {
+          "path": "State.Name",
+          "values": ["running"]
+        }
+      ],
+      "selectionMode": "PERCENT(50)"
+    },
+    "ProductionAuroraCluster": {
+      "resourceType": "aws:rds:db-cluster",
+      "resourceArns": [
+        "arn:aws:rds:us-east-1:112233445566:cluster:prod-payment-aurora-cluster"
+      ],
+      "selectionMode": "ALL"
+    }
+  },
+  "actions": {
+    "TerminateNodesInAZ-A": {
+      "actionId": "aws:ec2:stop-instances",
+      "parameters": {},
+      "targets": {
+        "Instances": "PaymentNodesAZ-A"
+      }
+    },
+    "FailoverAuroraPrimary": {
+      "actionId": "aws:rds:failover-db-cluster",
+      "parameters": {},
+      "targets": {
+        "Clusters": "ProductionAuroraCluster"
+      }
+    }
+  },
+  "stopConditions": [
+    {
+      "source": "aws:cloudwatch:alarm",
+      "value": "arn:aws:cloudwatch:us-east-1:112233445566:alarm:EmergencyStopOrders5xxSpike"
+    }
+  ],
+  "roleArn": "arn:aws:iam::112233445566:role/AWSFISProductionChaosExecutionRole"
+}

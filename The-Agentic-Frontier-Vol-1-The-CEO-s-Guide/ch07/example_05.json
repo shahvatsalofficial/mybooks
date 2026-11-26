@@ -1,0 +1,20 @@
+{
+  "$schema": "https://sovereign.enterprise/schemas/v4/generative_cad_gate.json",
+  "manifest_id": "AETHEL_CAD_GATE_PROD_01",
+  "style_vector_weights": {
+    "monolithic_purity": 0.94,
+    "magnetic_cable_conduit_integration": 1.00,
+    "max_surface_roughness_ra_um": 0.4
+  },
+  "finite_element_analysis": {
+    "mesh_resolution_mm": 0.5,
+    "static_load_test_n": 2500.0,
+    "dynamic_fatigue_cycles": 100000,
+    "max_deflection_permitted_mm": 1.2
+  },
+  "sustainability_constraints": {
+    "life_cycle_co2_kg_limit": 4.5,
+    "circularity_index_floor": 0.95,
+    "end_of_life_disassembly_minutes_max": 3.0
+  }
+}

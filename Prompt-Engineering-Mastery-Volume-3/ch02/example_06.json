@@ -1,0 +1,4 @@
+{
+  "name": "execute_fx_spot_trade",
+  "arguments": "{\"base_currency\": \"USD\", \"quote_currency\": \"SWISS\", \"amount_cents\": 120000000}"
+}

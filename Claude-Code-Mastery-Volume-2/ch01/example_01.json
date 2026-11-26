@@ -1,0 +1,12 @@
+{
+  "jsonrpc": "2.0",
+  "id": 142,
+  "method": "tools/call",
+  "params": {
+    "name": "execute_sql_query",
+    "arguments": {
+      "query": "SELECT tenant_id, organization_name FROM tenants WHERE active = true LIMIT 5;",
+      "read_only": true
+    }
+  }
+}

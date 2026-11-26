@@ -1,0 +1,37 @@
+{
+  "version": 4,
+  "terraform_version": "1.8.5",
+  "serial": 142,
+  "lineage": "9b8f7e6d-5c4b-3a21-0fed-cba987654321",
+  "outputs": {
+    "vpc_id": {
+      "value": "vpc-0a1b2c3d4e5f67890",
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "mode": "managed",
+      "type": "aws_vpc",
+      "name": "enterprise_core",
+      "provider": "provider["registry.terraform.io/hashicorp/aws"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:us-east-1:112233445566:vpc/vpc-0a1b2c3d4e5f67890",
+            "cidr_block": "10.100.0.0/16",
+            "enable_dns_hostnames": true,
+            "enable_dns_support": true,
+            "id": "vpc-0a1b2c3d4e5f67890",
+            "tags": {
+              "Environment": "Production",
+              "ManagedBy": "Terraform"
+            }
+          },
+          "sensitive_attributes": []
+        }
+      ]
+    }
+  ]
+}

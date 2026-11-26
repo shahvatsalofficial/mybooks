@@ -1,0 +1,53 @@
+{
+       "action_id": "act_884920",
+       "tool": "delete_security_group_rule",
+       "target": "sg-098124 (0.0.0.0/0 port 22)",
+       "reasoning": "Remediating unauthorized public SSH ingress per SOC 2 finding."
+     }
+     ```
+   - If the human engineer clicks `Approve`, the runtime injects an observation token: `<observation>APPROVED: Operator usr_ops94 authorized action at 14:22:04Z. Executing.</observation>` and resumes the ReAct loop.
+   - If `Reject`, the runtime injects `<observation>REJECTED: Operator denied action. Reason: Maintenance window required.</observation>`, compelling the agent's next thought step to formulate a non-destructive alternative.
+
+---
+
+## 3. Mathematical Foundations of Environment Grounding
+
+### 3.1 Formalization of Partially Observable Markov Decision Processes (POMDP)
+
+We formalize the ReAct architecture as a **Partially Observable Markov Decision Process (POMDP)** defined by the 7-tuple:
+
+$$\mathcal{M} = \langle \mathcal{S}, \mathcal{A}, \mathcal{T}, \mathcal{R}, \Omega, \mathcal{O}, \gamma \rangle$$
+
+Where:
+- $\mathcal{S}$ is the set of true external environment states (e.g., global AWS cloud estate, SQL database records, git repositories).
+- $\mathcal{A}$ is the action space consisting of valid tool invocations $\mathcal{A}_{\text{tool}}$ plus the terminal answer action $a_{\text{final}}$.
+- $\mathcal{T}(s' \mid s, a)$ is the state transition probability function governing environment updates.
+- $\Omega$ is the observation space returned by tool executions.
+- $\mathcal{O}(o \mid s', a)$ is the observation probability distribution.
+- $\mathcal{R}(s, a)$ is the reward function evaluating goal satisfaction.
+
+Because the LLM cannot directly observe the full environment state $s \in \mathcal{S}$ (e.g., it cannot view the entire 10TB corporate database in its context window), it maintains a **belief state** $b_t$:
+
+$$b_t = P(s_t \mid o_1, a_1, \dots, o_t, a_t)$$
+
+The thought tokens $t_1, t_2, \dots, t_k$ represent the model's textual parameterization of this belief state. By updating its belief state through sequential Bayesian conditioning:
+
+$$b_{t+1}(s') \propto \mathcal{O}(o_{t+1} \mid s', a_t) \sum_{s \in \mathcal{S}} \mathcal{T}(s' \mid s, a_t) b_t(s)$$
+
+The model narrows its epistemic uncertainty over time, allowing optimal policy execution $\pi(a_t \mid b_t)$ despite massive partial observability.
+
+![Figure 04.04: Handling Failed Tool Observations in the ReAct Loop](../assets/svg/diag_ch04_observation_error_handling.svg)
+
+### 3.2 Error Containment & Loop Convergence Bounds
+
+A pervasive vulnerability of autonomous ReAct loops in production is the **Infinite Action Loop** (also known as the "Action Thrashing" failure mode):
+- The model invokes `search("database error 404")`.
+- The tool returns: `No records found.`
+- The model outputs: `Thought: No records found. I should search again.`
+- The model repeats `search("database error 404")` indefinitely until the API rate limit or token budget is exhausted.
+
+To prevent infinite loops, production runtimes enforce **Jaccard Action Entropy Tracking**:
+
+$$J(a_t, a_{t-1}) = \frac{|T(a_t) \cap T(a_{t-1})|}{|T(a_t) \cup T(a_{t-1})|}$$
+
+Where $T(a)$ represents the set of tokens or parameters in action $a$. If $J(a_t, a_{t-1}) > 0.85$ for two consecutive iterations, the runtime detects action thrashing and injects an **Intervention Directive**:

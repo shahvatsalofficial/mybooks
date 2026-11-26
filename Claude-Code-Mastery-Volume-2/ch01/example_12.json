@@ -1,0 +1,96 @@
+{
+    "jsonrpc": "2.0",
+    "method": "notifications/tools/list_changed"
+  }
+  ```
+* Claude Code receives this notification asynchronously, immediately invokes `tools/list` in the background, updates its active tool registry, and makes the new capabilities available to the reasoning loop without restarting the terminal session!
+
+### 5.4 Formal State Machine of the MCP Lifecycle
+To build deterministic, fault-tolerant infrastructure, an architect must model the MCP connection lifecycle as a deterministic finite-state automaton (DFA).
+
+We formally define the connection automaton as:
+$$\mathcal{M} = (Q, \Sigma, \delta, q_0, F)$$
+
+Where:
+* $Q = \{ \text{DISCONNECTED}, \text{CONNECTING}, \text{INITIALIZING}, \text{OPERATIONAL}, \text{DRAINING}, \text{TERMINATED} \}$
+* $\Sigma$ represents the set of protocol inputs (e.g., `transport_open`, `initialize_sent`, `initialize_ack`, `initialized_sent`, `transport_error`, `sigterm`).
+* $q_0 = \text{DISCONNECTED}$
+* $F = \{ \text{TERMINATED} \}$
+
+The operational state transitions proceed under strict protocol invariants:
+1. $\delta(\text{DISCONNECTED}, \text{spawn\_process}) = \text{CONNECTING}$: The host creates pipes or establishes an HTTP SSE socket.
+2. $\delta(\text{CONNECTING}, \text{transport\_ready}) = \text{INITIALIZING}$: The client transmits the `initialize` request with client capabilities.
+3. $\delta(\text{INITIALIZING}, \text{initialize\_ack}) = \text{INITIALIZING}$: The server returns supported server capabilities.
+4. $\delta(\text{INITIALIZING}, \text{initialized\_sent}) = \text{OPERATIONAL}$: The client emits `notifications/initialized`. The channel is now unlocked for tools, resources, and prompts.
+5. $\delta(\text{OPERATIONAL}, \text{transport\_error}) = \text{CONNECTING}$: The client triggers exponential backoff reconnect logic.
+6. $\delta(\text{OPERATIONAL}, \text{sigterm}) = \text{DRAINING}$: The client ceases sending new tool calls and awaits completion of inflight requests before closing pipes.
+7. $\delta(\text{DRAINING}, \text{inflight\_empty}) = \text{TERMINATED}$: The operating system tears down pipes and reaps child process exit codes.
+
+If any party emits an operational message (such as `tools/call` or `resources/read`) while the state is in $\text{INITIALIZING}$, the recipient MUST abort the connection with an invalid state protocol error.
+
+## 6. The Core Protocol Primitives: Resources, Tools, Prompts, and Roots
+
+The Model Context Protocol organizes all system interactions into four primary primitives:
+
+### 6.1 Primitives Deep Dive Matrix
+
+| Primitive | Cardinality | Primary Direction | Analogy | Key JSON-RPC Methods |
+| :--- | :--- | :--- | :--- | :--- |
+| **Resources** | 0 to Many | Server $\rightarrow$ Client | REST GET / POSIX File | `resources/list`, `resources/read`, `resources/templates/list`, `resources/subscribe` |
+| **Tools** | 0 to Many | Client $\rightarrow$ Server | REST POST / RPC Call | `tools/list`, `tools/call` |
+| **Prompts** | 0 to Many | Server $\rightarrow$ Client | System Template / Slash Cmd | `prompts/list`, `prompts/get` |
+| **Roots** | 0 to Many | Client $\rightarrow$ Server | Chroot / Filesystem Boundary | `roots/list`, `notifications/roots/list_changed` |
+
+### 6.2 Resources: Context-on-Demand
+Resources allow servers to expose passive contextual data without polluting the model’s active context window. A resource is identified by a unique URI:
+* `postgres://cluster-01/databases/analytics/schema`
+* `file:///var/log/nginx/error.log`
+* `git://repo/pulls/142/diff`
+
+Resources can be static (fixed URIs listed via `resources/list`) or dynamic (parameterized URI templates such as `postgres://{db}/tables/{table}/schema` listed via `resources/templates/list`). When an agent requires context, it issues a `resources/read` request specifying the exact URI, receiving text or binary base64 data.
+
+### 6.3 Tools: Active Computational Mutation
+Tools represent callable functions exposed by the server. Every tool is defined by:
+1. `name`: Unique string identifier (e.g., `execute_sql`).
+2. `description`: Detailed human-readable and model-readable explanation of what the tool accomplishes, its operational constraints, and return semantics.
+3. `inputSchema`: A strict **JSON Schema** object detailing all accepted parameters, required fields, types, and validation constraints.
+
+When Claude Code decides to invoke a tool, it issues a `tools/call` request containing the arguments. The server executes the operation and returns structured content blocks.
+
+### 6.4 Prompts: Standardized Operational Workflows
+Prompts allow server authors to package pre-engineered prompt workflows directly inside the server. For example, a Git MCP server can expose a prompt named `review_pull_request`, accepting an argument `pr_number`. When the user or agent invokes the prompt via `prompts/get`, the server synthesizes a rich multi-turn message sequence containing the PR diff, commit history, and instructions for code review, immediately priming the model for execution.
+
+### 6.5 Roots: Establishing Security Enclaves
+Roots define the operational boundaries and filesystem directories that the client authorizes the server to access. Through `roots/list`, the server queries the host to discover which directory paths (e.g., `file:///Users/vatsal/projects/core-engine`) are active. If a server attempts to manipulate files outside of the authorized roots, it violates enterprise security isolation boundaries.
+
+### 6.6 Reactive Resource Subscriptions
+In advanced developer monitoring setups, an agent may need to track real-time changes to log files, Kubernetes pod health, or database schemas without polling. MCP includes a dedicated subscription sub-protocol:
+1. The client sends a `resources/subscribe` request specifying a target URI:
+   ```json
+   {
+     "jsonrpc": "2.0",
+     "id": 88,
+     "method": "resources/subscribe",
+     "params": {
+       "uri": "file:///var/log/application/security_audit.log"
+     }
+   }
+   ```
+2. When the underlying file or data stream is appended to or mutated, the server emits a notification:
+   ```json
+   {
+     "jsonrpc": "2.0",
+     "method": "notifications/resources/updated",
+     "params": {
+       "uri": "file:///var/log/application/security_audit.log"
+     }
+   }
+   ```
+3. Upon receiving the notification, the client issues a selective `resources/read` to ingest the delta, enabling truly reactive agent telemetry.
+
+### 6.7 Reverse Sampling Protocol (`sampling/createMessage`)
+In traditional architectures, the relationship between client and server is strictly unidirectional: the client invokes tools on the server. However, modern autonomous workflows frequently require the server itself to request cognitive reasoning from a foundation model!
+
+Consider an MCP server that parses complex legacy C++ codebases. When the server encounters an ambiguous preprocessor macro, it may need an LLM to evaluate the syntax. Rather than requiring the server to maintain its own OpenAI or Anthropic API key, MCP introduces **Reverse Sampling** via `sampling/createMessage`.
+
+The server issues a JSON-RPC request back to the client:

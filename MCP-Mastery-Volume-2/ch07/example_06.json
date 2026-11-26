@@ -1,0 +1,70 @@
+{
+     "Version": "2012-10-17",
+     "Statement": [
+       {
+         "Effect": "Allow",
+         "Action": ["s3:GetObject", "s3:ListBucket"],
+         "Resource": [
+           "arn:aws:s3:::corp-data-lake",
+           "arn:aws:s3:::corp-data-lake/tenants/tenant_A/*"
+         ],
+         "Condition": {
+           "StringLike": {"s3:prefix": ["tenants/tenant_A/*", "tenants/tenant_A"]}
+         }
+       }
+     ]
+   }
+   ```
+Even if an attacker successfully prompt-injects the agent and forces it to query `s3://corp-data-lake/tenants/tenant_B/financials.xlsx`, AWS's identity tier enforces hard rejection at the cloud fabric layer.
+
+---
+
+### 7.4.4 Linux Namespaces, Seccomp Filters, and Ephemeral Container Jails
+
+While Python-level canonical path verification (`os.path.realpath`, `commonpath`) provides robust defense against high-level application traversal attacks, defense-in-depth requires isolating the operating system environment itself. In mission-critical environments, a storage MCP server must assume that the runtime process could be compromised by an exploit in an underlying C extension (such as `libxml2`, `Pillow`, or binary deserializers).
+
+Production deployments enforce **Operating System Sandboxing via Linux Primitives**:
+
+1. **Mount Namespaces & Pivot Root**: The MCP server worker process runs inside an unprivileged Linux mount namespace created via `unshare(CLONE_NEWNS)` or utilities like Bubblewrap (`bwrap`). The designated storage sandbox (`/tmp/mcp_storage_jail`) is bind-mounted as the root directory, while the host operating system's root filesystem (`/`), `/etc`, `/usr`, and `/proc` are rendered completely invisible and inaccessible.
+2. **Strict Seccomp System Call Filtering**: The storage server is launched with a restricted Secure Computing (seccomp) profile. System calls unrelated to storage IO—such as `ptrace`, `mount`, `reboot`, `kexec_load`, and network socket creation (`socket(AF_INET, ...)`)—are intercepted and blocked by the Linux kernel with `EPERM` or `SIGSYS`.
+3. **Dropping Linux Capabilities**: The server process strips all ambient POSIX capabilities:
+   ```bash
+   capsh --drop=cap_sys_admin,cap_net_admin,cap_net_raw,cap_dac_override --
+   ```
+   Stripping `CAP_DAC_OVERRIDE` ensures that even if the Python process were executed by a privileged UID, the kernel strictly refuses to bypass read/write/execute permission checks on filesystem nodes.
+
+By layering application-level path canonicalization on top of kernel-enforced mount namespaces and seccomp syscall filters, enterprise storage MCP servers provide mathematically sound guarantees that autonomous agents can never breach their operational containment boundaries.
+
+## 7.5 Structured Comparison & Architectural Decision Tables
+
+Selecting the appropriate storage access pattern requires balancing operational latency, memory consumption, and implementation complexity.
+
+### Table 7.1: Storage Access Modalities: In-Memory vs. Range Stream vs. Presigned URLs
+
+| Architectural Dimension | Direct In-Memory Read (`resources/read`) | Windowed Range Streaming (`read_range`) | Presigned URL Delegation (`get_presigned_url`) |
+| :--- | :--- | :--- | :--- |
+| **Primary Use Case** | Small configuration files, prompts, source code (<256KB) | Structured columnar data (Parquet), large log files, CSV headers | Multi-gigabyte checkpoints, model weights, full video/audio datasets |
+| **Memory Footprint** | $O(N)$ where $N$ is file size (Bounded by server RAM) | $O(K)$ where $K$ is fixed chunk size (e.g., 512KB constant) | $O(1)$ Zero memory consumed in agent or MCP server |
+| **Network Hop Path** | Client $\longleftrightarrow$ MCP $\longleftrightarrow$ Storage | Client $\longleftrightarrow$ MCP $\longleftrightarrow$ Storage | Client $\longleftrightarrow$ Cloud Storage Endpoint (Direct) |
+| **Max Payload Size** | Strict 256KB – 1MB ceiling | Arbitrary (Transferred in discrete byte windows) | Unlimited (Up to 5TB for AWS S3 single object) |
+| **Latency Profile** | Lowest roundtrips for small files | Multiple iterative roundtrips for multi-part analysis | Single roundtrip for URL generation; full cloud throughput |
+| **Token Consumption** | High (Entire file content injected into context) | Minimal (Only target partitions or metadata analyzed) | Zero (Data processed outside LLM context) |
+
+### Table 7.2: Cloud Object Storage MCP Provider Matrix
+
+| Storage Provider | Native Protocol | URI Format | Pagination Mechanism | Ephemeral URL Mechanism |
+| :--- | :--- | :--- | :--- | :--- |
+| **AWS S3** | REST XML / AWS SDK | `storage://s3/{bucket}/{key*}` | ContinuationToken (`ListObjectsV2`) | AWS SigV4 Presigned URL (boto3 `generate_presigned_url`) |
+| **Google Cloud Storage** | REST JSON / gRPC | `storage://gcs/{bucket}/{name*}` | page_token (`bucket.list_blobs`) | V4 Signing (`blob.generate_signed_url`) |
+| **Azure Blob Storage** | REST / Azure SDK | `storage://azblob/{account}/{container}/{blob*}` | continuation_token (`list_blobs`) | Shared Access Signature (SAS) Token |
+| **Local Hardened POSIX**| POSIX Syscalls | `storage://local/{jail_id}/{path*}` | Directory offset / cursor | Not applicable (Direct sandbox read) |
+
+---
+
+## 7.6 Production Code Recipes
+
+The following battle-tested recipes provide a complete, copy-pasteable implementation toolkit for enterprise storage MCP servers.
+
+### Recipe 7.1: Production S3 & Local Hybrid Virtual Filesystem Server
+
+This production server exposes local sandboxed directories and remote AWS S3 buckets through standardized MCP Resources and Tools, incorporating canonical path sandboxing and prefix virtualization.

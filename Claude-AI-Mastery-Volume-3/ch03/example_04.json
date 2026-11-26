@@ -1,0 +1,25 @@
+{
+  "content": "In fiscal year 2026, enterprise cloud infrastructure expenditure reached $142.5 million [1], achieving a 14% efficiency improvement via automated prompt caching and multi-cloud routing [1].",
+  "grounding_metadata": {
+    "web_search_queries": [],
+    "grounding_chunks": [
+      {
+        "retrieved_context": {
+          "uri": "gs://enterprise-filings/sec_10k_2026.pdf",
+          "title": "SEC Form 10-K FY2026",
+          "text": "The enterprise cloud infrastructure expenditure for fiscal year 2026 totaled $142.5 million..."
+        }
+      }
+    ],
+    "grounding_supports": [
+      {
+        "grounding_chunk_indices": [0],
+        "confidence_scores": [0.984],
+        "segment": {
+          "start_index": 0,
+          "end_index": 164
+        }
+      }
+    ]
+  }
+}

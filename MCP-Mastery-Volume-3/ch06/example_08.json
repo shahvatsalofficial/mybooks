@@ -1,0 +1,6 @@
+{
+  "jsonrpc": "2.0",
+  "id": "req-discovery-9821",
+  "method": "tools/list",
+  "params": {}
+}

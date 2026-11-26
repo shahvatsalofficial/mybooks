@@ -1,0 +1,6 @@
+<observation status="CIRCUIT_BREAKER_OPEN">
+  The tool 'query_billing_db' has failed 5 consecutive times across recent sessions.
+  The host circuit breaker is currently OPEN to protect backend infrastructure.
+  You are strictly forbidden from attempting this tool for the next 45 seconds.
+  You must activate fallback knowledge mode or select an alternative data source.
+</observation>

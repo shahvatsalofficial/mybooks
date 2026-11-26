@@ -1,0 +1,46 @@
+openapi: 3.0.1
+info:
+  title: In-Chat Stripe Billing Gateway
+  version: 1.0.0
+  description: Generates personalized Stripe Checkout sessions for GPT Store subscribers.
+servers:
+  - url: https://billing.suhana-enterprises.com
+paths:
+  /api/v1/billing/create-checkout:
+    post:
+      operationId: createCheckoutSession
+      summary: Generate a Stripe Checkout URL for purchasing Pro access
+      description: Invoked when a user requests an upgrade to access premium features, high-quota audits, or unwatermarked exports.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - customer_email
+                - plan_tier
+              properties:
+                customer_email:
+                  type: string
+                  format: email
+                  description: The customer's work email address where the license key will be delivered.
+                plan_tier:
+                  type: string
+                  enum: [pro_monthly, pro_annual, enterprise]
+                  description: The subscription tier selected by the user. Default to 'pro_monthly'.
+      responses:
+        '200':
+          description: Checkout session created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  checkout_url:
+                    type: string
+                    format: uri
+                    description: The direct HTTPS Stripe Checkout URL to present to the user.
+                  guidance:
+                    type: string
+                    description: Instructions for the model on how to guide the user.

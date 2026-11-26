@@ -1,0 +1,28 @@
+{
+     "chunking_strategy": {
+       "type": "static",
+       "static": {
+         "max_chunk_size_tokens": 500,
+         "chunk_overlap_tokens": 100
+       }
+     }
+   }
+   ```
+3. Chunks are embedded via `text-embedding-3-large` and indexed into a managed vector database.
+4. During Run execution, when the model invokes File Search, the engine performs hybrid semantic and keyword retrieval, selects the top-K chunks, and automatically injects them into the model's context window alongside exact source citations and footnotes.
+
+### 4.3 Custom Chunking Strategies & Vector Distance Formulations
+When managing enterprise knowledge bases in Assistants API v2, the default static chunking strategy (800 tokens with 400-token overlap) is rarely optimal across diverse document typologies:
+
+1. **Structured Tabular Financial Data**: Requires compact chunks (250–400 tokens) with minimal overlap to prevent row truncation across chunk boundaries.
+2. **Dense Legal Contracts & Statutes**: Requires larger chunks (800–1,200 tokens) with substantial overlap (200–300 tokens) to ensure multi-paragraph clauses and cross-references remain coherent.
+3. **Software Architecture Documentation**: Requires recursive structural chunking that splits along markdown headers (`#`, `##`, `###`) to preserve code block continuity.
+
+The underlying vector similarity engine evaluates candidates using the **Normalized Cosine Similarity Formulation**:
+Let $\mathbf{q} \in \mathbb{R}^d$ represent the query embedding vector, and let $\mathbf{d}_i \in \mathbb{R}^d$ represent the stored chunk vector ($d = 3072$ for `text-embedding-3-large`). The cosine similarity score is:
+
+$$\text{Sim}(\mathbf{q}, \mathbf{d}_i) = \frac{\mathbf{q} \cdot \mathbf{d}_i}{\|\mathbf{q}\|_2 \|\mathbf{d}_i\|_2} = \frac{\sum_{j=1}^d q_j d_{i, j}}{\sqrt{\sum_{j=1}^d q_j^2} \sqrt{\sum_{j=1}^d d_{i, j}^2}}$$
+
+Because OpenAI normalizes embedding vectors to unit length ($\|\mathbf{q}\|_2 = 1$), the calculation collapses into an efficient dot product: $\text{Sim}(\mathbf{q}, \mathbf{d}_i) = \mathbf{q} \cdot \mathbf{d}_i$.
+
+To configure custom static chunking on a Vector Store:

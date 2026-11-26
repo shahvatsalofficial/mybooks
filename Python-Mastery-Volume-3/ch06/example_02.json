@@ -1,0 +1,49 @@
+{
+     "keys": [
+       {
+         "kty": "RSA",
+         "use": "sig",
+         "alg": "RS256",
+         "kid": "key-2026-q4",
+         "n": "u1W...base64-modulus...",
+         "e": "AQAB"
+       }
+     ]
+   }
+   ```
+3. When a microservice receives a JWT, it inspects the unverified header to extract the `kid`.
+4. The microservice retrieves the matching public key from an in-memory cache of the JWKS.
+5. If the `kid` is not found in the local cache (indicating that a scheduled key rotation has occurred), the microservice performs a single background refresh against the IdP's JWKS endpoint and updates its cache.
+
+### 3.3 PASETO vs. JWT: Eliminating Cipher-Agility Vulnerabilities
+
+While JSON Web Tokens (JWT) dominate enterprise infrastructure, the JOSE (Javascript Object Signing and Encryption) standard suffers from a fundamental cryptographic architectural flaw: **Cipher Agility**.
+
+In JOSE, the token's header specifies the algorithm (`"alg": "RS256"`). The server verifying the token is expected to parse the header, dynamically select the matching cryptographic algorithm, and verify the signature. Over the past decade, this design has led to catastrophic vulnerabilities across diverse programming languages:
+
+1. **The `"alg": "none"` Exploit**: Attackers modify the header to `"alg": "none"` and strip the signature. Vulnerable libraries interpreted this as an unsigned token and accepted forged claims without verification.
+2. **The Algorithm Confusion (Key Confusion) Attack**: Attackers take a token signed via an asymmetric algorithm (RS256) and change the header to symmetric HMAC (HS256). When the server verifies the token using the server's public key (which is publicly known), the flawed library treats the public key string as the **symmetric secret**, allowing attackers to forge valid signatures using the public key!
+
+**PASETO (Platform-Agnostic Security Tokens)** completely eliminates cipher agility by adhering to the principle: **"No Cipher Agility; Only Cipher Suites"**.
+
+In PASETO:
+* The algorithm is never negotiated in the token header. Instead, tokens specify a strictly versioned, immutable cryptographic purpose:
+  * `v4.local`: Symmetric authenticated encryption using **XChaCha20-Poly1305** (payload is encrypted, confidential, and tamper-proof).
+  * `v4.public`: Asymmetric digital signatures using **Ed25519 (EdDSA)** (payload is readable, but signature is unforgeable).
+* There is no `"alg": "none"`, no RSA PKCS#1 v1.5 padding oracle attacks, and zero possibility of algorithm confusion attacks. For new greenfield microservice platforms, PASETO represents the modern, cryptographically hardened alternative to JWT.
+
+---
+
+## 4. Cryptographic Secret Hygiene & Memory Safety
+
+Even the most sophisticated cryptographic algorithms are useless if private keys, database passwords, and API tokens are mishandled within application memory or continuous deployment pipelines.
+
+### The Vulnerability of Plain Python Strings
+
+In Python, standard `str` objects are immutable and managed by CPython’s internal string interning and garbage collection allocator. When an application stores an API secret in a standard string (`api_key = "sk_live_secret9982"`):
+
+1. **Unscrubbed Memory Pages**: When the string goes out of scope and is garbage collected, Python does not overwrite the underlying memory pages with zeroes. The plaintext secret remains resident in process RAM indefinitely until overwritten by future memory allocations.
+2. **Core Dumps and Debuggers**: If the application crashes with a segmentation fault or out-of-memory error, the operating system generates a core memory dump. Anyone with access to the core dump file can run strings utilities to extract sensitive plaintext keys.
+3. **Accidental Logging**: Plain strings passed into logging statements, error messages, or exception tracebacks bubble up to centralized logging aggregators (e.g., Datadog, ELK), leaking secrets to unauthorized operations staff.
+
+Enterprise Python services utilize specialized secret containers—such as **`pydantic.SecretStr`**:

@@ -1,0 +1,12 @@
+{
+  "jsonrpc": "2.0",
+  "id": 142,
+  "error": {
+    "code": -32602,
+    "message": "Invalid params: query parameter violates read-only constraint (contains prohibited token 'DROP')",
+    "data": {
+      "violating_token": "DROP",
+      "statement_type": "DDL_MUTATION"
+    }
+  }
+}

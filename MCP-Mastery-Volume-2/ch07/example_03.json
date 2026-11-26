@@ -1,0 +1,7 @@
+{
+  "jsonrpc": "2.0",
+  "method": "notifications/resources/updated",
+  "params": {
+    "uri": "storage://s3/corp-data-lake/telemetry/anomalies/part-0042.parquet"
+  }
+}

@@ -1,0 +1,10 @@
+<examples>
+  <example>
+    <input>My card was charged twice, and now my workspace is locked out of SSO.</input>
+    <output>{"category": "billing", "severity": "sev2", "requires_human_review": true, "auto_credit_usd": 0.0, "rationale": "Root cause is duplicate billing triggering account lock; requires billing team verification."}</output>
+  </example>
+  <example>
+    <input>Please add dark mode to the audit log export CSV viewer.</input>
+    <output>{"category": "feature_request", "severity": "sev3", "requires_human_review": false, "auto_credit_usd": 0.0, "rationale": "UI enhancement request with no service impact."}</output>
+  </example>
+</examples>

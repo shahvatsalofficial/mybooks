@@ -1,0 +1,8 @@
+{
+  "ticket_id": "TKT-4091",
+  "turns_used": 3,
+  "cache_hits": 1,
+  "retries_handled": 1,
+  "hitl_paused": true,
+  "final_status": "awaiting_hitl_approval"
+}

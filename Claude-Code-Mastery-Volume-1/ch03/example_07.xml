@@ -1,0 +1,17 @@
+<thinking>
+1. INGEST OBJECTIVE:
+   - Migrate User.role column from VARCHAR(32) to ENUM('USER', 'ADMIN', 'AUDITOR', 'SYSTEM') in PostgreSQL.
+   - Invariant: Zero-downtime; active application instances must continue reading/writing without table locking.
+
+2. MIGRATION STRATEGY DECOMPOSITION:
+   - Direct ALTER TABLE ... ALTER COLUMN TYPE acquires an ACCESS EXCLUSIVE lock, blocking all queries.
+   - Phase 1: Create new ENUM type: CREATE TYPE user_role_enum AS ENUM (...);
+   - Phase 2: Add temporary column: ALTER TABLE users ADD COLUMN role_v2 user_role_enum DEFAULT 'USER';
+   - Phase 3: Create dual-write database trigger to sync role -> role_v2 on INSERT/UPDATE.
+   - Phase 4: Backfill existing rows in batches of 1,000 using background worker.
+   - Phase 5: Update application code to read from role_v2.
+
+3. FORMULATING MIGRATION SCRIPT DIFF:
+   - TargetFile: migrations/20260907_user_role_enum.sql
+   - Assemble transaction-safe DDL statements.
+</thinking>

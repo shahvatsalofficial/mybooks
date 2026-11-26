@@ -1,0 +1,6 @@
+parameters:
+  - name: equipment_type
+    in: query
+    schema:
+      type: string
+    description: "The type of truck trailer requested."

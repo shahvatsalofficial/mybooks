@@ -1,0 +1,28 @@
+{
+  "auditSchemaVersion": "2.0",
+  "auditId": "audit_8f92b4c1_20260908",
+  "actor": {
+    "userId": "usr_vatsal_shah_992",
+    "email": "vatsal.shah@enterprise.corp",
+    "sessionTokenHash": "sha256:7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069"
+  },
+  "command": {
+    "identifier": "deploy-k8s",
+    "scope": "PROJECT",
+    "resolvedPath": ".claude/skills/deploy_k8s/SKILL.md",
+    "sanitizedArguments": ["--cluster=prod-us-east-1", "--namespace=payments"],
+    "redactedArgumentsCount": 1
+  },
+  "executionBoundary": {
+    "sandboxType": "LINUX_NAMESPACE_CHROOT",
+    "networkEgressAllowed": false,
+    "pid": 18492
+  },
+  "outcome": {
+    "exitCode": 0,
+    "durationMs": 4250,
+    "tokensBurned": 3410,
+    "filesModified": ["/deploy/k8s/deployment.yaml"]
+  },
+  "hmacSignature": "hmac-sha256:4a3e2f1b0c9d8e7f6a5b4c3d2e1f0a9b8c7d6e5f4a3b2c1d0e"
+}

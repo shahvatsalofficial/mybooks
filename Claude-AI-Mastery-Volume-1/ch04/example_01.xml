@@ -1,0 +1,41 @@
+<antArtifact identifier="interactive-dashboard" type="application/vnd.ant.react" title="Executive Dashboard">
+   import React, { useState } from 'react';
+   // Component implementation...
+   </antArtifact>
+   ```
+3. **Client-Side Compilation**: The browser-side runner intercepts the streaming tag, streams the code into an editor buffer, and transpiles JSX into standard ES5.
+4. **Virtual DOM Mount**: The application mounts inside the sandboxed iframe, establishing an active state loop with reactive user events.
+
+---
+
+## 3. Token-Level Document Mutation & Canvas Diffing Mechanics
+
+### 3.1 Surgical Patching vs. Full Rewrite Economics
+In complex software engineering and long-form document writing, modifying an existing artifact must not require re-emitting the entire document.
+
+Figure 04.03 compares the unit economics and latency of full document rewrites versus surgical canvas diffing.
+
+![Figure 04.03: Token-Level Document Mutation & Canvas Diffing](../assets/svg/diag_ch04_document_canvas_diffing.svg)
+
+As illustrated in Figure 04.03:
+- **Full Rewrite Antipattern**: A 5,000-word document requiring a 10-line modification incurs a 5,000-token output tax ($0.075) and takes 45 seconds to generate.
+- **Targeted Canvas Patching**: By instructing Claude to emit a surgical replacement chunk, the modification consumes only 35 output tokens ($0.0005) and executes in under 800 milliseconds!
+
+---
+
+## 4. Artifact Version Control & State Branching
+
+### 4.1 The Version Tree Architecture
+Figure 04.04 illustrates the branching tree architecture that tracks artifact iterations across a project lifecycle.
+
+![Figure 04.04: Iterative Version History & Branching Tree](../assets/svg/diag_ch04_artifact_version_control.svg)
+
+Every modification to an artifact creates a cryptographically hashed snapshot in the project version tree:
+- **One-Click Rollback**: Users can inspect previous versions and instantly restore an earlier working state.
+- **State Reconciliation**: Merging experimental branches back into the main artifact canvas without losing intervening conversational context.
+
+---
+
+## 5. Production Implementation: Automated Artifact Extractor CLI
+
+The following production Python module intercepts Claude streaming events, extracts embedded `<antArtifact>` payloads, and exports them directly into production code repositories.

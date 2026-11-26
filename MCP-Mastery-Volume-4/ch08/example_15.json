@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "enterprise_db": {
+      "command": "npx",
+      "args": [
+        "--registry",
+        "https://npm.internal.corp/repository/mcp-catalog/",
+        "@corp/mcp-postgres-gateway@1.4.2"
+      ]
+    }
+  }
+}

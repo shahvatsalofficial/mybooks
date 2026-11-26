@@ -1,0 +1,23 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ABACResourceTagMatching",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:StartInstances",
+        "ec2:StopInstances",
+        "ec2:RebootInstances",
+        "s3:GetObject",
+        "s3:PutObject"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "aws:ResourceTag/Department": "${aws:PrincipalTag/Department}",
+          "aws:ResourceTag/Environment": "${aws:PrincipalTag/Environment}"
+        }
+      }
+    }
+  ]
+}

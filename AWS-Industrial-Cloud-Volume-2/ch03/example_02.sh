@@ -1,0 +1,5 @@
+# Configure Amazon VPC CNI for Prefix Delegation & Custom Networking
+kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
+kubectl set env daemonset aws-node -n kube-system WARM_PREFIX_TARGET=1
+kubectl set env daemonset aws-node -n kube-system AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG=true
+kubectl set env daemonset aws-node -n kube-system ENI_CONFIG_LABEL_DEF=topology.kubernetes.io/zone

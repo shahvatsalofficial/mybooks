@@ -1,0 +1,6 @@
+{
+  "isError": true,
+  "content": [
+    { "type": "text", "text": "SQL Security Violation: Multiple semicolon-separated statements are forbidden." }
+  ]
+}

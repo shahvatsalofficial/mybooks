@@ -1,0 +1,8 @@
+{
+  "jsonrpc": "2.0",
+  "method": "notifications/cancelled",
+  "params": {
+    "requestId": "req_4021a",
+    "reason": "User cancelled query via UI action"
+  }
+}

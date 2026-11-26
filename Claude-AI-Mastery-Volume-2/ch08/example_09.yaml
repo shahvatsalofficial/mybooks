@@ -1,0 +1,43 @@
+# Prometheus Alerting Rules for Claude GenAI Platform
+groups:
+  - name: claude_api_production_alerts
+    rules:
+      - alert: ClaudeHighHttp529OverloadedRate
+        expr: rate(claude_requests_total{status="529"}[2m]) / rate(claude_requests_total[2m]) > 0.08
+        for: 1m
+        labels:
+          severity: critical
+          tier: ai-gateway
+        annotations:
+          summary: "Anthropic API reporting severe GPU cluster congestion (>8% HTTP 529)"
+          description: "Tripping circuit breaker to OPEN and initiating AWS Bedrock fallback router."
+
+      - alert: ClaudeRateLimitQuotaSaturated
+        expr: rate(claude_requests_total{status="429"}[1m]) > 5
+        for: 30s
+        labels:
+          severity: warning
+          tier: ai-gateway
+        annotations:
+          summary: "Internal microservices hitting Anthropic HTTP 429 rate limit"
+          description: "Inspect Redis token bucket capacity; verify client burst queue pacing."
+
+      - alert: ClaudePromptCacheHitRatioDegraded
+        expr: sum(rate(claude_tokens_total{type="cache_read"}[5m])) / sum(rate(claude_tokens_total{type=~"input|cache_read|cache_creation"}[5m])) < 0.60
+        for: 5m
+        labels:
+          severity: warning
+          tier: cost-optimization
+        annotations:
+          summary: "Prompt Cache read hit ratio dropped below 60% SLA"
+          description: "Verify that dynamic variables or timestamps are not contaminating the system prompt prefix."
+
+      - alert: ClaudeCircuitBreakerTrippedOpen
+        expr: claude_circuit_breaker_state{state="OPEN"} == 1
+        for: 15s
+        labels:
+          severity: critical
+          tier: resilience
+        annotations:
+          summary: "Circuit Breaker TRIPPED to OPEN state"
+          description: "Outbound direct traffic halted. All traffic failing fast locally or rerouting to secondary provider."

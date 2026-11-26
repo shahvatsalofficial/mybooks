@@ -1,0 +1,66 @@
+{
+     "url": "https://corp-data-lake.s3.amazonaws.com/...",
+     "expires_in_seconds": 900,
+     "method": "GET",
+     "headers": {"Host": "corp-data-lake.s3.amazonaws.com"}
+   }
+   ```
+5. The agent (or external worker runtime, such as an AWS Lambda function or a Pandas execution container) downloads or uploads the data directly to the cloud endpoint. Zero bytes flow through the MCP server or the LLM context window.
+
+### 7.3.3 Byte-Range Requests & Windowed Chunk Streaming
+
+While presigned URLs solve bulk transfers for external execution tools, an LLM often needs to inspect the internal schema or sample records of a massive dataset directly. 
+
+For columnar formats like Apache Parquet, reading the entire file to inspect five column names is catastrophically wasteful. Parquet stores its schema, dictionary encodings, and row group statistics inside the **FileMetaData Footer** at the very end of the file.
+
+<div class="diagram-container">
+<!-- Inlined: diag_ch07_chunked_streaming.svg -->
+<img src="../assets/svg/diag_ch07_chunked_streaming.svg" alt="Chunked Range Streaming for Large Dataset Inspection" />
+</div>
+
+A production storage MCP server exposes the `read_resource_range` tool, which leverages HTTP Range requests:
+$$\text{Header: } \texttt{Range: bytes=start-end}$$
+
+To inspect a 10 GB Parquet file:
+1. The agent requests the first 4 bytes to verify the magic header (`PAR1`).
+2. The agent requests the final 65,536 bytes (`bytes=-65536`) to parse the file metadata footer.
+3. The metadata reveals that column statistics reside in row group 0 at byte offset $1,048,576$ to $1,572,864$.
+4. The agent requests that precise 512KB slice, extracts the target metrics, and answers the user's query having transferred less than 1MB of data—achieving a **99.99% reduction in bandwidth, latency, and token consumption**.
+
+---
+
+### 7.3.4 Multipart Uploads & Chunked Checkpoint Orchestration
+
+While downloading large datasets requires range streaming and presigned URLs, writing multi-gigabyte files back to cloud storage introduces symmetrical failure modes. If an autonomous data engineering agent executes a complex data cleaning script that produces a 2 GB output dataset, attempting to upload that dataset in a single monolithic HTTP PUT request creates severe operational fragility:
+- Any transient network interruption during the 2 GB transfer aborts the entire upload, forcing the agent to restart from byte zero.
+- Single PUT operations in AWS S3 are limited to 5 GB and cannot leverage parallel upload streams across multiple CPU cores.
+
+To provide robust, fault-tolerant write capabilities, the storage MCP server exposes a **Multipart Upload Coordination Toolkit**:
+
+1. **Initiation Phase**: The agent calls `initiate_multipart_upload(storage_uri, content_type)`. The MCP server contacts S3 or GCS, generates a unique `UploadId`, and registers an active state machine entry in memory:
+   $\text{Session State} = \{ \text{UploadId}, \text{Bucket}, \text{Key}, \text{PartsUploaded}: \{\} \}$
+2. **Chunked Streaming & Checkpointing**: The agent generates or extracts data in bounded slices (e.g., 8 MB to 64 MB per part). For each slice, the agent invokes `upload_part(upload_id, part_number, data_base64, sha256_checksum)`. The MCP server validates the SHA-256 integrity hash, streams the slice directly to S3 via `UploadPart`, and records the returned cloud `ETag`.
+3. **Completion & Atomic Assembly**: Once all slices are uploaded, the agent calls `complete_multipart_upload(upload_id)`. The server issues the final cloud assembly RPC, stitching the discrete parts into an immutable, unified cloud object.
+
+If the agent's host container crashes or the LLM reasoning loop encounters an unrecoverable exception midway through the upload, an automated **Lifecycle Abort Policy** ensures that incomplete multipart uploads are purged after 24 hours, preventing orphaned part fragments from silently inflating cloud storage billing.
+
+## 7.4 Defense-in-Depth: Path Traversal Guards, Chroot Sandboxing & IAM Least Privilege
+
+Exposing storage operations to autonomous AI models creates an immense attack surface. LLMs are susceptible to prompt injection attacks, wherein malicious user inputs, untrusted external documents, or compromised database entries instruct the agent to exfiltrate sensitive files or overwrite system libraries.
+
+<div class="diagram-container">
+<!-- Inlined: diag_ch07_path_traversal_guard.svg -->
+<img src="../assets/svg/diag_ch07_path_traversal_guard.svg" alt="Filesystem and Path Traversal Defense-in-Depth" />
+</div>
+
+### 7.4.1 Directory Traversal Vectors
+
+Attackers leverage diverse path manipulation techniques to escape designated directories:
+- **Relative Path Escalation**: `../../../../etc/shadow` or `..\..\..\Windows\System32\config\SAM`.
+- **URL-Encoded Traversal**: `%2e%2e%2f%2e%2e%2fetc%2fpasswd` designed to bypass naive string splitting before decoding.
+- **NUL Byte Injection**: In legacy runtimes, appending a null byte (`filename.txt\0.png`) can truncate string validation while tricking downstream POSIX syscalls.
+- **Absolute Path Override**: If a server naively joins paths using Python's `os.path.join("/workspace/data", "/etc/passwd")`, POSIX specifications dictate that an absolute right-hand path completely discards the left-hand base path, resolving directly to `/etc/passwd`!
+
+### 7.4.2 Symlink Deception & Canonical Path Verification
+
+A particularly insidious vulnerability is **Symlink Deception**. An attacker may create a seemingly innocuous file inside an authorized directory that is actually a symbolic link pointing to a critical root resource:

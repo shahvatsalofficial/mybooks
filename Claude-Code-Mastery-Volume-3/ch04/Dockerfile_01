@@ -1,0 +1,11 @@
+# Production Containerfile for Headless Agent Runner
+FROM cgr.dev/chainguard/node:latest
+
+# Install minimal container init system
+USER root
+RUN apk add --no-cache tini git bash
+USER node
+
+# Tini registers signal handlers, reaps zombies, and forwards signals to child process group
+ENTRYPOINT ["/sbin/tini", "-g", "--"]
+CMD ["node", "/opt/agent/dist/runner.js"]

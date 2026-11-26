@@ -1,0 +1,22 @@
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "resources": [
+      {
+        "uri": "memo://notes/system-architecture",
+        "name": "System Architecture Overview",
+        "description": "High-level microservice topology and database boundaries.",
+        "mimeType": "text/markdown",
+        "size": 4096
+      },
+      {
+        "uri": "postgres://analytics/tables/daily_revenue/ddl",
+        "name": "Daily Revenue Table DDL",
+        "description": "PostgreSQL schema definition for analytical aggregations.",
+        "mimeType": "text/x-sql"
+      }
+    ],
+    "nextCursor": null
+  },
+  "id": 10
+}

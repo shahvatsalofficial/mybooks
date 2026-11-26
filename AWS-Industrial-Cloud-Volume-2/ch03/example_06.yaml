@@ -1,0 +1,33 @@
+# cilium-l7-egress-policy.yaml
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: payment-strict-egress
+  namespace: payment-tier
+spec:
+  endpointSelector:
+    matchLabels:
+      app: payment-processor
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            "k8s:io.kubernetes.pod.namespace": kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+          rules:
+            dns:
+              - matchPattern: "*"
+    - toFQDNs:
+        - matchName: "api.stripe.com"
+        - matchName: "dynamodb.us-east-1.amazonaws.com"
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+          rules:
+            http:
+              - method: "POST"
+                path: "/v1/charges"

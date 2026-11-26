@@ -1,0 +1,16 @@
+{
+  "specversion": "1.0",
+  "type": "com.mcp.tools.invocation.request",
+  "source": "/orchestrator/agent-worker-01",
+  "id": "evt_9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
+  "time": "2027-04-12T10:30:00Z",
+  "datacontenttype": "application/json",
+  "data": {
+    "mcp_method": "tools/call",
+    "tool_name": "reconcile_invoice_batch",
+    "arguments": { "batch_id": "b_88291", "threshold": 0.05 }
+  },
+  "tenant_id": "tenant_alpha",
+  "user_id": "usr_882910",
+  "traceparent": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+}

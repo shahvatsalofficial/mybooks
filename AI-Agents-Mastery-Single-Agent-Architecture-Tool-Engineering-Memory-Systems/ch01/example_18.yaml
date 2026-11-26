@@ -1,0 +1,5 @@
+INCIDENT ID:          INC-7702-AGENT-CTX
+SEVERITY:             SEV-1 (Production Outage)
+IMPACT:               $18,400 unexpected LLM API invoice; 420 customer workflows timed out
+ROOT CAUSE:           Unpaginated database tool return injected 1.8M tokens into working memory
+PRIMARY VIOLATION:    Zero Token Truncation Standard; Missing Context Compactor

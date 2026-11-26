@@ -1,0 +1,38 @@
+{
+  "Name": "AggressiveLoginRateLimit",
+  "Priority": 10,
+  "Action": {
+    "Block": {
+      "CustomResponse": {
+        "ResponseCode": 429,
+        "CustomResponseBodyKey": "RateLimitExceededBody"
+      }
+    }
+  },
+  "Statement": {
+    "RateBasedStatement": {
+      "Limit": 100,
+      "AggregateKeyType": "IP",
+      "ScopeDownStatement": {
+        "ByteMatchStatement": {
+          "SearchString": "/api/v1/auth/login",
+          "FieldToMatch": {
+            "UriPath": {}
+          },
+          "TextTransformations": [
+            {
+              "Priority": 0,
+              "Type": "LOWERCASE"
+            }
+          ],
+          "PositionalConstraint": "EXACTLY"
+        }
+      }
+    }
+  },
+  "VisibilityConfig": {
+    "SampledRequestsEnabled": true,
+    "CloudWatchMetricsEnabled": true,
+    "MetricName": "AggressiveLoginRateLimitMetric"
+  }
+}

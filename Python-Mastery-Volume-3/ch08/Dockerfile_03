@@ -1,0 +1,3 @@
+# SLOW BUILD ANTI-PATTERN
+COPY . /app
+RUN pip install -r requirements.txt  # Invalidated on ANY file change!

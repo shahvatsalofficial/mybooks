@@ -1,0 +1,11 @@
+{
+  "Source": ["ecommerce.orders"],
+  "DetailType": ["OrderCreated", "OrderUpdated"],
+  "Detail": {
+    "orderValue": [ { "numeric": [ ">=", 500 ] } ],
+    "shippingAddress": {
+      "country": [ "US", "CA", "GB" ]
+    },
+    "paymentStatus": [ "AUTHORIZED" ]
+  }
+}

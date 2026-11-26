@@ -1,0 +1,35 @@
+{
+  "description": "Simulate Complete Loss of Availability Zone use1-az1",
+  "targets": {
+    "TargetInstancesInAZ1": {
+      "resourceType": "aws:ec2:instance",
+      "resourceTags": {
+        "Environment": "Production"
+      },
+      "filters": [
+        {
+          "path": "Placement.AvailabilityZone",
+          "values": ["us-east-1a"]
+        }
+      ],
+      "selectionMode": "ALL"
+    }
+  },
+  "actions": {
+    "TerminateInstancesInAZ1": {
+      "actionId": "aws:ec2:stop-instances",
+      "parameters": {
+        "completeIfTerminated": "true"
+      },
+      "targets": {
+        "Instances": "TargetInstancesInAZ1"
+      }
+    }
+  },
+  "stopConditions": [
+    {
+      "source": "none"
+    }
+  ],
+  "roleArn": "arn:aws:iam::123456789012:role/AWSFISChaosExperimentRole"
+}

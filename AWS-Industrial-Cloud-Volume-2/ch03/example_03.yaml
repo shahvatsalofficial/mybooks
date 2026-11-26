@@ -1,0 +1,59 @@
+# karpenter-nodepool.yaml
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: industrial-workloads
+spec:
+  template:
+    spec:
+      nodeClassRef:
+        group: karpenter.k8s.aws
+        kind: EC2NodeClass
+        name: enterprise-nodeclass
+      requirements:
+        - key: "karpenter.k8s.aws/instance-category"
+          operator: In
+          values: ["c", "m", "r"]
+        - key: "karpenter.k8s.aws/instance-generation"
+          operator: Gt
+          values: ["6"]
+        - key: "kubernetes.io/arch"
+          operator: In
+          values: ["arm64", "amd64"]
+        - key: "karpenter.sh/capacity-type"
+          operator: In
+          values: ["spot", "on-demand"]
+  limits:
+    cpu: "2000"
+    memory: "8000Gi"
+  disruption:
+    consolidationPolicy: WhenEmptyOrUnderutilized
+    consolidateAfter: 30s
+    budgets:
+      - nodes: "10%"
+        schedule: "0 9 * * 1-5"
+        duration: 8h
+---
+# karpenter-ec2nodeclass.yaml
+apiVersion: karpenter.k8s.aws/v1
+kind: EC2NodeClass
+metadata:
+  name: enterprise-nodeclass
+spec:
+  amiFamily: Bottlerocket
+  role: "KarpenterNodeRole-IndustrialCluster"
+  subnetSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: "industrial-eks-prod"
+  securityGroupSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: "industrial-eks-prod"
+  blockDeviceMappings:
+    - deviceName: /dev/xvdb
+      ebs:
+        volumeSize: 100Gi
+        volumeType: gp3
+        iops: 3000
+        throughput: 125
+        encrypted: true
+        kmsKeyID: "arn:aws:kms:us-east-1:112233445566:key/ebs-cmk-id"

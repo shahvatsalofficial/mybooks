@@ -1,0 +1,39 @@
+openapi: 3.0.3
+info:
+  title: Corporate Jira Integration Action
+  version: 1.0.0
+servers:
+  - url: https://jira-gateway.suhana-enterprises.com/api/v2
+paths:
+  /issues:
+    post:
+      operationId: createSoftwareDefectTicket
+      summary: Creates an audited defect ticket in corporate Jira
+      description: Use this action when an engineer reports a verified bug, outage, or security vulnerability.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [project_key, summary, priority, components]
+              properties:
+                project_key:
+                  type: string
+                  pattern: '^[A-Z]{2,6}$'
+                  description: 3-to-6 letter uppercase Jira project identifier (e.g., 'CORE', 'SEC').
+                summary:
+                  type: string
+                  maxLength: 120
+                  description: Concise description of the defect.
+                priority:
+                  type: string
+                  enum: [BLOCKER, CRITICAL, MAJOR, MINOR]
+                components:
+                  type: array
+                  items:
+                    type: string
+              additionalProperties: false
+      responses:
+        '201':
+          description: Ticket created successfully.

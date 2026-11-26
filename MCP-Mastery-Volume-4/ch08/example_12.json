@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "python_db_gateway": {
+      "command": "uvx",
+      "args": ["mcp-enterprise-database"],
+      "env": {
+        "DATABASE_URL": "postgresql://reader:pass@db.internal:5432/main"
+      }
+    }
+  }
+}

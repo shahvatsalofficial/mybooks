@@ -1,0 +1,19 @@
+{
+  "vessel_id": "VORTEX_TITAN_IMO_9841234",
+  "origin_port": "CNSHA_SHANGHAI",
+  "original_dest": "USLAX_LONG_BEACH",
+  "realtime_telemetry": {
+    "lax_dwell_time_avg_days": 8.4,
+    "strike_risk_index": 0.88,
+    "demurrage_risk_usd_per_day": 32000,
+    "downstream_factory_stockout_penalty_usd": 2400000
+  },
+  "autonomous_reroute_execution": {
+    "new_destination": "MXESE_ENSENADA",
+    "bunker_fuel_delta_usd": 14200,
+    "overland_rail_contract_usd": 48000,
+    "net_savings_vs_demurrage_usd": 182000,
+    "customs_preclearance_protocol": "ZK_CROSS_BORDER_V2",
+    "arrival_eta_iso": "2026-11-14T06:00:00Z"
+  }
+}

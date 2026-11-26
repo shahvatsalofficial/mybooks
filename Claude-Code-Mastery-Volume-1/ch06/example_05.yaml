@@ -1,0 +1,12 @@
+tools:
+  - view_file
+  - replace_file_content
+  - run_command:
+      allowlist:
+        - "git diff"
+        - "npm run test:unit"
+        - "npx tsc --noEmit"
+      forbidden:
+        - "rm"
+        - "git push"
+        - "curl"

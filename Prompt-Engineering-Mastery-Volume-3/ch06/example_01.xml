@@ -1,0 +1,11 @@
+<grounded_response query_id="Q-88219">
+  <assertion id="A-1">
+    Production cluster 'k8s-prod-fra' requires a minimum of 3 control plane nodes 
+    across distinct availability zones to maintain etcd quorum during maintenance.
+    <source_citation chunk_id="DOC-INFRA-904" hash="a8fbc102" section="§4.2.1"/>
+  </assertion>
+  <assertion id="A-2">
+    The maximum allowable memory overcommit ratio on compute nodes is 1.25x.
+    <source_citation chunk_id="DOC-INFRA-904" hash="a8fbc102" section="§5.1.0"/>
+  </assertion>
+</grounded_response>

@@ -1,0 +1,12 @@
+{
+  "jsonrpc": "2.0",
+  "id": "req_8819",
+  "method": "tools/call",
+  "params": {
+    "name": "index_repository",
+    "arguments": { "repo_url": "https://github.com/org/repo" },
+    "_meta": {
+      "progressToken": "token_prog_104"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+<observation status="ILLEGAL_TRANSITION_ERROR">
+     PROTOCOL VIOLATION: State transition from 'STAGE_1_KYC' to 'STAGE_4_DISBURSEMENT' 
+     is prohibited. Valid next states from 'STAGE_1_KYC' are strictly: 
+     ['STAGE_2_UNDERWRITING_AUDIT', 'STAGE_REJECTED'].
+     You must complete mandatory underwriting audits before disbursement.
+   </observation>
+   ```
+
+### 2.3 State Persistence & Resilient Session Resume Schemas
+
+Real-world business workflows frequently span hours, days, or weeks. A loan application may pause for 48 hours while the applicant uploads bank statements; an SRE incident agent may wait 30 minutes for a canary deployment to bake.
+
+Autonomous agents cannot remain resident in memory indefinitely. Active state must be serialized to durable storage (e.g., PostgreSQL, DynamoDB, or Redis) after every turn.
+
+![Figure 08.03: State Persistence & Session Resume Schema](../assets/svg/diag_ch08_state_persistence_schema.svg)
+
+The **State Persistence Schema** captures the complete deterministic snapshot required to rehydrate the agent in any compute container:

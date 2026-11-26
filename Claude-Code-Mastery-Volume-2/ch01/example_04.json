@@ -1,0 +1,7 @@
+{
+  "jsonrpc": "2.0",
+  "method": "notifications/resources/updated",
+  "params": {
+    "uri": "postgres://production-cluster-01/tenants/schema"
+  }
+}

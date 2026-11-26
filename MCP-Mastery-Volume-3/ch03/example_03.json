@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "method": "tools/call",
+  "params": {
+    "name": "execute_sql",
+    "arguments": { "query": "SELECT * FROM orders WHERE status = 'PENDING'" },
+    "_meta": {
+      "traceparent": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+      "tracestate": "vendor_mcp=t_acme_corp,tier=prod",
+      "span_kind": "CLIENT"
+    }
+  }
+}

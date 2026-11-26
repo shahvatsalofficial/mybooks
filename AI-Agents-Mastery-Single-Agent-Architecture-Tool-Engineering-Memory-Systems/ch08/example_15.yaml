@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: agent-runtime-shadow
+  namespace: production
+spec:
+  hosts:
+  - agent-gateway.internal.corp
+  gateways:
+  - mesh
+  http:
+  - route:
+    - destination:
+        host: agent-service-blue.production.svc.cluster.local
+        weight: 100
+    mirror:
+      host: agent-service-green.production.svc.cluster.local
+    mirrorPercentage:
+      value: 10.0

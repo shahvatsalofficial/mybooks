@@ -1,0 +1,19 @@
+{
+  "allocation_id": "UBI-V2-GLOBAL-001",
+  "resource_tiers": {
+    "subsistence_tier": {
+      "compute": "1B_TOKENS_PER_DAY",
+      "energy": "10KW_PER_DAY",
+      "priority": "IMMEDIATE"
+    },
+    "creative_tier": {
+      "compute": "VARIABLE_BASED_ON_GRL",
+      "energy": "VARIABLE_BASED_ON_MISSION_IMPACT",
+      "priority": "BATCH_PROCESSED"
+    }
+  },
+  "alignment_check": {
+    "anti_addiction_heuristic": "ACTIVE",
+    "growth_prompt_frequency": "6_HOURS"
+  }
+}

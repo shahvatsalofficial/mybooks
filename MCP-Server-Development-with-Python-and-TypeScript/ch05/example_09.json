@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "role": "assistant",
+    "content": {
+      "type": "text",
+      "text": "• Enforces RS256 asymmetric cryptographic algorithm for JWT decoding.\n• Eliminates insecure algorithm fallbacks.\n• Introduces explicit token parameter validation."
+    },
+    "model": "claude-3-5-sonnet-20241022",
+    "stopReason": "endTurn"
+  },
+  "id": 301
+}

@@ -1,0 +1,18 @@
+<injected_agent_memory timestamp="2026-10-12T13:45:00Z" query_id="REQ-84920">
+  <episodic_recall count="2">
+    <episode id="EP-1094" timestamp="2026-09-18" score="0.892">
+      <context>Database replica lag incident on PostgreSQL prod-cluster-02.</context>
+      <resolution>Resolution achieved by killing long-running analytical query PID 44102.</resolution>
+    </episode>
+    <episode id="EP-1201" timestamp="2026-10-01" score="0.841">
+      <context>Replication timeout alert on same cluster.</context>
+      <resolution>Identified autovacuum freeze lock; ran vacuum freeze during low traffic.</resolution>
+    </episode>
+  </episodic_recall>
+  <semantic_facts count="1">
+    <fact id="KB-5591" category="ARCHITECTURE_CONSTRAINT" importance="0.95">
+      Direct DROP or TRUNCATE operations on prod-cluster-02 are disabled via IAM proxy. 
+      All schema alterations must be dispatched through Liquibase CI/CD pipeline.
+    </fact>
+  </semantic_facts>
+</injected_agent_memory>

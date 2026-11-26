@@ -1,0 +1,10 @@
+{
+  "agent_id": "LOGISTICS-SENTINEL-04",
+  "logic_mode": "Predictive-Arbitrage",
+  "data_sources": ["NOAA-Weather", "Port-Latency-API", "Fuel-Spot-Price"],
+  "decision_nodes": {
+    "reroute_threshold": "ROI > 15%",
+    "inventory_buffer": "Dynamic-Zero",
+    "compliance_check": "Maritime-Law-v3"
+  }
+}

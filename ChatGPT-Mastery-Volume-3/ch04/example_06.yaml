@@ -1,0 +1,51 @@
+# values.yaml — Production Kubernetes Workload Identity Deployment
+replicaCount: 5
+
+image:
+  repository: acrprodai.azurecr.io/enterprise-rag-agent
+  tag: "v4.2.1"
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  create: true
+  name: "sa-aoai-workload"
+  annotations:
+    # Azure Entra ID Workload Identity Client ID binding
+    azure.workload.identity/client-id: "3c9b8812-4f1e-41af-91ab-2d7cd011db47"
+
+podLabels:
+  azure.workload.identity/use: "true"
+  security.istio.io/tlsMode: "istio"
+
+resources:
+  limits:
+    cpu: "2000m"
+    memory: "4Gi"
+  requests:
+    cpu: "500m"
+    memory: "1Gi"
+
+env:
+  - name: AZURE_OPENAI_ENDPOINT
+    value: "https://aoai-prod-enclave.openai.azure.com/"
+  - name: AZURE_OPENAI_API_VERSION
+    value: "2024-06-01"
+  - name: AZURE_CLIENT_ID
+    value: "3c9b8812-4f1e-41af-91ab-2d7cd011db47"
+  - name: TENANT_ID
+    value: "72f988bf-86f1-41af-91ab-2d7cd011db47"
+
+# Liveness and Readiness Probes
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: 8080
+  initialDelaySeconds: 15
+  periodSeconds: 10
+
+readinessProbe:
+  httpGet:
+    path: /ready
+    port: 8080
+  initialDelaySeconds: 5
+  periodSeconds: 5

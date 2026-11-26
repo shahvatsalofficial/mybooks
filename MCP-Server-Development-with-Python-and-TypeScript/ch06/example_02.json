@@ -1,0 +1,28 @@
+{
+  "name": "deploy_microservice",
+  "description": "Deploys a containerized microservice to the active Kubernetes cluster.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "service_name": {
+        "type": "string",
+        "pattern": "^[a-z0-9-]+$",
+        "description": "Kubernetes lowercase service identifier."
+      },
+      "replica_count": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 50,
+        "default": 3,
+        "description": "Target pod replica count between 1 and 50."
+      },
+      "enable_canary": {
+        "type": "boolean",
+        "default": false,
+        "description": "Whether to route 10% traffic to canary deployment."
+      }
+    },
+    "required": ["service_name"],
+    "additionalProperties": false
+  }
+}

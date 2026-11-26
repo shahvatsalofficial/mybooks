@@ -1,0 +1,10 @@
+{
+  "status": "PRE_FLIGHT_ERROR",
+  "error_code": "TARGET_CONTENT_MISMATCH",
+  "message": "The specified TargetContent was not found within lines 45-60 of src/auth/jwt.ts.",
+  "diagnostic_slice": {
+    "requested_range": [45, 60],
+    "actual_content_in_range": "45: export function verifyToken(token: string): TokenPayload {\n46:   const secret = process.env.JWT_SECRET;\n47:   if (!secret) throw new Error(\"JWT_SECRET not configured\");\n48:   return jwt.verify(token, secret) as TokenPayload;\n49: }"
+  },
+  "action_required": "Inspect actual_content_in_range, adjust TargetContent and StartLine/EndLine, and re-issue tool call."
+}

@@ -1,0 +1,17 @@
+support_swarm:
+  ingress:
+    queue_maxsize: 1000
+    idempotency_ttl_seconds: 3600
+    dedup_window_seconds: 900
+    dedup_jaccard_threshold: 0.45
+  triage:
+    max_swarm_hops: 3
+    kb_min_similarity: 0.78
+    sla_at_risk_ratio: 0.25
+  financial_guardrails:
+    rolling_30d_tenant_cap_usd: 1500.0
+    global_daily_circuit_breaker_usd: 10000.0
+    require_dual_approval_above_tier_cap: true
+  escalation:
+    handoff_packet_required: true
+    warm_transfer_skill_match: true

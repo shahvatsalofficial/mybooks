@@ -1,0 +1,5 @@
+INCIDENT ID:          INC-9104-PARAM-INJECT
+SEVERITY:             SEV-1 (Critical Security Incident)
+IMPACT:               Kubernetes Service Account JWT exfiltrated; $45,000 security audit
+ROOT CAUSE:           Unsanitized tool argument passed directly into shell execution string
+PRIMARY VIOLATION:    Zero Shell Subprocess Standard; Missing Parameter Sanitization Gateway

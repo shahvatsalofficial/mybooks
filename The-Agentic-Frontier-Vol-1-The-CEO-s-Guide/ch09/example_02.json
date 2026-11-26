@@ -1,0 +1,13 @@
+{
+  "trigger_id": "REBALANCE-001",
+  "metric_source": "GRL-ORACLE-V4",
+  "conditions": {
+    "if": "TOKEN_PRICE_DELTA > 0.05",
+    "then": "DECREASE_AD_EXECUTION_LATENCY",
+    "else": "ALLOCATE_TO_PKG_DEEP_INDEXING"
+  },
+  "safety_margins": {
+    "minimum_liquid_reserve": "2,000,000 USDT",
+    "maximum_token_slippage": "0.015"
+  }
+}

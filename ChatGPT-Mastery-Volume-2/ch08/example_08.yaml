@@ -1,0 +1,39 @@
+# Prometheus Alerting Rules for Enterprise AI Gateway
+groups:
+  - name: enterprise_llm_reliability_alerts
+    rules:
+      - alert: HighLLMErrorRate
+        expr: rate(llm_gateway_requests_total{status=~"5..|429"}[5m]) / rate(llm_gateway_requests_total[5m]) > 0.05
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High LLM Gateway Error Rate (> 5%) on {{ $labels.tenant_id }}"
+          description: "Gateway is encountering elevated 429 or 5xx error responses from primary foundation model endpoint."
+
+      - alert: DegradedModelLatencyP99
+        expr: histogram_quantile(0.99, sum(rate(llm_gateway_duration_seconds_bucket[5m])) by (le, model)) > 12.0
+        for: 3m
+        labels:
+          severity: warning
+        annotations:
+          summary: "P99 Latency Breach (> 12s) on Model {{ $labels.model }}"
+          description: "Model response times have degraded significantly, threatening interactive SLA guarantees."
+
+      - alert: SemanticCacheHitDrop
+        expr: sum(rate(llm_semantic_cache_hits_total[15m])) / sum(rate(llm_gateway_requests_total[15m])) < 0.20
+        for: 30m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Semantic Cache Hit Ratio Dropped Below 20%"
+          description: "Inbound traffic patterns may have shifted, or the vector similarity index requires re-indexing."
+
+      - alert: DepartmentQuotaApproachingCeiling
+        expr: (llm_tenant_monthly_spend_usd / llm_tenant_monthly_budget_usd) > 0.85
+        for: 5m
+        labels:
+          severity: info
+        annotations:
+          summary: "Department {{ $labels.tenant_id }} Consumed > 85% of Monthly AI Budget"
+          description: "Notify department budget owner to prevent hard quota rejection."

@@ -1,0 +1,5 @@
+<tool_result>
+  <tool_name>ReplaceFileContent</tool_name>
+  <status>success</status>
+  <output>Successfully replaced 1 occurrence in src/auth.ts</output>
+</tool_result>

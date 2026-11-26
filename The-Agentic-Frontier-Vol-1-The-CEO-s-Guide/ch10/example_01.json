@@ -1,0 +1,13 @@
+{
+  "protocol_id": "LDP-V8-SOVEREIGN",
+  "dividend_source": "AGENTIC-SURPLUS-RESERVE",
+  "allocation_targets": {
+    "biological_subsistence": "AUTOMATED_SUPPLY_CHAIN_SETTLEMENT",
+    "intelligence_access": "500B_TOKENS_PER_CAPITA",
+    "creative_capital": "PROPORTIONAL_TO_GRL_CONTRIBUTION"
+  },
+  "governance_locks": {
+    "anti_monopoly_clause": "DECENTRALIZED_AUDIT_REQUIRED",
+    "ethical_alignment_floor": "HUMAN_CENTRIC_V12"
+  }
+}

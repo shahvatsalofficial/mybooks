@@ -1,0 +1,1 @@
+cat ./symlink_passwd

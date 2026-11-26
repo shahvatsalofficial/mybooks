@@ -1,0 +1,14 @@
+<tool_call>
+  <tool_name>ReplaceFileContent</tool_name>
+  <parameters>
+    <TargetFile>/repo/src/auth.ts</TargetFile>
+    <StartLine>38</StartLine>
+    <EndLine>42</EndLine>
+    <TargetContent>if (isExpired(payload)) {
+    throw new Error("Token expired");
+  }</TargetContent>
+    <ReplacementContent>if (isExpired(payload)) {
+    return { status: 401, message: "Token expired" };
+  }</ReplacementContent>
+  </parameters>
+</tool_call>

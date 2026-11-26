@@ -1,0 +1,15 @@
+{
+  "manifest_id": "VORTEX_SHADOW_LOGISTICS_V8",
+  "vessel_fleet_scope": "GLOBAL_CONTAINER_FLEET",
+  "divergence_triggers": {
+    "berth_dwell_threshold_days": 5.0,
+    "labor_strike_probability_floor": 0.70,
+    "demurrage_exposure_cap_usd": 50000.0
+  },
+  "arbitrage_settlement": {
+    "commodity_price_differential_min_pct": 12.0,
+    "automated_smart_contract_bidding": true,
+    "escrow_settlement_currency": "USDC_SOVEREIGN",
+    "zk_customs_origin_proof_type": "GROTH16_SNARK"
+  }
+}

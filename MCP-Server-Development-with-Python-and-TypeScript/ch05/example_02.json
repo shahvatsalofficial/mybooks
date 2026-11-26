@@ -1,0 +1,35 @@
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "prompts": [
+      {
+        "name": "generate_incident_postmortem",
+        "description": "Synthesizes an enterprise P0/P1 post-mortem from incident logs and metrics.",
+        "arguments": [
+          {
+            "name": "incident_id",
+            "description": "Unique identifier of the incident (e.g., INC-8841).",
+            "required": true
+          },
+          {
+            "name": "include_timeline",
+            "description": "Whether to extract sub-second chronological traces (true/false).",
+            "required": false
+          }
+        ]
+      },
+      {
+        "name": "refactor_clean_architecture",
+        "description": "Generates a step-by-step refactoring plan to align legacy modules with Hexagonal Architecture.",
+        "arguments": [
+          {
+            "name": "target_module",
+            "description": "Path to the module directory or file.",
+            "required": true
+          }
+        ]
+      }
+    ]
+  },
+  "id": 201
+}

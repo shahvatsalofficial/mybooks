@@ -1,0 +1,33 @@
+name: Enterprise Claude Project DocSync
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - 'api/**'
+      - 'schemas/**'
+
+jobs:
+  sync-claude-project:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Synchronization Dependencies
+        run: |
+          pip install anthropic requests pydantic pyyaml
+
+      - name: Execute Headless Project Ingestion
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CLAUDE_PROJECT_ID: ${{ secrets.CLAUDE_PROJECT_ID }}
+        run: |
+          python scripts/sync_project_knowledge.py --project-id $CLAUDE_PROJECT_ID --docs-dir docs/ --schemas-dir schemas/

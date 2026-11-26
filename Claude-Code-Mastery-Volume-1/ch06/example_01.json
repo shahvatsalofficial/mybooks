@@ -1,0 +1,11 @@
+{
+  "type": "SlashCommandInvocation",
+  "rawInput": "/migrate-db --schema=v2 --force /migrations/2026_auth.sql",
+  "identifier": "migrate-db",
+  "positionalArguments": ["/migrations/2026_auth.sql"],
+  "flags": {
+    "schema": "v2",
+    "force": true
+  },
+  "timestamp": 1794128450000
+}

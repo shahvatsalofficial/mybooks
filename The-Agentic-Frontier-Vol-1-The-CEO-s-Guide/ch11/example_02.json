@@ -1,0 +1,6 @@
+{
+  "agent_id": "BOT-SENTINEL-77",
+  "task": "Nutrient-Optimization",
+  "data_inputs": ["Soil-Moisture", "Leaf-Spectrum-Analysis", "Growth-Rate"],
+  "action_gate": "If Chlorophyll-Level < Threshold, execute `Nitrogen-Injection-API`"
+}

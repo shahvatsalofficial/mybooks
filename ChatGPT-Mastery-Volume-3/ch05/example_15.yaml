@@ -1,0 +1,20 @@
+# keda_scaledobject.yml
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: ai-gateway-autoscaler
+  namespace: enterprise-ai
+spec:
+  scaleTargetRef:
+    name: ai-gateway-deployment
+  minReplicaCount: 4
+  maxReplicaCount: 32
+  pollingInterval: 5
+  cooldownPeriod: 60
+  triggers:
+    - type: prometheus
+      metadata:
+        serverAddress: http://prometheus-k8s.monitoring.svc:9090
+        metricName: gateway_active_streaming_connections
+        query: sum(ai_gateway_active_streaming_connections{environment="production"})
+        threshold: '100'

@@ -1,0 +1,20 @@
+{
+  "timestamp": "2026-09-29T01:45:12.894Z",
+  "correlationId": "cor-8820-4f91-ba21",
+  "tenantId": "finance-retail-prod",
+  "clientIp": "10.2.14.88",
+  "authenticatedUser": "vatsal.shah@enterprise.com",
+  "modelDeployment": "gpt-4o-2024-08-06",
+  "actionTaken": "BLOCKED_INGRESS",
+  "reason": "PROMPT_SHIELD_ATTACK_DETECTED",
+  "metrics": {
+    "hateSeverity": 0,
+    "selfHarmSeverity": 0,
+    "sexualSeverity": 0,
+    "violenceSeverity": 0,
+    "userPromptAttackDetected": true,
+    "documentAttackDetected": false,
+    "piiEntitiesDetected": ["EMAIL_ADDRESS", "US_BANK_NUMBER"],
+    "evaluationLatencyMs": 42
+  }
+}

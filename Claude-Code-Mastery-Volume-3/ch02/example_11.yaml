@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: claude-worker-task-9021
+  namespace: agent-cleanrooms
+  labels:
+    tier: autonomous-worker
+    security-profile: restricted
+spec:
+  runtimeClassName: gvisor # Enforce gVisor runsc application kernel
+  restartPolicy: Never
+  automountServiceAccountToken: false # Disallow access to Kubernetes API credentials
+  
+  containers:
+  - name: claude-runner
+    image: enterprise-registry.corp/claude-cleanroom:3.2.0
+    imagePullPolicy: IfNotPresent
+    command: ["claude", "--prompt", "Run regression test suite and fix failing assertions in src/auth.ts"]
+    
+    securityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true # Root filesystem is immutable
+      runAsNonRoot: true
+      runAsUser: 10001
+      runAsGroup: 10001
+      capabilities:
+        drop:
+        - ALL
+      seccompProfile:
+        type: RuntimeDefault
+        
+    resources:
+      requests:
+        cpu: "2"
+        memory: "4Gi"
+      limits:
+        cpu: "4"
+        memory: "8Gi"
+        
+    volumeMounts:
+    - name: workspace-volume
+      mountPath: /workspace
+    - name: ephemeral-tmp
+      mountPath: /tmp
+    - name: ephemeral-scratch
+      mountPath: /ephemeral-scratch
+      
+  volumes:
+  - name: workspace-volume
+    emptyDir: {} # Ephemeral storage destroyed on pod completion
+  - name: ephemeral-tmp
+    emptyDir:
+      medium: Memory # RAM-backed tmpfs for temporary compile outputs
+  - name: ephemeral-scratch
+    emptyDir:
+      medium: Memory

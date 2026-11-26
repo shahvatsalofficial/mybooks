@@ -1,0 +1,69 @@
+{
+    "worker_id": "worker-pod-8842",
+    "task_id": "TASK-7719",
+    "timestamp": 1757832045,
+    "current_turn": 8,
+    "cpu_percent": 42.5,
+    "active_tool": "cargo_test"
+  }
+  ```
+* **The Watchdog Supervisor**: The supervisor maintains an atomic TTL timer initialized to **30 seconds**. Every valid heartbeat pulse resets the timer back to 30.
+* **The Trip Condition**: If no heartbeat pulse is received within 30 seconds (due to a thread deadlock, an unhandled infinite loop, an out-of-memory kernel pause, or an unhandled exception), the watchdog trips immediately.
+
+### 3.2 Automated Hard Termination & Quarantine
+When the watchdog trips, it does not negotiate with the agent. It executes a deterministic recovery sequence:
+1. **Hard SIGKILL Dispatch**: The supervisor issues `kill -9` to the container’s process group descriptor (`cgroup.procs`), instantly vaporizing all processes in the container.
+2. **Distributed Lock Release**: The supervisor releases any distributed Redis locks held by the task (e.g., `lock:repo:payment-service`), ensuring that subsequent workers are not blocked.
+3. **Crash Scene Snapshotting**: The supervisor captures the current git working tree diff and the last 100 lines of standard output, saving the snapshot to an internal S3 debug bucket (`s3://agent-debug/crashes/`).
+4. **Self-Healing Respawn**: The supervisor increments an atomic retry counter. If the task has failed fewer than 3 times, the supervisor spins up a clean, pristine gVisor cleanroom container and re-queues the task with an adjusted resource ceiling. If 3 retries are exhausted, the supervisor posts a failure alert to the squad’s PagerDuty channel.
+
+---
+
+## 4. Cryptographic Immutable Audit Logging & WORM Sinks
+
+In enterprise software engineering, code changes committed by autonomous agents must satisfy the exact same regulatory compliance standards as code committed by human software engineers. Under **SOC-2 Type II**, **ISO 27001**, **HIPAA**, and **PCI-DSS Level 1**, every line of code deployed to production must have non-repudiable provenance:
+* Who authorized the change?
+* What exact prompt instructions were provided to the model?
+* What tool calls were executed by the agent?
+* What tests were run, and what were the exact execution outputs?
+* Was there any human tampering between agent code synthesis and production deployment?
+
+To satisfy these legal and compliance requirements, enterprise headless architectures deploy **Cryptographic Immutable Audit Ledgers**.
+
+<div class="diagram-container">
+  <img src="assets/svg/diag_ch04_audit_trail_sink.svg" alt="Cryptographic Audit Logging and Immutable Execution Ledger" style="width: 100%; height: auto; display: block;" />
+  <div class="diagram-caption">Figure 4.4: Cryptographic Audit Trail Architecture: SHA-256 Hash Chaining, HSM GPG Signing, and WORM Storage</div>
+</div>
+
+### 4.1 Cryptographic Hash-Chained Execution Blocks
+Rather than outputting plain text logs to standard disk, the agent client runtime structures every operational turn as an immutable **Cryptographic Block**, mathematically identical to a block in a secure blockchain ledger:
+
+$$B_n = \mathcal{H}\Big(\text{Index}_n \;\Vert\; B_{n-1} \;\Vert\; \text{Timestamp}_n \;\Vert\; \text{ToolCall}_n \;\Vert\; \text{Observation}_n \;\Vert\; \text{GitDiffHash}_n\Big)$$
+
+Where:
+* $B_n$ is the SHA-256 hash of block $n$.
+* $B_{n-1}$ is the hash of the preceding block, creating an unbreakable, mathematically verifiable chain of custody.
+* $\text{GitDiffHash}_n$ is the SHA-256 checksum of the working tree diff synthesized during turn $n$.
+
+If an attacker compromises the server after the fact and attempts to modify the audit log to conceal an unauthorized shell command or malicious code edit, the cryptographic hash chain breaks, immediately exposing the tampering during automated compliance audits.
+
+### 4.2 GPG Commit Signing via Hardware Security Modules (HSM)
+Every commit authored by an autonomous headless agent must be cryptographically signed with a dedicated enterprise bot GPG key.
+
+* The private GPG signing key is **NEVER** stored on the local disk of the agent container.
+* When the agent completes a verified task and prepares to commit code, the client sends a hash of the git commit tree to an internal **KMS / HSM Signing Service** (such as AWS KMS or HashiCorp Vault Transit Engine).
+* The HSM signs the commit tree using an RSA-4096 or Ed25519 key accessible only to authenticated CI runner service accounts.
+* GitHub/GitLab verifies the signature against the corporate GPG public key, displaying the official **Verified Bot** badge on the commit.
+
+### 4.3 Write-Once-Read-Many (WORM) Storage Sinks
+Upon task completion, the complete hash-chained audit ledger is streamed to an AWS S3 bucket configured with **S3 Object Lock in Compliance Mode**:
+* **Immutability Guarantee**: Even the AWS root account administrator cannot delete or overwrite the log file during the mandatory retention period (typically 7 years for financial and healthcare compliance).
+* **Automated SOC-2 Evidence**: During compliance audits, security engineers export the cryptographic ledger. The ledger provides mathematically irrefutable proof that the agent followed all mandated testing policies, and that no human or rogue process altered the code outside the audited ReAct loop.
+
+---
+
+## 5. Production Implementation: Building an Enterprise Headless Runner Daemon
+
+To demonstrate these principles in a concrete, production-ready implementation, we author a complete **Headless Agent Daemon** in TypeScript. This daemon connects to a distributed Redis queue, acquires distributed locks, monitors execution via a dead-man heartbeat watchdog, executes Claude Code inside a cleanroom, and generates cryptographically verifiable audit logs.
+
+### 5.1 The TypeScript Headless Runner Implementation

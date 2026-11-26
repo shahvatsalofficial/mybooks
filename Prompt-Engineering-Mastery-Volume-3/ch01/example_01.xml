@@ -1,0 +1,17 @@
+<agent_constitution version="4.0" classification="ENTERPRISE_RESTRICTED">
+  <layer_0_identity>
+    <!-- Immutable Core Identity, Role Envelope & Operational Authority -->
+  </layer_0_identity>
+  <layer_1_boundary_guards>
+    <!-- Inviolable Negative Constraints, Safety Invariants & Red Lines -->
+  </layer_1_boundary_guards>
+  <layer_2_operational_protocols>
+    <!-- Cognitive Execution State Machine, Scratchpad Syntax & Loop Limits -->
+  </layer_2_operational_protocols>
+  <layer_3_tool_contracts>
+    <!-- Schema Enactment Rules, Type Constraints & Error Self-Repair -->
+  </layer_3_tool_contracts>
+  <layer_4_dynamic_anchors>
+    <!-- Runtime Environment Variables, IAM Scopes, Region & Timestamps -->
+  </layer_4_dynamic_anchors>
+</agent_constitution>

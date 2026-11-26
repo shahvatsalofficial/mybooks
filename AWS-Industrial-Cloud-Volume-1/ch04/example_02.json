@@ -1,0 +1,24 @@
+{
+  "MixedInstancesPolicy": {
+    "LaunchTemplate": {
+      "LaunchTemplateSpecification": {
+        "LaunchTemplateId": "lt-0a1b2c3d4e5f67890",
+        "Version": "$Latest"
+      },
+      "Overrides": [
+        {"InstanceType": "c7g.2xlarge", "WeightedCapacity": "8"},
+        {"InstanceType": "c7g.4xlarge", "WeightedCapacity": "16"},
+        {"InstanceType": "m7g.2xlarge", "WeightedCapacity": "8"},
+        {"InstanceType": "m7g.4xlarge", "WeightedCapacity": "16"},
+        {"InstanceType": "c6g.2xlarge", "WeightedCapacity": "8"},
+        {"InstanceType": "m6g.2xlarge", "WeightedCapacity": "8"}
+      ]
+    },
+    "InstancesDistribution": {
+      "OnDemandAllocationStrategy": "prioritized",
+      "OnDemandBaseCapacity": 4,
+      "OnDemandPercentageAboveBaseCapacity": 20,
+      "SpotAllocationStrategy": "price-capacity-optimized"
+    }
+  }
+}

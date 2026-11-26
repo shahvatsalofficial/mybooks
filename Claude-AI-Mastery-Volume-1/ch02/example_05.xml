@@ -1,0 +1,9 @@
+<available_tools>
+  <tool name="query_sql_database">
+    <description>Executes a read-only SQL query against the production data warehouse.</description>
+    <parameters>
+      <parameter name="query" type="string" required="true">Standard ANSI SQL query string</parameter>
+      <parameter name="max_rows" type="integer" required="false">Maximum rows to return (default 50)</parameter>
+    </parameters>
+  </tool>
+</available_tools>

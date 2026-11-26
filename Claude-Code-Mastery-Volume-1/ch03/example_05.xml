@@ -1,0 +1,32 @@
+<thinking>
+1. INGEST OBJECTIVE & CONSTRAINTS:
+   - Target: Fix distributed lock acquisition hang in src/infra/RedisLock.ts under Redis cluster failover.
+   - Project Invariant Check (CLAUDE.md):
+     * Rule #8: All network I/O calls must have explicit circuit breakers and exponential backoff timeouts.
+     * Rule #15: No process exit or unhandled rejections; all errors must map to DomainError classes.
+
+2. AST & DEPENDENCY ANALYSIS:
+   - File inspected: src/infra/RedisLock.ts (Lines 112-168).
+   - Current implementation:
+     async acquire(key: string, ttlMs: number): Promise<boolean> {
+       while (true) {
+         const res = await this.client.set(key, this.lockId, 'PX', ttlMs, 'NX');
+         if (res === 'OK') return true;
+         await sleep(50);
+       }
+     }
+   - Defect Identification: Infinite while loop without maximum retry count or deadline timestamp. During Redis node failover, socket hangs indefinitely, starving Node.js event loop workers.
+
+3. PROPOSED REFACTORING & MATHEMATICAL PROOF:
+   - Introduce deadline: const deadline = Date.now() + this.maxWaitMs;
+   - Implement exponential jittered backoff:
+     const delay = Math.min(this.maxRetryIntervalMs, this.baseIntervalMs * Math.pow(1.5, attempt) + Math.random() * 20);
+   - Add AbortSignal support to allow graceful caller cancellation.
+
+4. PRE-FLIGHT VERIFICATION & ANCHOR IDENTIFICATION:
+   - Target lines: 120-138.
+   - Anchor signature before:
+     public async acquireLock(lockKey: string, ttlMs: number, options?: LockOptions): Promise<LockHandle> {
+   - TargetContent matches exact disk buffer.
+   - Assembling JSON tool call for replace_file_content.
+</thinking>

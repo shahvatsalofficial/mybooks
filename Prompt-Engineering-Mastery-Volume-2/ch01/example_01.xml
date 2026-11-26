@@ -1,0 +1,8 @@
+<system_instructions>
+When presented with the user payload, you must conduct your reasoning inside an explicit <scratchpad> block before emitting the final JSON response.
+1. Dissect all explicit and implicit constraints.
+2. Formulate intermediate mathematical or logical equations.
+3. Verify that all intermediate values satisfy boundary conditions.
+4. Close the </scratchpad> tag.
+5. Emit the final validated JSON schema payload.
+</system_instructions>

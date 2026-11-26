@@ -1,0 +1,22 @@
+{
+     "role": "user",
+     "content": "Validation Error: Value error, The cumulative sum of portfolio allocation weights must equal exactly 1.0. Current sum: 1.15. Please recalculate the weights and output the corrected schema."
+   }
+   ```
+6. **Iterative Regeneration with Backoff**: The model re-evaluates the prompt in light of the explicit mathematical feedback, adjusts the token generation weights, and emits a corrected JSON payload. Instructor repeats this validation cycle up to a user-configured `max_retries` ceiling (typically 2 to 3 iterations), logging telemetry at each step.
+
+By pairing Context-Free Grammar enforcement at the API layer with Instructor’s conversational self-healing loops at the application layer, enterprise systems achieve total, uncompromised data integrity across both syntactic types and complex institutional business logic.
+
+### 5.5 Streaming Partial JSON Deserialization & Reactive UI Rendering
+In customer-facing enterprise applications, waiting for a massive nested JSON document to finish generating before rendering anything on screen creates an unacceptable user experience. A complex financial portfolio extraction or a multi-page legal contract analysis can require thirty seconds to decode fifteen hundred tokens. If an end user stares at an empty loading spinner for half a minute, perceived system latency is terrible.
+
+Modern enterprise frontends demand **Reactive Streaming UI Updates**—the ability to render form fields, table rows, and progress indicators incrementally as the model decodes tokens in real time.
+
+However, standard JSON parsers (`json.loads()` or `JSON.parse()`) are fundamentally all-or-nothing engines. If you feed an incomplete JSON string—such as `{"customer_name": "Acme Corp", "orders": [{"order_id": 104`—into a standard parser, it throws a fatal `SyntaxError: Unexpected end of JSON input`.
+
+Enterprise architectures resolve this challenge by implementing **Streaming Partial Pushdown Parsers** (such as the open-source Rust library `jiter` or Instructor's `Iterable` and `Partial` extraction utilities):
+* The client maintains an active Server-Sent Events (SSE) connection, receiving incremental token deltas emitted by the OpenAI gateway.
+* The streaming parser maintains a virtual Pushdown Automaton tracking the active depth of unclosed braces and brackets.
+* On every incoming token delta, the parser creates a lightweight speculative copy of the buffer, programmatically appends the required closing characters (e.g., closing unclosed string quotes with `"`, and appending the required sequence of `}` and `]`), and validates the completed speculative document against the Pydantic schema.
+* Validated partial objects are emitted across an asynchronous reactive stream to the frontend framework (such as React, Vue, or Svelte).
+* The user interface renders form inputs dynamically: the customer name appears instantly, followed milliseconds later by the first order row, followed by the second order row, providing immediate visual feedback and collapsing perceived Time-To-First-Token (TTFT) to sub-second thresholds.

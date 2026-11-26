@@ -1,0 +1,5 @@
+INCIDENT ID:          INC-8392-RAG-DRIFT
+SEVERITY:             SEV-1 (High Financial Impact)
+IMPACT:               $820,000 bad pricing quote delivered to enterprise customer
+ROOT CAUSE:           Uninvalidated vector embedding node returned deprecated 2024 price book
+PRIMARY VIOLATION:    Zero Stale Index Standard; Missing Embedding Cache Eviction

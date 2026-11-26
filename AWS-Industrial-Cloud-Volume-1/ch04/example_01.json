@@ -1,0 +1,13 @@
+{
+  "version": "0",
+  "id": "12345678-1234-1234-1234-123456789012",
+  "detail-type": "EC2 Spot Instance Interruption Warning",
+  "source": "aws.ec2",
+  "time": "2026-08-03T18:00:00Z",
+  "region": "us-east-1",
+  "resources": ["arn:aws:ec2:us-east-1:123456789012:instance/i-0a123456789abcdef"],
+  "detail": {
+    "instance-id": "i-0a123456789abcdef",
+    "instance-action": "terminate"
+  }
+}

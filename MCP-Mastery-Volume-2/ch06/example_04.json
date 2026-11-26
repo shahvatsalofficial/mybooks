@@ -1,0 +1,16 @@
+{
+  "filter": {
+    "oneOf": [
+      {"type": "string"},
+      {
+        "type": "object",
+        "properties": {
+          "field": {"type": "string"},
+          "operator": {"type": "string", "enum": ["eq", "gt", "lt", "in"]},
+          "value": {"type": ["string", "number", "boolean"]}
+        },
+        "required": ["field", "operator", "value"]
+      }
+    ]
+  }
+}

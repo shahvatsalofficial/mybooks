@@ -1,0 +1,5 @@
+{
+  "role": "tool",
+  "tool_call_id": "call_AbCd123",
+  "content": "{\"error\": \"Database query timeout after 15000ms\", \"code\": \"QUERY_TIMEOUT\", \"suggestion\": \"Retry with a narrower date range or add an index filter.\"}"
+}

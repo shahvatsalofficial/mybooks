@@ -1,0 +1,18 @@
+{
+  "refinement_type": "SURGICAL_DELTA",
+  "target_file": "infrastructure/vpc_module.tf",
+  "modifications": [
+    {
+      "action": "REPLACE",
+      "target_lines": "cidr_block = \"10.0.0.0/16\"",
+      "replacement": "cidr_block = var.vpc_cidr_block",
+      "rationale": "CRIT-01 violation: Hardcoded CIDR violates multitenant deployment requirement."
+    },
+    {
+      "action": "INSERT_BEFORE",
+      "anchor": "resource \"aws_internet_gateway\"",
+      "content": "enable_dns_hostnames = true\nenable_dns_support   = true\n",
+      "rationale": "CRIT-02 violation: Required for private endpoint DNS resolution."
+    }
+  ]
+}

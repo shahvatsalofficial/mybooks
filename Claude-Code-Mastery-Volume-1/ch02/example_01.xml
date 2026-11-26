@@ -1,0 +1,10 @@
+<system_memory>
+  <project_constitution source="CLAUDE.md">
+    <!-- Stable root content -->
+  </project_constitution>
+  <active_rules>
+    <rule file=".claude/rules/arch-clean.md">...</rule>
+    <rule file=".claude/rules/lang-typescript.md">...</rule>
+    <rule file=".claude/rules/tool-vitest.md">...</rule>
+  </active_rules>
+</system_memory>

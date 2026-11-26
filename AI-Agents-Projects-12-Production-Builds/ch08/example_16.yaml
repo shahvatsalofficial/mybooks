@@ -1,0 +1,20 @@
+enterprise_compliance_agent:
+  auth:
+    require_signed_claims: true
+    max_token_ttl_seconds: 900
+  retrieval:
+    enforce_pre_filter_acl: true
+    top_k: 5
+    rrf_k: 60
+  multimodal_ingestion:
+    vision_vlm_on_low_text_pages: true
+    preserve_table_headers: true
+  compliance_shield:
+    bidirectional_pii_redaction: true
+    luhn_validate_cards: true
+    block_indirect_injections: true
+    audit_log_retention_days: 2555
+  ci_release_gate:
+    min_recall_at_5: 0.90
+    max_acl_leak_count: 0
+    max_pii_escape_count: 0

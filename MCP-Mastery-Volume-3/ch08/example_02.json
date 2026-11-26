@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "database-service-chaos": {
+      "command": "node",
+      "args": [
+        "/path/to/mcp_chaos_proxy.js",
+        "node",
+        "/path/to/enterprise_db_server.js"
+      ],
+      "env": {
+        "MCP_CHAOS_ENABLED": "true"
+      }
+    }
+  }
+}

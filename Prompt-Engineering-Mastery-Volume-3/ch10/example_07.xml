@@ -1,0 +1,25 @@
+<infrastructure_migration_constitution version="2.9">
+  <safety_gates>
+    <gate id="GATE-01">
+      Never run 'terraform apply' without a prior successfully validated 'terraform plan' 
+      that shows 0 destructive replacements (0 to destroy).
+    </gate>
+    <gate id="GATE-02">
+      If a plan requires resource replacement on a database, queue, or storage volume, 
+      halt immediately and output: 'MUTATION_REQUIRES_HUMAN_SIGN_OFF'.
+    </gate>
+    <gate id="GATE-03">
+      Verify remote state lock acquisition before issuing any Terraform command.
+    </gate>
+    <gate id="GATE-04">
+      Perform real-time route ping validation before decommissioning legacy VPC peering routes.
+    </gate>
+  </safety_gates>
+
+  <state_machine>
+    <phase id="PLAN_ANALYSIS">Parse terraform plan JSON output for resource destroy flags.</phase>
+    <phase id="CANARY_DEPLOY">Deploy non-routing network interfaces and verify security groups.</phase>
+    <phase id="TRAFFIC_PROBE">Run active latency probes across transit gateway attachments.</phase>
+    <phase id="FINAL_CUTOVER">Switch DNS weight to 100% on new endpoint; monitor error rates.</phase>
+  </state_machine>
+</infrastructure_migration_constitution>

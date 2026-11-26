@@ -1,0 +1,11 @@
+{
+  "role": "user",
+  "content": {
+    "type": "resource",
+    "resource": {
+      "uri": "postgres://prod-db/schemas/customers_v2",
+      "mimeType": "application/sql",
+      "text": "CREATE TABLE customers_v2 (\n  id UUID PRIMARY KEY,\n  email VARCHAR(255) NOT NULL UNIQUE,\n  created_at TIMESTAMPTZ DEFAULT NOW()\n);"
+    }
+  }
+}

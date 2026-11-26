@@ -1,0 +1,40 @@
+extends: ["spectral:oas"]
+rules:
+  # Rule 1: Enforce descriptive operationIds for LLM semantic routing
+  operation-operationId-meaningful:
+    description: "Every operationId must follow verb_noun naming and exceed 8 characters."
+    severity: error
+    given: "$.paths.*.*"
+    then:
+      field: operationId
+      function: pattern
+      functionOptions:
+        match: "^[a-z]{3,10}_[a-z0-9_]{4,30}$"
+
+  # Rule 2: Strict parameter descriptions for model slot extraction
+  param-must-have-description:
+    description: "All query, path, and header parameters must supply detailed descriptions."
+    severity: error
+    given: "$.paths.*.*.parameters[*]"
+    then:
+      field: description
+      function: defined
+
+  # Rule 3: Zero unconstrained object payloads
+  no-untyped-objects:
+    description: "All object schemas must explicitly define properties or additionalProperties: false."
+    severity: error
+    given: "$..schemas[?(@.type === 'object')]"
+    then:
+      field: properties
+      function: defined
+
+  # Rule 4: Ban wildcards in server URLs to prevent SSRF
+  no-server-wildcards:
+    description: "OpenAPI server URLs must not contain variable wildcards."
+    severity: error
+    given: "$.servers[*].url"
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "\\{[a-zA-Z0-9_]+\\}"

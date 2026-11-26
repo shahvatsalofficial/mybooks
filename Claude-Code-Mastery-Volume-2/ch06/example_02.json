@@ -1,0 +1,12 @@
+{
+  "name": "execute_database_migration",
+  "description": "Autonomous DBA agent that inspects schema, generates migration SQL, tests migration against local container, and verifies rollback.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "targetTable": { "type": "string" },
+      "alterationSpec": { "type": "string" }
+    },
+    "required": ["targetTable", "alterationSpec"]
+  }
+}

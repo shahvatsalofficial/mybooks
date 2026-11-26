@@ -1,0 +1,31 @@
+{
+     "jsonrpc": "2.0",
+     "result": {
+       "content": [
+         {
+           "type": "text",
+           "text": "ValidationError: 2 validation errors detected:\n• replica_count: Input should be less than or equal to 50 [input_value=100]\n• service_name: String should match pattern '^[a-z0-9-]+$' [input_value='PAYMENT SERVICE!']"
+         }
+       ],
+       "isError": true
+     },
+     "id": 105
+   }
+   ```
+4. The client host receives `{ "isError": true }` and provides the error text back to the language model. The model reads the validation feedback, self-corrects its parameters, and re-issues the tool call with `replica_count: 50` and `service_name: "payment-service"`.
+
+---
+
+## 6.3 Asyncio Concurrency & Worker Thread Offloading
+
+Python’s asynchronous I/O model (`asyncio`) is designed for high-concurrency, I/O-bound network applications. However, in enterprise MCP environments, a server often needs to perform mixed workloads: querying asynchronous database drivers alongside executing synchronous disk reads, cryptographic hashing, or invoking legacy third-party SDKs that lack native `async/await` support.
+
+<div class="diagram-container">
+![Figure 06.03: FastMCP Asyncio Concurrency & Thread Offloading](../assets/svg/diag_ch06_asyncio_eventloop.svg)
+</div>
+
+### The Event Loop Starvation Hazard
+
+In stdio-based MCP servers, the entire communication pipeline runs over single standard input (`sys.stdin`) and standard output (`sys.stdout`) pipes. The Python process maintains an asynchronous event loop that reads incoming JSON-RPC lines from `stdin`, processes handlers, and writes serialized responses back to `stdout`.
+
+If a developer writes a tool using standard synchronous code that performs a blocking operation (such as `time.sleep(10)`, `requests.get(...)`, or a heavy database query via `sqlite3`), **the entire asyncio event loop freezes**:

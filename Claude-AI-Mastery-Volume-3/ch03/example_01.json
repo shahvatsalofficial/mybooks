@@ -1,0 +1,7 @@
+{
+  "grant_type": "urn:ietf:params:oauth:grant-type:token-exchange",
+  "audience": "identitynamespace:my-gcp-project.svc.id.goog:https://container.googleapis.com/v1/projects/my-gcp-project/locations/us-east5/clusters/prod-cluster",
+  "requested_token_type": "urn:ietf:params:oauth:token-type:access_token",
+  "subject_token_type": "urn:ietf:params:oauth:token-type:id_token",
+  "subject_token": "<PROJECTED_K8S_OIDC_JWT>"
+}

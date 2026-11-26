@@ -1,0 +1,5 @@
+{
+  "uriTemplate": "enterprise://{tenant_id}/analytics/{report_name}",
+  "name": "Tenant-Partitioned Analytical Reports",
+  "mimeType": "application/json"
+}

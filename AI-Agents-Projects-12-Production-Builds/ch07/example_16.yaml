@@ -1,0 +1,19 @@
+sql_pipeline_agent:
+  catalog:
+    dialect: postgres
+    refresh_ttl_seconds: 300
+    mask_pii_columns: true
+  guardrails:
+    max_limit_rows: 500
+    allow_select_star: false
+    max_explain_cost: 250000.0
+    max_estimated_rows: 5000000
+    large_table_row_threshold: 1000000
+    statement_timeout_ms: 8000
+  repair_loop:
+    max_attempts: 3
+    enable_empty_result_probe: true
+  dbt_debugger:
+    manifest_path: target/manifest.json
+    run_results_path: target/run_results.json
+    auto_generate_pr_diff: true

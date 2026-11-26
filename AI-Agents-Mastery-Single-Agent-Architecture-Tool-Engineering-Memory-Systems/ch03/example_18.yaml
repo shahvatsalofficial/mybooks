@@ -1,0 +1,21 @@
+# Production Docker Sandbox Compose Manifest (gVisor Hardened)
+version: '3.8'
+services:
+  agent-sandbox-worker:
+    image: enterprise-agent-sandbox:1.2.0
+    runtime: runsc
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=32m
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 128M
+    networks:
+      - sandbox_internal
+networks:
+  sandbox_internal:
+    internal: true

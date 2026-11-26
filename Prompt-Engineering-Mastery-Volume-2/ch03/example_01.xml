@@ -1,0 +1,13 @@
+<comparison_prompt>
+Examine the following 3 proposed microservice architectures for handling high-frequency checkout traffic:
+Proposal A: [Event-driven Kafka log with optimistic concurrency]
+Proposal B: [Synchronous REST with distributed two-phase commit]
+Proposal C: [Read-replicas with eventual consistency and saga pattern]
+
+Rank the proposals from most resilient to least resilient based on:
+1. P99 latency overhead
+2. Partition tolerance during split-brain
+3. Transactional rollback complexity
+
+Output your ranking: <ranking>1: [Prop], 2: [Prop], 3: [Prop]</ranking>
+</comparison_prompt>

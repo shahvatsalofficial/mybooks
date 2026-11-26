@@ -1,0 +1,31 @@
+<policies>
+    <inbound>
+        <base />
+        <!-- 1. Enforce Entra ID JWT Token Validation -->
+        <validate-jwt header-name="Authorization" failed-validation-httpcode="401" failed-validation-error-message="Unauthorized">
+            <openid-config url="https://login.microsoftonline.com/{tenant-id}/v2.0/.well-known/openid-configuration" />
+            <required-claims>
+                <claim name="aud" match="all">
+                    <value>https://ai.azure.com</value>
+                </claim>
+            </required-claims>
+        </validate-jwt>
+
+        <!-- 2. Rate Limit by Department Claim: Max 100 requests per minute per team -->
+        <rate-limit-by-key calls="100" renewal-period="60" counter-key="@(context.Request.Headers.GetValueOrDefault("X-Department-ID","default"))" />
+
+        <!-- 3. Inject Azure OpenAI Chargeback Tag -->
+        <set-header name="x-ms-client-request-id" exists-action="override">
+            <value>@(Guid.NewGuid().ToString())</value>
+        </set-header>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>

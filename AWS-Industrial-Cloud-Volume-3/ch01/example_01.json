@@ -1,0 +1,38 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DenyUnapprovedRegions",
+      "Effect": "Deny",
+      "NotAction": [
+        "iam:*",
+        "organizations:*",
+        "route53:*",
+        "route53domains:*",
+        "cloudfront:*",
+        "waf:*",
+        "wafv2:*",
+        "shield:*",
+        "support:*",
+        "artifact:*",
+        "kms:*"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringNotEquals": {
+          "aws:RequestedRegion": [
+            "us-east-1",
+            "eu-west-1",
+            "ap-south-1"
+          ]
+        },
+        "ArnNotLike": {
+          "aws:PrincipalARN": [
+            "arn:aws:iam::*:role/AWSControlTowerExecution",
+            "arn:aws:iam::*:role/BreakGlassAdminRole"
+          ]
+        }
+      }
+    }
+  ]
+}

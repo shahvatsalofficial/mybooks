@@ -1,0 +1,10 @@
+<graceful_degradation_protocol>
+  <primary_tool>query_live_carrier_tracking</primary_tool>
+  <fallback_tier_1>query_cached_tracking_events</fallback_tier_1>
+  <fallback_tier_2>estimate_delivery_via_sla_matrix</fallback_tier_2>
+  <mandate>
+    If query_live_carrier_tracking fails with HTTP 503 after 2 retries, 
+    automatically drop down to fallback_tier_1. Explicitly disclose the cache 
+    staleness timestamp in your final user output.
+  </mandate>
+</graceful_degradation_protocol>

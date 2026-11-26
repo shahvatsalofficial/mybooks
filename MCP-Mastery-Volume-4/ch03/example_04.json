@@ -1,0 +1,18 @@
+{
+  "name": "create_pull_request_review",
+  "arguments": {
+    "owner": "enterprise-org",
+    "repo": "payment-service",
+    "pull_number": 42,
+    "commit_id": "8a3b5c7d8e9f0123456789abcdef0123456789ab",
+    "event": "REQUEST_CHANGES",
+    "body": "CRITICAL SECURITY BLOCK: Detected plaintext AWS Access Key on line 12 of `src/config/aws.ts`. Remove this key immediately and rotate credentials.",
+    "comments": [
+      {
+        "path": "src/config/aws.ts",
+        "line": 12,
+        "body": "Do not hardcode AWS credentials. Use AWS Secrets Manager or environment variables."
+      }
+    ]
+  }
+}

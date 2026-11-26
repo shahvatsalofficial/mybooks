@@ -1,0 +1,18 @@
+{
+  "ledger_id": "SIL-V1-ARCHITECT",
+  "capital_reserves": {
+    "compute_tokens": "500B_RESERVE",
+    "energy_credits": "100MW_ORBITAL_CONTRACT",
+    "liquid_capital": "25%_RESERVE"
+  },
+  "allocation_weights": {
+    "pkg_integrity": 0.40,
+    "agentic_orchestration": 0.30,
+    "terrestrial_diplomacy": 0.20,
+    "legacy_marketing": 0.10
+  },
+  "yield_metrics": {
+    "velocity_of_reason": "TOKEN_PER_PRACTICAL_EXECUTION",
+    "reputation_yield": "GRL_DELTA_PER_INVESTMENT_UNIT"
+  }
+}

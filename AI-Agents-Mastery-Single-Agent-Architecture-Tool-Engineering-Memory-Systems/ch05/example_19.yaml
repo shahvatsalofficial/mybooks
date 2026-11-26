@@ -1,0 +1,12 @@
+# RabbitMQ AMQP 0-9-1 Agent Cluster Topology
+queues:
+  - name: agent.tasks.inbound
+    durable: true
+    arguments:
+      x-dead-letter-exchange: agent.dlx
+      x-dead-letter-routing-key: agent.poison.pill
+      x-message-ttl: 60000
+  - name: agent.dlq.quarantine
+    durable: true
+    arguments:
+      x-queue-type: quorum

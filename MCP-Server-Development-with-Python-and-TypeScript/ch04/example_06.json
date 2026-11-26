@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "DatabaseError: Table 'tbl_customer_accounts' does not exist. Available tables: 'customers', 'accounts', 'ledgers'."
+      }
+    ],
+    "isError": true
+  },
+  "id": 105
+}

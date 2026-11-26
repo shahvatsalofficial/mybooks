@@ -1,0 +1,41 @@
+name: Performance Regression Gate
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  benchmark-gate:
+    runs-on: [ self-hosted, bare-metal, perf-isolated ]
+    steps:
+      - name: Check out PR Branch
+        uses: actions/checkout@v4
+        with:
+          path: pr_branch
+
+      - name: Check out Baseline Branch (main)
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: base_branch
+
+      - name: Set up Bare-Metal Linux Tuning
+        run: |
+          sudo cpupower frequency-set -g performance
+          sudo pyperf system tune
+
+      - name: Run Baseline Benchmark
+        run: |
+          cd base_branch
+          python -m pip install -r requirements.txt
+          python benchmarks/benchmark_suite.py -o ../baseline.json
+
+      - name: Run PR Benchmark
+        run: |
+          cd pr_branch
+          python -m pip install -r requirements.txt
+          python benchmarks/benchmark_suite.py -o ../pr.json
+
+      - name: Evaluate Statistical Regression Gate
+        run: |
+          python -m pyperf compare_to --strict ../baseline.json ../pr.json

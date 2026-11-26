@@ -1,0 +1,18 @@
+name: Python MCP Server QA Pipeline
+on: [push, pull_request]
+
+jobs:
+  lint-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Astral uv
+        uses: astral-sh/setup-uv@v2
+      - name: Set up Python 3.12
+        run: uv python install 3.12
+      - name: Run Ruff Linting
+        run: uv run ruff check . --select E,F,W,RUF,ASYNC,B
+      - name: Run Strict Type Checking
+        run: uv run mypy --strict server.py
+      - name: Run Pytest Suite
+        run: uv run pytest tests/ -v --asyncio-mode=auto

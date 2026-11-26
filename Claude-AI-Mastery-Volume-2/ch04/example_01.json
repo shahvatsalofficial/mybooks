@@ -1,0 +1,148 @@
+{"jsonrpc": "2.0", "id": "req-01", "method": "tools/call", "params": {"name": "query_logs", "arguments": {"limit": 10}}}
+   ```
+2. **Responses**: Deterministic fulfillment containing either `result` or `error` matching the request `id`:
+   ```json
+   {"jsonrpc": "2.0", "id": "req-01", "result": {"content": [{"type": "text", "text": "log entry..."}]}}
+   ```
+3. **Notifications**: One-way messages without an `id` that do not require acknowledgment:
+   ```json
+   {"jsonrpc": "2.0", "method": "notifications/resources/updated", "params": {"uri": "file:///logs/system.log"}}
+   ```
+4. **Standard Error Codes**: Conforming strictly to JSON-RPC 2.0 specifications:
+   * `-32700`: Parse error (invalid JSON received by the server).
+   * `-32600`: Invalid Request (payload does not conform to JSON-RPC 2.0).
+   * `-32601`: Method not found (the requested tool or resource handler does not exist).
+   * `-32602`: Invalid params (tool arguments violated schema constraints).
+   * `-32603`: Internal error (unhandled server exception).
+
+---
+
+## 2. Technical Deep Dive & Transport Engineering
+
+### 2.1 Transport Layer Dynamics: Stdio vs. SSE
+
+The Model Context Protocol specification separates protocol messaging semantics from physical wire transport. MCP defines two standardized transport mechanisms:
+
+![Figure 04.02: stdio vs SSE Transport Mechanisms](../assets/svg/diag_ch04_mcp_transport_layers.svg)
+
+Figure 04.02 compares the physical wire implementations:
+
+#### 1. Standard Input/Output (`stdio`) Transport
+* **Mechanics**: The Host spawns the MCP Server as a child subprocess. Communication occurs over the standard input (`stdin`) and standard output (`stdout`) descriptors. Messages are encoded as newline-delimited JSON-RPC strings. Standard error (`stderr`) is strictly reserved for server logging and diagnostics, isolated from the protocol wire.
+* **Security & Isolation**: Process isolation is enforced by the operating system kernel. The server runs with the local user permissions or within an isolated OS container.
+* **Latency Profile**: Zero network serialization or socket overhead; round-trip message exchange occurs in sub-millisecond memory transfers.
+* **Operational Scope**: Ideal for local development tools, CLI utilities, and single-tenant workstation integrations.
+
+#### 2. Server-Sent Events (`SSE`) Transport
+* **Mechanics**: Designed for remote or distributed server execution over HTTP. The Client opens an HTTP GET connection to an `/sse` endpoint to receive server-to-client streaming messages. Client-to-server messages are dispatched via HTTP POST requests targeting a distinct `/message` endpoint with session correlation IDs.
+* **Security & Isolation**: Governed by standard TLS 1.3, OAuth 2.0 / OIDC bearer tokens, and corporate network perimeter firewalls.
+* **Operational Scope**: Essential for multi-tenant cloud microservices, shared enterprise database gateways, and centralized SaaS integrations.
+
+### 2.2 Decision Matrix: Transport Mechanisms
+
+Table 04.01 compares transport options across key production dimensions.
+
+| Transport Type | Network Topology | Latency | Security Model | Production Deployment |
+| :--- | :--- | :--- | :--- | :--- |
+| **`stdio` (Local Subprocess)** | Host child process via pipes | Sub-millisecond (<0.5ms) | OS user & cgroup boundaries | ✅ **Golden Standard** for local desktop/IDE tools |
+| **Local SSE over Loopback** | HTTP on `127.0.0.1` | Low (~2ms – 5ms) | Port binding, loopback tokens | Useful for debugging & multi-process GUI apps |
+| **Remote Cloud SSE** | HTTPS across VPC/Internet | Moderate (~40ms – 120ms) | TLS 1.3 + OAuth 2.0 / Mutual TLS | ✅ **Golden Standard** for enterprise centralized tools |
+| **Bidirectional WebSocket** | Full-duplex TCP socket | Low (~10ms – 25ms) | WSS + Session authentication | Enterprise internal microservice routing |
+
+### 2.3 Handshake Protocol & Capability Negotiation
+Before exchanging domain data, an MCP Client and Server must execute a deterministic initialization handshake.
+
+![Figure 04.03: Initialization Handshake Sequence](../assets/svg/diag_ch04_mcp_protocol_handshake.svg)
+
+As mapped in Figure 04.03:
+1. **Initialize Request**: The client dispatches `initialize` containing protocol version and declared client capabilities:
+   ```json
+   {
+     "jsonrpc": "2.0",
+     "id": 1,
+     "method": "initialize",
+     "params": {
+       "protocolVersion": "2024-11-05",
+       "capabilities": {
+         "roots": {"listChanged": true},
+         "sampling": {}
+       },
+       "clientInfo": {"name": "EnterpriseClaudeClient", "version": "2.1.0"}
+     }
+   }
+   ```
+2. **Initialize Response**: The server validates protocol version compatibility, registers client details, and returns its server capabilities:
+   ```json
+   {
+     "jsonrpc": "2.0",
+     "id": 1,
+     "result": {
+       "protocolVersion": "2024-11-05",
+       "capabilities": {
+         "resources": {"subscribe": true, "listChanged": true},
+         "tools": {"listChanged": true},
+         "prompts": {"listChanged": true}
+       },
+       "serverInfo": {"name": "PostgresMcpServer", "version": "1.4.0"}
+     }
+   }
+   ```
+3. **Initialized Notification**: The client acknowledges receipt with the `notifications/initialized` notification. Only after this step may functional RPC calls (`tools/call`, `resources/read`) proceed.
+
+### 2.4 Security Sandboxing & Zero-Trust Access Control
+Granting generative models access to enterprise servers introduces significant attack surfaces. MCP architectures enforce defense-in-depth through multi-layer sandboxing:
+
+![Figure 04.04: MCP Zero-Trust Security Perimeter](../assets/svg/diag_ch04_mcp_security_sandboxing.svg)
+
+Figure 04.04 outlines the security containment layers:
+* **Filesystem Containment**: File resources are constrained to explicit path prefixes. Path canonicalization resolves directory traversals (`../../etc/passwd`) before execution.
+* **Environment Variable Scrubbing**: When spawning child processes for `stdio`, hosts strip high-risk environment variables (`AWS_SECRET_ACCESS_KEY`, `SSH_AUTH_SOCK`, `DATABASE_URL`) unless explicitly whitelisted.
+* **Human-in-the-Loop Confirmation Gates**: Mutating actions (e.g. `delete_record`, `merge_pr`) require interactive user confirmation before the client executes the call.
+
+---
+
+## 3. The Core MCP Primitives: Resources, Tools & Prompts
+
+### 3.1 Primitive 1: Resources (Read-Only Context)
+Resources provide contextual data to the model without side effects.
+* **URI Scheme**: Resources are identified by standardized URIs (`file:///var/log/app.log`, `postgres://cluster/schema/tables`).
+* **MIME Types**: Resources declare content type (`text/plain`, `application/json`, `image/png`).
+* **Dynamic Subscriptions**: Clients subscribe to resource URIs via `resources/subscribe`. When the underlying file or database updates, the server pushes `notifications/resources/updated`, prompting the client to refresh context.
+
+### 3.2 Primitive 2: Tools (Executable Actions)
+Tools allow the model to execute stateful actions within enterprise environments.
+* Tools are declared with strict JSON Schema Draft 2020-12 input contracts.
+* Each tool execution yields a structured response containing one or more content blocks (`text`, `image`, or `embedded_resource`).
+* Tool executions indicate failures through `isError: true` rather than terminating the protocol session.
+
+### 3.3 Primitive 3: Prompts (Reusable Behavioral Templates)
+Prompts are pre-engineered templates maintained by the server to guide the model through complex domain tasks.
+* Prompts define optional or required arguments (e.g., `git_commit_summary(branch: string)`).
+* The server interpolates arguments into structured messages (`system`, `user`, `assistant`), ensuring consistent behavioral guardrails across diverse client applications.
+
+### 3.4 Primitive 4: Server-Initiated Sampling (`sampling/createMessage`)
+A revolutionary feature of the Model Context Protocol is **Sampling**. In conventional architectures, servers are passive responders: they wait for the client to invoke a tool, execute the query, and return data. 
+
+With Sampling, an MCP Server can proactively request the Client/Host to invoke Claude to perform autonomous reasoning:
+* An MCP Server reviewing a large git diff can invoke `sampling/createMessage` to request Claude to synthesize a 2-line summary of each modified module before packaging the final result.
+* The host controls sampling permissions, model selection, and token budgets, preventing untrusted servers from draining enterprise API quotas.
+
+---
+
+## 4. Decision Matrix: MCP Capabilities & Enterprise Tradeoffs
+
+Table 04.02 evaluates capability trade-offs for enterprise MCP server implementations.
+
+| Capability Feature | Operational Benefit | Security Risk | Network Overhead | Recommended Production Baseline |
+| :--- | :--- | :--- | :--- | :--- |
+| **Resource Subscriptions** | Real-time context updates without polling | Memory bloat on long-lived connections | Low (Lightweight notifications) | ✅ Enable for live logs and active configs |
+| **Dynamic Tool Modification** | Tools registered/deregistered at runtime | Tool confusion if schemas mutate mid-task | Low | ⚠️ Use only for modular plugin systems |
+| **Client Roots Negotiation** | Informs server of workspace filesystem boundaries | Path traversal if server ignores roots | Negligible | ✅ **Mandatory** for desktop filesystem tools |
+| **Server-Initiated Sampling** | Allows MCP server to query Claude recursively | Runaway token spend, recursion loops | High (Nested LLM turns) | ❌ Disable by default; gate behind quotas |
+
+---
+
+## 5. Production Implementation & Code Architecture
+
+### 5.1 Recipe 04.1: Production JSON-RPC 2.0 Protocol Engine in Python
+The following implementation provides a complete, low-level asynchronous MCP client engine over `stdio`. It spawns child processes, handles bidirectional message multiplexing, parses JSON-RPC responses, and enforces timeouts.

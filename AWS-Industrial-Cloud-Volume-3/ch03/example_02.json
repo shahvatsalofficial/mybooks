@@ -1,0 +1,79 @@
+{
+  "Comment": "Autonomous SecOps 15-Second Threat Containment Swarm",
+  "StartAt": "EvaluateFindingSeverity",
+  "States": {
+    "EvaluateFindingSeverity": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.detail.severity",
+          "NumericGreaterThanEquals": 7.0,
+          "Next": "ParallelContainmentSwarm"
+        }
+      ],
+      "Default": "LogLowSeverityFinding"
+    },
+    "ParallelContainmentSwarm": {
+      "Type": "Parallel",
+      "Branches": [
+        {
+          "StartAt": "IsolateEC2Network",
+          "States": {
+            "IsolateEC2Network": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "SovereignSecOps-EC2-Isolator",
+                "Payload.$": "$"
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "RevokeActiveIAMSessions",
+          "States": {
+            "RevokeActiveIAMSessions": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "SovereignSecOps-IAM-Revoker",
+                "Payload.$": "$"
+              },
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "CreateForensicEBSSnapshot",
+          "States": {
+            "CreateForensicEBSSnapshot": {
+              "Type": "Task",
+              "Resource": "arn:aws:states:::lambda:invoke",
+              "Parameters": {
+                "FunctionName": "SovereignSecOps-Forensic-Snapshotter",
+                "Payload.$": "$"
+              },
+              "End": true
+            }
+          }
+        }
+      ],
+      "Next": "EmitSecOpsNotification"
+    },
+    "EmitSecOpsNotification": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::sns:publish",
+      "Parameters": {
+        "TopicArn": "arn:aws:sns:us-east-1:111122223333:SecOps-Urgent-Containment",
+        "Message.$": "$"
+      },
+      "End": true
+    },
+    "LogLowSeverityFinding": {
+      "Type": "Pass",
+      "Result": "Finding severity below automated quarantine threshold (< 7.0). Logged for triage.",
+      "End": true
+    }
+  }
+}

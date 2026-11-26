@@ -1,0 +1,8 @@
+{
+  "jsonrpc": "2.0",
+  "id": "12",
+  "error": {
+    "code": -32603,
+    "message": "Internal Error: Connection pool exhausted at Pool.acquire (/app/node_modules/pg/lib/pool.js:142:11)... [4,000 characters of stack trace]"
+  }
+}

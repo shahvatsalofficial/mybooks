@@ -1,0 +1,15 @@
+{
+  "bindings": [
+    {
+      "role": "roles/aiplatform.user",
+      "members": [
+        "serviceAccount:gsa-claude-invoker@my-enterprise-ai.iam.gserviceaccount.com"
+      ],
+      "condition": {
+        "title": "RestrictToClaudeModels",
+        "description": "Permit execution exclusively against Anthropic Claude models in us-east5",
+        "expression": "resource.name.startsWith('projects/my-enterprise-ai/locations/us-east5/publishers/anthropic/models/claude-3-5')"
+      }
+    }
+  ]
+}

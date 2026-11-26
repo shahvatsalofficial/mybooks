@@ -1,0 +1,15 @@
+# ChromaDB / Qdrant Production Memory Configuration
+storage:
+  hnsw_index:
+    m: 32
+    ef_construction: 128
+    full_scan_threshold: 1000
+    on_disk: true
+  quantization:
+    scalar:
+      type: int8
+      quantile: 0.99
+      always_ram: true
+telemetry:
+  prometheus_metrics_port: 9090
+  tracing_enabled: true

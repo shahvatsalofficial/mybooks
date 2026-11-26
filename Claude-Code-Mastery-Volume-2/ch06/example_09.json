@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "method": "tools/call",
+  "params": {
+    "name": "execute_query",
+    "arguments": { "sql": "VACUUM ANALYZE;" },
+    "_meta": {
+      "traceparent": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
+      "tracestate": "swarm_role=dba_worker,depth=2"
+    }
+  },
+  "id": "req-9821"
+}

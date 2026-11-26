@@ -1,0 +1,5 @@
+INCIDENT ID:          INC-8291-MEM-CROSS-LEAK
+SEVERITY:             SEV-1 (Critical Privacy Violation)
+IMPACT:               Enterprise customer billing data leaked across tenants; regulatory disclosure
+ROOT CAUSE:           Unfiltered episodic vector collection query in shared ChromaDB instance
+PRIMARY VIOLATION:    Zero Cross-Tenant Leakage Standard; Missing Metadata Filter Gate
