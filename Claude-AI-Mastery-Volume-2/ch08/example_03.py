@@ -1,6 +1,6 @@
 """
 Recipe 08.3: Multi-Provider HA Failover Client (Anthropic Direct -> AWS Bedrock -> GCP Vertex AI)
-Author: Vatsal Shah (Opportunity4u Press)
+Author: Vatsal Shah (Vatsal Shah)
 License: Apache-2.0
 """
 

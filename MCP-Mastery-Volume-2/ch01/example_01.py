@@ -1,7 +1,7 @@
 """
 MCP Enterprise OAuth 2.1 PKCE Authentication Engine
 Architecture: FastMCP Server with Async JWKS Validation & Scope Guards
-Author: Vatsal Shah | Opportunity4u Press
+Author: Vatsal Shah | Vatsal Shah
 """
 
 import time
@@ -132,7 +132,7 @@ class JwksTokenValidator:
 # Initialize Production FastMCP Server
 mcp = FastMCP("Enterprise-Database-Tool-Gateway")
 validator = JwksTokenValidator(
-    idp_discovery_url="https://auth.opportunity4u.internal/.well-known/openid-configuration",
+    idp_discovery_url="https://auth.shahvatsal.comternal/.well-known/openid-configuration",
     audience="mcp://database-gateway-prod"
 )
 

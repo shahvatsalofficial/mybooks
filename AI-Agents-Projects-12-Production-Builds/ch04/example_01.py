@@ -88,7 +88,7 @@ class EdgarClient:
 
 
 async def main() -> None:
-    client = EdgarClient(user_agent="Opportunity4uResearch compliance@opportunity4u.io")
+    client = EdgarClient(user_agent="shahvatsalResearch compliance@shahvatsal.io")
     filings = await client.fetch_recent_filings("950170", forms=["10-K", "10-Q"])
     for f in filings:
         print(f.model_dump_json())

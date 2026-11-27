@@ -1,6 +1,6 @@
 """
 Recipe 03.5: High-Concurrency WebSocket-to-SSE Streaming Bridge
-Author: Vatsal Shah (Opportunity4u Press)
+Author: Vatsal Shah (Vatsal Shah)
 License: Apache-2.0
 """
 

@@ -1,6 +1,6 @@
 """
 Production LangGraph ReAct StateGraph with Human-in-the-Loop Interrupts
-Author: Vatsal Shah | Opportunity4u Press
+Author: Vatsal Shah | Vatsal Shah
 Runtime: Python 3.11+
 """
 

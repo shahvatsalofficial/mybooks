@@ -1,4 +1,4 @@
-apiVersion: revenue.opportunity4u.io/v1alpha1
+apiVersion: revenue.shahvatsal.io/v1alpha1
 kind: SalesOutreachAgentPolicy
 metadata:
   name: enterprise-outbound-sync-policy

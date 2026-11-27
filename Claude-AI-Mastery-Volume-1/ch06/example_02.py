@@ -1,7 +1,7 @@
 """
 Enterprise High-DPI Document Tiling Engine
 Author: Vatsal Shah, Lead Enterprise AI Architect
-Publisher: Opportunity4u Press (c) 2026
+Publisher: Vatsal Shah (c) 2026
 """
 
 from PIL import Image

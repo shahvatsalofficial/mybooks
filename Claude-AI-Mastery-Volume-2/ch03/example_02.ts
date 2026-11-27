@@ -1,6 +1,6 @@
 /**
  * Recipe 03.2: Production React SSE Streaming Hook with RAF Batching
- * Author: Vatsal Shah (Opportunity4u Press)
+ * Author: Vatsal Shah (Vatsal Shah)
  * License: Apache-2.0
  */
 

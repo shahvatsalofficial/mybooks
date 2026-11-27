@@ -1,6 +1,6 @@
 """
 Recipe 01.1: Enterprise Claude Messages API Client
-Author: Vatsal Shah (Opportunity4u Press)
+Author: Vatsal Shah (Vatsal Shah)
 License: Apache-2.0
 """
 

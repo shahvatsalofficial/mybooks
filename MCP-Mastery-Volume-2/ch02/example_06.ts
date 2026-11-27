@@ -1,7 +1,7 @@
 /**
  * Multi-Tenant MCP Server with AsyncLocalStorage & S3 Virtual Prefix Isolation
  * Runtime: Node.js (v20+) with TypeScript & @modelcontextprotocol/sdk
- * Author: Vatsal Shah | Opportunity4u Press
+ * Author: Vatsal Shah | Vatsal Shah
  */
 
 import { AsyncLocalStorage } from 'node:async_hooks';

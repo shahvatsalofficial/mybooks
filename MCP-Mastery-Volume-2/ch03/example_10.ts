@@ -1,7 +1,7 @@
 /**
  * Enterprise MongoDB MCP Bridge with Aggregation Guards & Schema Introspection
  * Runtime: Node.js (v20+) with TypeScript & @modelcontextprotocol/sdk
- * Author: Vatsal Shah | Opportunity4u Press
+ * Author: Vatsal Shah | Vatsal Shah
  */
 
 import { MongoClient, ReadPreference, Db } from 'mongodb';

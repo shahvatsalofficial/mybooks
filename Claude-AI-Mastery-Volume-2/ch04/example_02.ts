@@ -1,6 +1,6 @@
 /**
  * Recipe 04.2: Enterprise Zero-Trust Security Interceptor for MCP Clients
- * Author: Vatsal Shah (Opportunity4u Press)
+ * Author: Vatsal Shah (Vatsal Shah)
  * License: Apache-2.0
  */
 

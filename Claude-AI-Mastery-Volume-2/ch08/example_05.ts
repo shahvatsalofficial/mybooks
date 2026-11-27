@@ -1,6 +1,6 @@
 /**
  * Recipe 08.5: Dynamic Prompt Cache Pinning & Cost Optimizer
- * Author: Vatsal Shah (Opportunity4u Press)
+ * Author: Vatsal Shah (Vatsal Shah)
  * License: Apache-2.0
  */
 

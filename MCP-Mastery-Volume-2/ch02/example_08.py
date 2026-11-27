@@ -1,6 +1,6 @@
 """
 Multi-Tenant Concurrency & Chaos Verification Test Suite
-Author: Vatsal Shah | Opportunity4u Press
+Author: Vatsal Shah | Vatsal Shah
 Simulates 100 concurrent tenant coroutines with random interleaving.
 """
 

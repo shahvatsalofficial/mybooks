@@ -1,6 +1,6 @@
 """
 Multi-Tenant FastMCP Server with Task-Scoped ContextVar & PostgreSQL Schema Isolation
-Author: Vatsal Shah | Opportunity4u Press
+Author: Vatsal Shah | Vatsal Shah
 Architecture: Async Context Propagation & Dynamic Schema Switching
 """
 

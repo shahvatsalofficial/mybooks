@@ -1,6 +1,6 @@
 """
 Dynamic OpenAPI 3.1 to FastMCP Automated Bridge
-Author: Vatsal Shah | Opportunity4u Press
+Author: Vatsal Shah | Vatsal Shah
 Runtime: Python 3.11+ with FastMCP & httpx
 """
 

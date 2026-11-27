@@ -1,6 +1,6 @@
 """
 Recipe 04.4: High-Availability Stateless MCP SSE Gateway with Redis Backplane
-Author: Vatsal Shah (Opportunity4u Press)
+Author: Vatsal Shah (Vatsal Shah)
 License: Apache-2.0
 """
 

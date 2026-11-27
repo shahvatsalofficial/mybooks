@@ -1,4 +1,4 @@
-# Opportunity4u Press — Official Companion Code Repository
+# Vatsal Shah (ShahVatsal.com) — Official Companion Code Repository
 
 Companion code, exam cheat sheets, and errata for **32 technical books** by **Vatsal Shah** ([ShahVatsal.com/ebooks](https://shahvatsal.com/ebooks) • [Interactive Catalog](https://shahvatsalofficial.github.io/mybooks/)).
 

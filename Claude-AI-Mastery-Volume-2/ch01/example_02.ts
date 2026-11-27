@@ -1,6 +1,6 @@
 /**
  * Recipe 01.2: Enterprise Ephemeral Prompt Caching Engine
- * Author: Vatsal Shah (Opportunity4u Press)
+ * Author: Vatsal Shah (Vatsal Shah)
  * License: Apache-2.0
  */
 

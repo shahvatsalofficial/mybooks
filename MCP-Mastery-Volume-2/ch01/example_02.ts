@@ -1,7 +1,7 @@
 /**
  * MCP Server-Sent Events (SSE) Transport with Enterprise mTLS Identity Binding
  * Runtime: Node.js (v20+) with TypeScript and @modelcontextprotocol/sdk
- * Author: Vatsal Shah | Opportunity4u Press
+ * Author: Vatsal Shah | Vatsal Shah
  */
 
 import https from 'node:https';

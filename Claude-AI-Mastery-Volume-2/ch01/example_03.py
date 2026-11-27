@@ -1,6 +1,6 @@
 """
 Recipe 01.3: Multi-Tenant Claude API Gateway with Model Routing & Prometheus Metrics
-Author: Vatsal Shah (Opportunity4u Press)
+Author: Vatsal Shah (Vatsal Shah)
 License: Apache-2.0
 """
 

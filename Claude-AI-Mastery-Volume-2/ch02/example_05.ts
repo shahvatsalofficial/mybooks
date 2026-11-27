@@ -1,6 +1,6 @@
 /**
  * Recipe 02.5: Dynamic Tool Schema Registry & Hot-Reloading Engine
- * Author: Vatsal Shah (Opportunity4u Press)
+ * Author: Vatsal Shah (Vatsal Shah)
  * License: Apache-2.0
  */
 

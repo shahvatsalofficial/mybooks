@@ -1,4 +1,4 @@
-apiVersion: triage.opportunity4u.io/v1alpha1
+apiVersion: triage.shahvatsal.io/v1alpha1
 kind: TriageAgentPolicy
 metadata:
   name: prod-payments-triage-policy

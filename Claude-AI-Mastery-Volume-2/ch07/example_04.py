@@ -1,6 +1,6 @@
 """
 Recipe 07.4: Data Loss Prevention (DLP) & PII Sanitization Middleware
-Author: Vatsal Shah (Opportunity4u Press)
+Author: Vatsal Shah (Vatsal Shah)
 License: Apache-2.0
 """
 

@@ -1,7 +1,7 @@
 """
 Enterprise ASGI Interceptor Pipeline for MCP Transports
 Features: Token Bucket Rate Limiting, Scope Mapping & Structured Audit Trail
-Author: Vatsal Shah | Opportunity4u Press
+Author: Vatsal Shah | Vatsal Shah
 """
 
 import time

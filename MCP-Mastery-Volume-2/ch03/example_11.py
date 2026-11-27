@@ -1,6 +1,6 @@
 """
 Distributed Redis Caching Tier with Distributed Mutex Lock & Stampede Prevention
-Author: Vatsal Shah | Opportunity4u Press
+Author: Vatsal Shah | Vatsal Shah
 Runtime: Python 3.11+ with redis.asyncio
 """
 

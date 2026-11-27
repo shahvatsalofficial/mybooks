@@ -1,6 +1,6 @@
 /**
  * Recipe 05.5: Production Coding Assistant MCP Server with Prometheus Metrics
- * Author: Vatsal Shah (Opportunity4u Press)
+ * Author: Vatsal Shah (Vatsal Shah)
  * License: Apache-2.0
  */
 

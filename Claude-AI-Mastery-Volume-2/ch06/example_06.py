@@ -1,6 +1,6 @@
 """
 Recipe 06.1: Enterprise Financial Risk FastMCP Server
-Author: Vatsal Shah (Opportunity4u Press)
+Author: Vatsal Shah (Vatsal Shah)
 License: Apache-2.0
 """
 

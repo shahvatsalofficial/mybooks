@@ -1,6 +1,6 @@
 """
 Distributed Redis-Backed Circuit Breaker for Upstream API Bridges
-Author: Vatsal Shah | Opportunity4u Press
+Author: Vatsal Shah | Vatsal Shah
 Runtime: Python 3.11+ with redis.asyncio
 """
 

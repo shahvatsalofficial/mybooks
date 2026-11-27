@@ -1,6 +1,6 @@
 """
 Dynamic PostgreSQL Schema Reflection Engine & First-Class MCP Resource Generator
-Author: Vatsal Shah | Opportunity4u Press
+Author: Vatsal Shah | Vatsal Shah
 Runtime: Python 3.11+ with FastMCP & asyncpg
 """
 

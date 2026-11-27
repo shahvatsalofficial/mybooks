@@ -1,6 +1,6 @@
 /**
  * Recipe 03.3: Node.js Transform Stream for Progressive Tool Argument Extraction
- * Author: Vatsal Shah (Opportunity4u Press)
+ * Author: Vatsal Shah (Vatsal Shah)
  * License: Apache-2.0
  */
 

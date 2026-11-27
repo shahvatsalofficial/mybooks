@@ -1,6 +1,6 @@
 """
 Enterprise PostgreSQL MCP Bridge with SQLGlot AST Sanitization & Context Budget Guards
-Author: Vatsal Shah | Opportunity4u Press
+Author: Vatsal Shah | Vatsal Shah
 Runtime: Python 3.11+ with FastMCP, SQLGlot & asyncpg
 """
 

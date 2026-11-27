@@ -1,6 +1,6 @@
 /**
  * Recipe 05.4: Vitest Integration Testing Suite for MCP Servers
- * Author: Vatsal Shah (Opportunity4u Press)
+ * Author: Vatsal Shah (Vatsal Shah)
  * License: Apache-2.0
  */
 

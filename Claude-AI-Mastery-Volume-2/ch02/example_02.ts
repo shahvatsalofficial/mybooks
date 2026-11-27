@@ -1,6 +1,6 @@
 /**
  * Recipe 02.2: TypeScript Strict Tool Choice & Zod Schema Pipeline
- * Author: Vatsal Shah (Opportunity4u Press)
+ * Author: Vatsal Shah (Vatsal Shah)
  * License: Apache-2.0
  */
 

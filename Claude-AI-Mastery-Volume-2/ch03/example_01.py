@@ -1,6 +1,6 @@
 """
 Recipe 03.1: Hardened Python SSE Streaming Gateway
-Author: Vatsal Shah (Opportunity4u Press)
+Author: Vatsal Shah (Vatsal Shah)
 License: Apache-2.0
 """
 

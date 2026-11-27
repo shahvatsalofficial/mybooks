@@ -1,6 +1,6 @@
 """
 Recipe 08.6: Real-Time Token Velocity Anomaly Detector
-Author: Vatsal Shah (Opportunity4u Press)
+Author: Vatsal Shah (Vatsal Shah)
 License: Apache-2.0
 """
 

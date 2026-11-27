@@ -2,7 +2,7 @@
 
 **Enterprise Platforms, Gateways & Security: MCP Gateway, Cross-Platform AI & Observability**
 
-- **Author:** Vatsal Shah | **Publisher:** Opportunity4u Press
+- **Author:** Vatsal Shah | **Website:** [ShahVatsal.com](https://shahvatsal.com/ebooks)
 - **Official Book Portal:** https://shahvatsal.com/ebooks
 - **Book Landing Page:** https://shahvatsalofficial.github.io/mybooks/books/MCP-Mastery-Volume-3.html
 - **Companion Code URL:** https://github.com/shahvatsalofficial/mybooks/tree/main/MCP-Mastery-Volume-3

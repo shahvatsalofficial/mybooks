@@ -67,7 +67,7 @@ const userCreatorPipe: Pipe<CreateUserRequest, CreateUserResponse> = {
 // Dispatch route
 gateway.dispatchRoute("/v1/users/create", {
     username: "vatsal_shah",
-    email: "vatsal@opportunity4u.com"
+    email: "vatsal@shahvatsal.com"
 }, userCreatorPipe).then(res => {
     // Autocomplete resolves: 'userId' and 'createdTimestamp'
     console.log(`Success: Registered user ID ${res.userId}`);

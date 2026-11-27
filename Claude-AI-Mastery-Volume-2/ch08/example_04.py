@@ -1,6 +1,6 @@
 """
 Recipe 08.4: OpenTelemetry Instrumentation & Prometheus Metrics for Claude
-Author: Vatsal Shah (Opportunity4u Press)
+Author: Vatsal Shah (Vatsal Shah)
 License: Apache-2.0
 """
 

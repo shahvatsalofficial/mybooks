@@ -1,6 +1,6 @@
 """
 Recipe 07.5: Enterprise AWS S3 Object Storage MCP Connector
-Author: Vatsal Shah (Opportunity4u Press)
+Author: Vatsal Shah (Vatsal Shah)
 License: Apache-2.0
 """
 

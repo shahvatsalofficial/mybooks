@@ -1,6 +1,6 @@
 """
 Recipe 04.4: Sovereign Enterprise MCP Gateway in Python
-Author: Vatsal Shah (Opportunity4u Press)
+Author: Vatsal Shah (Vatsal Shah)
 License: Apache-2.0
 """
 

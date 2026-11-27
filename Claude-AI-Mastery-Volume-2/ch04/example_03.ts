@@ -1,6 +1,6 @@
 /**
  * Recipe 04.3: Official TypeScript MCP Client with Dynamic Discovery
- * Author: Vatsal Shah (Opportunity4u Press)
+ * Author: Vatsal Shah (Vatsal Shah)
  * License: Apache-2.0
  */
 

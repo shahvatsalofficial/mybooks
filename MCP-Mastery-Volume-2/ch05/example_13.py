@@ -1,6 +1,6 @@
 """
 Hierarchical Multi-Agent Supervisor Pattern with Dedicated MCP Sub-Graphs
-Author: Vatsal Shah | Opportunity4u Press
+Author: Vatsal Shah | Vatsal Shah
 Runtime: Python 3.11+
 """
 

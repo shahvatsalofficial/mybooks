@@ -7,7 +7,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/opportunity4u-press/enterprise-mcp-fleet.git'
+    repoURL: 'https://github.com/shahvatsal-press/enterprise-mcp-fleet.git'
     targetRevision: HEAD
     path: deployments/mcp-crm-server/prod
   destination:
@@ -38,7 +38,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: opportunity4u/mcp-crm-server:v2.1.0
+          image: shahvatsal/mcp-crm-server:v2.1.0
           ports:
             - containerPort: 8080
               name: mcp-http

@@ -2,7 +2,7 @@
 
 **LangGraph Stateful Graphs, CrewAI Crews, AutoGen Conversations & Supervisor-Worker Patterns**
 
-- **Author:** Vatsal Shah | **Publisher:** Opportunity4u Press
+- **Author:** Vatsal Shah | **Website:** [ShahVatsal.com](https://shahvatsal.com/ebooks)
 - **Official Book Portal:** https://shahvatsal.com/ebooks
 - **Book Landing Page:** https://shahvatsalofficial.github.io/mybooks/books/AI-Agents-Mastery-Multi-Agent-Swarms-LangGraph-Orchestration-Frameworks.html
 - **Companion Code URL:** https://github.com/shahvatsalofficial/mybooks/tree/main/AI-Agents-Mastery-Multi-Agent-Swarms-LangGraph-Orchestration-Frameworks

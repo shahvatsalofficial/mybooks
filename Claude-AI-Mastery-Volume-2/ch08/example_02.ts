@@ -1,6 +1,6 @@
 /**
  * Recipe 08.2: Enterprise Three-State Circuit Breaker with Decorrelated Jitter
- * Author: Vatsal Shah (Opportunity4u Press)
+ * Author: Vatsal Shah (Vatsal Shah)
  * License: Apache-2.0
  */
 

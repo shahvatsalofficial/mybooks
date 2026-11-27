@@ -1,7 +1,7 @@
 /**
  * Enterprise GraphQL MCP Bridge with Depth Limiter & Dynamic Query Stitching
  * Runtime: Node.js (v20+) with TypeScript & @modelcontextprotocol/sdk
- * Author: Vatsal Shah | Opportunity4u Press
+ * Author: Vatsal Shah | Vatsal Shah
  */
 
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';

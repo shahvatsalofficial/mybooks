@@ -1,6 +1,6 @@
 """
 Recipe 08.1: Atomic Distributed Token Bucket in Redis
-Author: Vatsal Shah (Opportunity4u Press)
+Author: Vatsal Shah (Vatsal Shah)
 License: Apache-2.0
 """
 

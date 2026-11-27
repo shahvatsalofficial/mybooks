@@ -1,6 +1,6 @@
 /**
  * Recipe 07.3: Slack Incident War Room MCP Bridge with Interactive Approvals
- * Author: Vatsal Shah (Opportunity4u Press)
+ * Author: Vatsal Shah (Vatsal Shah)
  * License: Apache-2.0
  */
 

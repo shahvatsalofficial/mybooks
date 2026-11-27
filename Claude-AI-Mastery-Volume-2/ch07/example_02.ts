@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Recipe 07.2: Chroot Sandboxed Filesystem MCP Server
- * Author: Vatsal Shah (Opportunity4u Press)
+ * Author: Vatsal Shah (Vatsal Shah)
  * License: Apache-2.0
  */
 

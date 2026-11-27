@@ -1,6 +1,6 @@
 /**
  * Recipe 03.4: Resilient SSE Client with State Resumption
- * Author: Vatsal Shah (Opportunity4u Press)
+ * Author: Vatsal Shah (Vatsal Shah)
  * License: Apache-2.0
  */
 

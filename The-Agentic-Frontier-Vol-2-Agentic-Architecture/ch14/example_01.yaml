@@ -37,7 +37,7 @@ services:
 
   # 3. Sovereign Multi-Agent Runtime Orchestrator
   sovereign-agent-runtime:
-    image: registry.opportunity4u.in/agentic/sovereign-runtime:v2.4.0
+    image: registry.shahvatsal.com/agentic/sovereign-runtime:v2.4.0
     container_name: sovereign-agent-orchestrator
     restart: always
     environment:

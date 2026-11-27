@@ -1,6 +1,6 @@
 /**
  * Recipe 05.1: Enterprise SRE Kubernetes Diagnostics MCP Server
- * Author: Vatsal Shah (Opportunity4u Press)
+ * Author: Vatsal Shah (Vatsal Shah)
  * License: Apache-2.0
  */
 

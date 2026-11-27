@@ -2,7 +2,7 @@
 replicaCount: 3
 
 image:
-  repository: opportunity4u/mcp-gateway
+  repository: shahvatsal/mcp-gateway
   pullPolicy: IfNotPresent
   tag: "v3.0.0"
 
@@ -55,7 +55,7 @@ ingress:
     # Essential: Configure long idle timeouts for persistent SSE streams
     alb.ingress.kubernetes.io/load-balancer-attributes: "idle_timeout.timeout_seconds=3600"
   hosts:
-    - host: "mcp-gateway.opportunity4u.internal"
+    - host: "mcp-gateway.shahvatsal.comternal"
       paths:
         - path: /
           pathType: Prefix

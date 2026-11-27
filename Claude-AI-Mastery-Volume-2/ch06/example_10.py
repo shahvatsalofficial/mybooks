@@ -1,6 +1,6 @@
 """
 Recipe 06.5: Pytest Integration Test Suite for FastMCP Server
-Author: Vatsal Shah (Opportunity4u Press)
+Author: Vatsal Shah (Vatsal Shah)
 License: Apache-2.0
 """
 

@@ -1,6 +1,6 @@
 """
 Recipe 01.4: Universal Multi-Cloud Claude SDK Factory
-Author: Vatsal Shah (Opportunity4u Press)
+Author: Vatsal Shah (Vatsal Shah)
 License: Apache-2.0
 """
 

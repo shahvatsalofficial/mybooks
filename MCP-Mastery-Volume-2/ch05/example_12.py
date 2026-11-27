@@ -1,6 +1,6 @@
 """
 Real-Time Event Multiplexer for LangGraph & MCP Streaming
-Author: Vatsal Shah | Opportunity4u Press
+Author: Vatsal Shah | Vatsal Shah
 Runtime: Python 3.11+ with FastAPI & LangGraph
 """
 

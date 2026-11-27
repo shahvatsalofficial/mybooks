@@ -1,7 +1,7 @@
 """
 Enterprise Synthetic Dataset Generation Engine
 Author: Vatsal Shah, Lead Enterprise AI Architect
-Publisher: Opportunity4u Press (c) 2026
+Publisher: Vatsal Shah (c) 2026
 """
 
 import os

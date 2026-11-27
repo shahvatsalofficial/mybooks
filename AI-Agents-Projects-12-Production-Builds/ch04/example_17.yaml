@@ -1,6 +1,6 @@
 sec_analyst_agent:
   edgar:
-    user_agent: "Opportunity4uResearch compliance@opportunity4u.io"
+    user_agent: "shahvatsalResearch compliance@shahvatsal.io"
     max_requests_per_second: 8.0
     tracked_forms: ["10-K", "10-K/A", "10-Q"]
   rag:

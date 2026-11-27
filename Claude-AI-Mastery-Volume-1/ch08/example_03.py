@@ -1,7 +1,7 @@
 """
 Enterprise Universal ETL Kafka Daemon
 Author: Vatsal Shah, Lead Enterprise AI Architect
-Publisher: Opportunity4u Press (c) 2026
+Publisher: Vatsal Shah (c) 2026
 """
 
 import json

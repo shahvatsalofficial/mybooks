@@ -1,6 +1,6 @@
 /**
  * Recipe 05.2: Real-Time Dynamic Resource Subscription Provider
- * Author: Vatsal Shah (Opportunity4u Press)
+ * Author: Vatsal Shah (Vatsal Shah)
  * License: Apache-2.0
  */
 
