@@ -1,35 +1,81 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>ChatGPT Mastery — Volume 2 — Vatsal Shah | Opportunity4u Press</title>
+<meta name="description" content="OpenAI API Engineering &amp; Assistants Architecture — Official companion page, Amazon Kindle edition, and runnable code by Vatsal Shah.">
+<link rel="canonical" href="https://shahvatsalofficial.github.io/mybooks/books/ChatGPT-Mastery-Volume-2.html">
+<meta property="og:type" content="book">
+<meta property="og:title" content="ChatGPT Mastery — Volume 2">
+<meta property="og:description" content="OpenAI API Engineering &amp; Assistants Architecture">
+<meta property="og:image" content="https://shahvatsalofficial.github.io/mybooks/covers/ChatGPT-Mastery-Volume-2.jpg">
+<meta property="og:url" content="https://shahvatsalofficial.github.io/mybooks/books/ChatGPT-Mastery-Volume-2.html">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"ChatGPT Mastery — Volume 2","description":"OpenAI API Engineering & Assistants Architecture","author":{"@type":"Person","name":"Vatsal Shah","url":"https://shahvatsal.com"},"publisher":{"@type":"Organization","name":"Opportunity4u Press","url":"https://shahvatsal.com/ebooks"},"bookFormat":"https://schema.org/EBook","image":"https://shahvatsalofficial.github.io/mybooks/covers/ChatGPT-Mastery-Volume-2.jpg","url":"https://shahvatsalofficial.github.io/mybooks/books/ChatGPT-Mastery-Volume-2.html","sameAs":["https://shahvatsal.com/ebooks?category=ChatGPT%20Mastery%20Series","https://www.amazon.in/dp/B0HMRDWLB7","https://github.com/shahvatsalofficial/mybooks/tree/main/ChatGPT-Mastery-Volume-2"],"offers":{"@type":"Offer","price":"12.99","priceCurrency":"USD","availability":"https://schema.org/InStock","url":"https://www.amazon.in/dp/B0HMRDWLB7"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
+:root{--bg:#05070D;--card:#0B1120;--border:rgba(148,163,184,0.16);--amber:#F59E0B;--blue:#38BDF8;--text:#F8FAFC;--muted:#94A3B8}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#05070D;color:#F8FAFC;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.6;padding:24px}
-.wrap{max-width:960px;margin:0 auto}
-.back{color:#38BDF8;text-decoration:none;font-size:14px;font-weight:600}
-.hero{display:grid;grid-template-columns:280px 1fr;gap:32px;margin-top:24px;background:#0D1322;border:1px solid #1E293B;border-radius:14px;padding:28px}
-.cover{width:100%;border-radius:10px;border:1px solid #334155;box-shadow:0 16px 40px rgba(0,0,0,0.6)}
-.badge{display:inline-block;background:rgba(217,119,6,0.16);border:1px solid #D97706;color:#FCD34D;font-size:12px;font-weight:700;padding:4px 12px;border-radius:999px;text-transform:uppercase;letter-spacing:1px}
-h1{font-size:28px;line-height:1.2;margin:14px 0 10px}
-.sub{color:#94A3B8;font-size:16px;margin-bottom:16px}
-.meta{font-size:14px;color:#CBD5E1;margin-bottom:18px}
-.notice{background:rgba(29,78,216,0.14);border:1px solid rgba(56,189,248,0.35);padding:10px 14px;border-radius:8px;font-size:13px;color:#E2E8F0;margin-bottom:18px}
+body{background:radial-gradient(circle at 18% 0%,rgba(217,119,6,0.12),transparent 42%),radial-gradient(circle at 85% 10%,rgba(29,78,216,0.14),transparent 45%),var(--bg);color:var(--text);font-family:'Outfit',sans-serif;line-height:1.6;min-height:100vh}
+.nav{border-bottom:1px solid var(--border);background:rgba(5,7,13,0.82);backdrop-filter:blur(12px);position:sticky;top:0;z-index:20}
+.nav-in{max-width:1120px;margin:0 auto;padding:14px 24px;display:flex;justify-content:space-between;align-items:center}
+.nav a{color:var(--blue);text-decoration:none;font-weight:600;font-size:14px}
+.brand{color:var(--text)!important;font-weight:800;letter-spacing:0.4px}
+.wrap{max-width:1120px;margin:0 auto;padding:32px 24px 64px;display:flex;flex-direction:column;gap:24px}
+.hero{display:grid;grid-template-columns:300px 1fr;gap:36px;background:rgba(11,17,32,0.85);border:1px solid var(--border);border-radius:18px;padding:32px;box-shadow:0 24px 60px rgba(0,0,0,0.55)}
+.cover{width:100%;border-radius:12px;border:1px solid rgba(255,255,255,0.12);box-shadow:0 20px 50px rgba(0,0,0,0.7)}
+.pill{display:inline-block;padding:5px 14px;border-radius:999px;background:rgba(217,119,6,0.15);border:1px solid rgba(245,158,11,0.5);color:#FCD34D;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+h1{font-size:clamp(26px,3.2vw,36px);line-height:1.15;font-weight:900;margin:14px 0 10px;letter-spacing:-0.5px}
+.sub{font-family:'Lora',serif;font-size:17px;color:#CBD5E1;margin-bottom:18px}
+.meta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.mbox{background:rgba(15,23,42,0.75);border:1px solid var(--border);border-radius:10px;padding:10px 14px}
+.mlbl{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase}
+.mval{font-size:14px;font-weight:700;color:#FFF;margin-top:2px}
+.notice{background:rgba(29,78,216,0.14);border-left:3px solid var(--blue);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;color:#E2E8F0;margin-bottom:20px}
 .btns{display:flex;flex-wrap:wrap;gap:12px}
-.btn{display:inline-block;padding:12px 20px;border-radius:8px;font-weight:700;text-decoration:none;font-size:14px}
-.btn-amber{background:#D97706;color:#FFFFFF}
-.btn-blue{background:#1E293B;color:#38BDF8;border:1px solid #38BDF8}
-@media(max-width:720px){.hero{grid-template-columns:1fr}}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:10px;font-weight:700;text-decoration:none;font-size:14px;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn-amber{background:linear-gradient(135deg,#D97706,#F59E0B);color:#05070D;box-shadow:0 8px 24px rgba(217,119,6,0.35)}
+.btn-site{background:rgba(56,189,248,0.12);color:#38BDF8;border:1px solid rgba(56,189,248,0.45)}
+.btn-code{background:rgba(16,185,129,0.12);color:#34D399;border:1px solid rgba(16,185,129,0.45)}
+.panel{background:rgba(11,17,32,0.75);border:1px solid var(--border);border-radius:16px;padding:24px}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--amber);letter-spacing:1.5px;margin-bottom:14px}
+.ch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.ch-item{display:flex;gap:10px;align-items:flex-start;background:rgba(15,23,42,0.7);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:13.5px;color:#E2E8F0}
+.ch-num{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--blue);flex-shrink:0;margin-top:2px}
+.sib-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.sib-card{display:flex;gap:12px;align-items:center;background:rgba(15,23,42,0.7);border:1px solid var(--border);border-radius:10px;padding:10px;text-decoration:none;color:var(--text)}
+.sib-card img{width:52px;height:78px;object-fit:cover;border-radius:6px}
+.sib-vol{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--amber);font-weight:700}
+.sib-t{font-size:13px;font-weight:700;line-height:1.3;margin-top:2px}
+@media(max-width:780px){.hero{grid-template-columns:1fr}.meta-grid{grid-template-columns:1fr}}
 </style></head><body>
-<div class="wrap">
-  <a class="back" href="../index.html">&#8592; All Books &amp; Series</a>
-  <div class="hero">
+<nav class="nav"><div class="nav-in"><a class="brand" href="../index.html">OPPORTUNITY4U PRESS</a><a href="../index.html">&#8592; Full Catalog</a></div></nav>
+<main class="wrap">
+  <section class="hero">
     <img class="cover" src="../covers/ChatGPT-Mastery-Volume-2.jpg" alt="ChatGPT Mastery — Volume 2">
     <div>
-      <span class="badge">ChatGPT Mastery Series &#8226; Vol 2</span>
+      <span class="pill">ChatGPT Mastery Series &#8226; Volume 2</span>
       <h1>ChatGPT Mastery — Volume 2</h1>
       <p class="sub">OpenAI API Engineering &amp; Assistants Architecture</p>
-      <p class="meta"><strong>Author:</strong> Vatsal Shah &#8226; <strong>Publisher:</strong> Opportunity4u Press &#8226; <strong>Retail:</strong> $12.99 USD / &#8377;799 INR</p>
+      <div class="meta-grid">
+        <div class="mbox"><div class="mlbl">Author</div><div class="mval">Vatsal Shah</div></div>
+        <div class="mbox"><div class="mlbl">Retail Price</div><div class="mval">$12.99 / &#8377;799</div></div>
+        <div class="mbox"><div class="mlbl">Format</div><div class="mval">Kindle &amp; Digital</div></div>
+      </div>
       
-      <div class="btns"><a class="btn btn-amber" href="https://www.amazon.in/dp/B0HMRDWLB7" target="_blank" rel="noopener">Buy on Amazon Kindle &#8594;</a><a class="btn btn-blue" href="https://github.com/shahvatsalofficial/mybooks/tree/main/ChatGPT-Mastery-Volume-2" target="_blank" rel="noopener">Companion Code &amp; Errata (GitHub)</a></div>
+      <div class="btns">
+        <a class="btn btn-amber" href="https://www.amazon.in/dp/B0HMRDWLB7" target="_blank" rel="noopener">Buy on Amazon Kindle &#8594;</a>
+        <a class="btn btn-site" href="https://shahvatsal.com/ebooks?category=ChatGPT%20Mastery%20Series" target="_blank" rel="noopener">Official Page (ShahVatsal.com)</a>
+        <a class="btn btn-code" href="https://github.com/shahvatsalofficial/mybooks/tree/main/ChatGPT-Mastery-Volume-2" target="_blank" rel="noopener">Companion Code &amp; Errata</a>
+      </div>
     </div>
-  </div>
-</div></body></html>
+  </section>
+  
+    <section class="panel">
+      <div class="eyebrow">CURRICULUM &amp; CHAPTERS (8)</div>
+      <div class="ch-grid"><div class="ch-item"><span class="ch-num">CH 01</span><span>OpenAI API Architecture: Auth, Rate Limits &amp; Model Tiers</span></div><div class="ch-item"><span class="ch-num">CH 02</span><span>Chat Completions API: Request Structure, Streaming &amp; Token Optimization</span></div><div class="ch-item"><span class="ch-num">CH 03</span><span>Function Calling &amp; JSON Mode: Schemas, Parallel Calls &amp; Structured Output</span></div><div class="ch-item"><span class="ch-num">CH 04</span><span>Assistants API: Threads, Messages, Runs &amp; File Search</span></div><div class="ch-item"><span class="ch-num">CH 05</span><span>Embeddings &amp; Semantic Search: text-embedding-3-large &amp; Cosine Similarity</span></div><div class="ch-item"><span class="ch-num">CH 06</span><span>Fine-Tuning GPT-4o-mini: Dataset Prep, JSONL &amp; Evaluation</span></div><div class="ch-item"><span class="ch-num">CH 07</span><span>Vision &amp; Multimodal: GPT-4o Image Analysis &amp; OCR Pipelines</span></div><div class="ch-item"><span class="ch-num">CH 08</span><span>Production API Engineering: Error Handling, Retry &amp; Async Batching</span></div></div>
+    </section>
+  
+    <section class="panel">
+      <div class="eyebrow">MORE IN CHATGPT MASTERY SERIES</div>
+      <div class="sib-grid"><a class="sib-card" href="ChatGPT-Mastery-Volume-1.html"><img src="../covers/ChatGPT-Mastery-Volume-1.jpg" alt="ChatGPT Mastery — Volume 1"><div><div class="sib-vol">VOL 1</div><div class="sib-t">ChatGPT Mastery — Volume 1</div></div></a><a class="sib-card" href="ChatGPT-Mastery-Volume-3.html"><img src="../covers/ChatGPT-Mastery-Volume-3.jpg" alt="ChatGPT Mastery — Volume 3"><div><div class="sib-vol">VOL 3</div><div class="sib-t">ChatGPT Mastery — Volume 3</div></div></a></div>
+    </section>
+</main></body></html>

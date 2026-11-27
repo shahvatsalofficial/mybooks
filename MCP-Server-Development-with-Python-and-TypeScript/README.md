@@ -3,6 +3,8 @@
 **Build, Test and Connect Model Context Protocol Servers to Claude Desktop, Cursor and Custom Clients**
 
 - **Author:** Vatsal Shah | **Publisher:** Opportunity4u Press
-- **Companion URL:** https://github.com/shahvatsalofficial/mybooks/tree/main/MCP-Server-Development-with-Python-and-TypeScript
+- **Official Book Portal:** https://shahvatsal.com/ebooks
+- **Book Landing Page:** https://shahvatsalofficial.github.io/mybooks/books/MCP-Server-Development-with-Python-and-TypeScript.html
+- **Companion Code URL:** https://github.com/shahvatsalofficial/mybooks/tree/main/MCP-Server-Development-with-Python-and-TypeScript
 - **Code Files:** 110 extracted scripts across 8 chapters
 - **Errata:** See [`ERRATA.md`](./ERRATA.md) or open an issue on GitHub.

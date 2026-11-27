@@ -1,418 +1,775 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Vatsal Shah — Opportunity4u Press Books &amp; Companion Code</title>
+<title>Vatsal Shah — Opportunity4u Press | Official eBooks &amp; Companion Code</title>
+<meta name="description" content="Official catalog of 31 technical &amp; fiction books by Vatsal Shah (Opportunity4u Press) with Amazon Kindle links, ShahVatsal.com portals, and free companion code.">
+<link rel="canonical" href="https://shahvatsalofficial.github.io/mybooks/">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
+:root{--bg:#05070D;--surface:#0B1120;--surface2:#11192E;--border:rgba(148,163,184,0.16);--amber:#F59E0B;--blue:#38BDF8;--emerald:#34D399;--text:#F8FAFC;--muted:#94A3B8}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#05070D;color:#F8FAFC;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;padding:28px 20px}
-.wrap{max-width:1240px;margin:0 auto}
-header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px;border-bottom:1px solid #1E293B;padding-bottom:20px;margin-bottom:20px}
-h1{font-size:28px;font-weight:800}
-.sub{color:#94A3B8;font-size:14px;margin-top:4px}
-.controls{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px}
-input,select{background:#0D1322;border:1px solid #334155;color:#F8FAFC;padding:10px 14px;border-radius:8px;font-size:14px}
-input{flex:1;min-width:220px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
-.card{background:#0D1322;border:1px solid #1E293B;border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
-.card img{width:100%;aspect-ratio:2/3;object-fit:cover;display:block}
-.cbody{padding:14px;display:flex;flex-direction:column;flex:1;justify-content:space-between;gap:10px}
-.cseries{font-size:11px;font-weight:700;color:#F59E0B;text-transform:uppercase;letter-spacing:0.6px}
-.card h2{font-size:15px;line-height:1.35}
-.card h2 a{color:#F8FAFC;text-decoration:none}
-.cactions{display:flex;gap:8px;margin-top:6px}
-.klink,.clink{flex:1;text-align:center;padding:8px 10px;border-radius:6px;font-size:12px;font-weight:700;text-decoration:none}
-.klink{background:#D97706;color:#FFF}
-.clink{background:#1E293B;color:#38BDF8;border:1px solid #38BDF8}
+body{background:radial-gradient(circle at 12% -5%,rgba(217,119,6,0.16),transparent 38%),radial-gradient(circle at 88% 0%,rgba(29,78,216,0.18),transparent 42%),var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-height:100vh}
+.topbar{border-bottom:1px solid var(--border);background:rgba(5,7,13,0.85);backdrop-filter:blur(14px);position:sticky;top:0;z-index:50}
+.topbar-in{max-width:1320px;margin:0 auto;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.logo{font-weight:900;font-size:16px;letter-spacing:0.6px;display:flex;align-items:center;gap:10px}
+.logo-dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,#D97706,#38BDF8)}
+.nav-links{display:flex;gap:12px}
+.nav-links a{color:#CBD5E1;text-decoration:none;font-size:13px;font-weight:600;padding:7px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surface)}
+.nav-links a:hover{border-color:var(--blue);color:#FFF}
+.wrap{max-width:1320px;margin:0 auto;padding:36px 24px 72px}
+.hero{background:linear-gradient(145deg,rgba(15,23,42,0.92),rgba(7,10,19,0.95));border:1px solid var(--border);border-radius:20px;padding:38px 36px;margin-bottom:28px;display:grid;grid-template-columns:1.4fr 1fr;gap:28px;align-items:center;box-shadow:0 24px 64px rgba(0,0,0,0.5)}
+.hero-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--amber);letter-spacing:1.6px;text-transform:uppercase;margin-bottom:10px}
+.hero h1{font-size:clamp(28px,3.6vw,42px);line-height:1.1;font-weight:900;letter-spacing:-0.8px;margin-bottom:12px}
+.hero p{font-family:'Lora',serif;font-size:16px;color:#CBD5E1;max-width:60ch;line-height:1.6}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.stat{background:rgba(5,7,13,0.65);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center}
+.stat-n{font-size:28px;font-weight:900;color:#FFF}
+.stat-l{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--blue);text-transform:uppercase;margin-top:4px}
+.toolbar{display:flex;flex-direction:column;gap:14px;margin-bottom:26px}
+.search-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.search-box{flex:1;min-width:260px;background:var(--surface);border:1px solid var(--border);color:#FFF;padding:12px 16px;border-radius:10px;font-family:'Outfit',sans-serif;font-size:15px;outline:none}
+.search-box:focus{border-color:var(--amber)}
+.qchip{background:var(--surface);border:1px solid var(--border);color:#CBD5E1;padding:10px 16px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer}
+.qchip.active{background:rgba(217,119,6,0.18);border-color:var(--amber);color:#FCD34D}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{background:var(--surface);border:1px solid var(--border);color:var(--muted);padding:7px 14px;border-radius:999px;font-size:12.5px;font-weight:600;cursor:pointer;transition:all .15s}
+.pill:hover{color:#FFF;border-color:rgba(255,255,255,0.3)}
+.pill.active{background:rgba(56,189,248,0.16);border-color:var(--blue);color:#FFF}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,border-color .2s,box-shadow .2s}
+.card:hover{transform:translateY(-6px);border-color:rgba(245,158,11,0.5);box-shadow:0 20px 44px rgba(0,0,0,0.55)}
+.thumb{position:relative;display:block;overflow:hidden;background:#030509}
+.thumb img{width:100%;aspect-ratio:2/3;object-fit:cover;display:block;transition:transform .3s}
+.card:hover .thumb img{transform:scale(1.03)}
+.vol-tag,.code-tag{position:absolute;top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;padding:4px 8px;border-radius:6px;backdrop-filter:blur(8px)}
+.vol-tag{left:10px;background:rgba(5,7,13,0.82);color:#FCD34D;border:1px solid rgba(245,158,11,0.45)}
+.code-tag{right:10px;background:rgba(6,78,59,0.85);color:#6EE7B7;border:1px solid rgba(52,211,153,0.45)}
+.cbody{padding:16px;display:flex;flex-direction:column;flex:1;justify-content:space-between;gap:10px}
+.cseries{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:0.6px}
+.card h2{font-size:16px;font-weight:800;line-height:1.3}
+.card h2 a{color:#FFF;text-decoration:none}
+.csub{font-size:12.5px;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cfoot{border-top:1px solid var(--border);padding-top:12px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cprice{font-size:14px;font-weight:800;color:#FFF}
+.inr{font-size:11px;color:var(--muted);font-weight:600;margin-left:3px}
+.cactions{display:flex;gap:6px}
+.cactions a{padding:6px 10px;border-radius:6px;font-size:11.5px;font-weight:700;text-decoration:none}
+.btn-k{background:#D97706;color:#05070D}
+.btn-w{background:rgba(56,189,248,0.14);color:#38BDF8;border:1px solid rgba(56,189,248,0.35)}
+.btn-c{background:rgba(16,185,129,0.14);color:#34D399;border:1px solid rgba(16,185,129,0.35)}
+footer{margin-top:48px;border-top:1px solid var(--border);padding-top:22px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:13px;color:var(--muted)}
+footer a{color:var(--blue);text-decoration:none}
+@media(max-width:900px){.hero{grid-template-columns:1fr}}
 </style></head><body>
-<div class="wrap">
-  <header>
-    <div>
-      <h1>Opportunity4u Press — Technical &amp; Fiction Catalog</h1>
-      <p class="sub">31 Published Editions by Vatsal Shah &#8226; Paid on Amazon Kindle &#8226; Free Companion Code on GitHub</p>
-    </div>
-    <a class="clink" style="flex:none;padding:10px 16px" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener">ShahVatsal.com/ebooks</a>
-  </header>
-  <div class="controls">
-    <input id="q" type="search" placeholder="Search books by title or topic...">
-    <select id="s">
-      <option value="">All Series (12)</option>
-      <option value="AI Agents Mastery Series">AI Agents Mastery Series</option><option value="AWS Industrial Cloud Series">AWS Industrial Cloud Series</option><option value="ChatGPT Mastery Series">ChatGPT Mastery Series</option><option value="Claude AI Mastery Series">Claude AI Mastery Series</option><option value="Claude Certified Architect Exam Prep Series">Claude Certified Architect Exam Prep Series</option><option value="Claude Code Mastery Series">Claude Code Mastery Series</option><option value="MCP Mastery Series">MCP Mastery Series</option><option value="Opportunity4u Press">Opportunity4u Press</option><option value="Python Mastery Series">Python Mastery Series</option><option value="Technical &amp; Fiction Editions">Technical &amp; Fiction Editions</option><option value="The Agentic Frontier">The Agentic Frontier</option><option value="The Agentic Frontier Series">The Agentic Frontier Series</option>
-    </select>
+<header class="topbar"><div class="topbar-in">
+  <div class="logo"><span class="logo-dot"></span>OPPORTUNITY4U PRESS</div>
+  <div class="nav-links">
+    <a href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener">ShahVatsal.com/ebooks</a>
+    <a href="https://github.com/shahvatsalofficial/mybooks" target="_blank" rel="noopener">GitHub Companion Code</a>
   </div>
-  <main class="grid">
-  <article class="card" data-series="AI Agents Mastery Series" data-title="ai agents mastery: single-agent architecture, tool engineering &amp; memory systems react reasoning loops, custom tool design, agent memory &amp; langchain agent mastery ai agents mastery series">
-    <a href="books/AI-Agents-Mastery-Single-Agent-Architecture-Tool-Engineering-Memory-Systems.html"><img src="covers/AI-Agents-Mastery-Single-Agent-Architecture-Tool-Engineering-Memory-Systems.jpg" alt="AI Agents Mastery: Single-Agent Architecture, Tool Engineering &amp; Memory Systems" loading="lazy"></a>
+</div></header>
+<div class="wrap">
+  <section class="hero">
+    <div>
+      <div class="hero-kicker">VATSAL SHAH &#8226; OFFICIAL CATALOG &amp; COMPANION HUB</div>
+      <h1>Production AI, Cloud &amp; Engineering Books</h1>
+      <p>Every technical volume is available on Amazon Kindle and backed by runnable reference code, exam cheat sheets, and public errata on GitHub.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-n">31</div><div class="stat-l">Published Books</div></div>
+      <div class="stat"><div class="stat-n">28</div><div class="stat-l">Code Repos</div></div>
+      <div class="stat"><div class="stat-n">18</div><div class="stat-l">Kindle Live</div></div>
+    </div>
+  </section>
+
+  <section class="toolbar">
+    <div class="search-row">
+      <input id="q" class="search-box" type="search" placeholder="Search by title, technology, exam code (e.g. CCAR-F, MCP, LangGraph)...">
+      <button class="qchip active" data-mode="all">All (31)</button>
+      <button class="qchip" data-mode="kindle">Kindle Live (18)</button>
+      <button class="qchip" data-mode="code">With Code (28)</button>
+    </div>
+    <div class="pills" id="seriesPills">
+      <button class="pill active" data-series="">All Series</button>
+      <button class="pill" data-series="AI Agents Mastery Series">AI Agents Mastery Series</button><button class="pill" data-series="AWS Industrial Cloud Series">AWS Industrial Cloud Series</button><button class="pill" data-series="ChatGPT Mastery Series">ChatGPT Mastery Series</button><button class="pill" data-series="Claude AI Mastery Series">Claude AI Mastery Series</button><button class="pill" data-series="Claude Certified Architect Exam Prep Series">Claude Certified Architect Exam Prep Series</button><button class="pill" data-series="Claude Code Mastery Series">Claude Code Mastery Series</button><button class="pill" data-series="MCP Mastery Series">MCP Mastery Series</button><button class="pill" data-series="Opportunity4u Press">Opportunity4u Press</button><button class="pill" data-series="Python Mastery Series">Python Mastery Series</button><button class="pill" data-series="The Agentic Frontier">The Agentic Frontier</button><button class="pill" data-series="The Agentic Frontier Series">The Agentic Frontier Series</button>
+    </div>
+  </section>
+
+  <main class="grid" id="grid">
+  <article class="card" data-series="AI Agents Mastery Series" data-code="1" data-kindle="1" data-search="ai agents mastery: single-agent architecture, tool engineering &amp; memory systems react reasoning loops, custom tool design, agent memory &amp; langchain agent mastery ai agents mastery series">
+    <a class="thumb" href="books/AI-Agents-Mastery-Single-Agent-Architecture-Tool-Engineering-Memory-Systems.html">
+      <img src="covers/AI-Agents-Mastery-Single-Agent-Architecture-Tool-Engineering-Memory-Systems.jpg" alt="AI Agents Mastery: Single-Agent Architecture, Tool Engineering &amp; Memory Systems" loading="lazy">
+      <span class="vol-tag">VOL 1</span>
+      <span class="code-tag">CODE</span>
+    </a>
     <div class="cbody">
       <div class="cseries">AI Agents Mastery Series</div>
       <h2><a href="books/AI-Agents-Mastery-Single-Agent-Architecture-Tool-Engineering-Memory-Systems.html">AI Agents Mastery: Single-Agent Architecture, Tool Engineering &amp; Memory Systems</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://www.amazon.com/Claude-Code-Mastery-Architecture-Engineering-ebook/dp/B0HKZLJM9N/" target="_blank" rel="noopener">Buy on Kindle</a>
-        <a class="clink" href="https://github.com/shahvatsalofficial/mybooks/tree/main/AI-Agents-Mastery-Single-Agent-Architecture-Tool-Engineering-Memory-Systems" target="_blank" rel="noopener">Code</a>
+      <p class="csub">ReAct Reasoning Loops, Custom Tool Design, Agent Memory &amp; LangChain Agent Mastery</p>
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://www.amazon.com/Claude-Code-Mastery-Architecture-Engineering-ebook/dp/B0HKZLJM9N/" target="_blank" rel="noopener">Kindle</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          <a class="btn-c" href="https://github.com/shahvatsalofficial/mybooks/tree/main/AI-Agents-Mastery-Single-Agent-Architecture-Tool-Engineering-Memory-Systems" target="_blank" rel="noopener">Code</a>
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="AI Agents Mastery Series" data-title="ai agents mastery: multi-agent swarms, langgraph &amp; orchestration frameworks langgraph stateful graphs, crewai crews, autogen conversations &amp; supervisor-worker patterns ai agents mastery series">
-    <a href="books/AI-Agents-Mastery-Multi-Agent-Swarms-LangGraph-Orchestration-Frameworks.html"><img src="covers/AI-Agents-Mastery-Multi-Agent-Swarms-LangGraph-Orchestration-Frameworks.jpg" alt="AI Agents Mastery: Multi-Agent Swarms, LangGraph &amp; Orchestration Frameworks" loading="lazy"></a>
+  <article class="card" data-series="AI Agents Mastery Series" data-code="1" data-kindle="0" data-search="ai agents mastery: multi-agent swarms, langgraph &amp; orchestration frameworks langgraph stateful graphs, crewai crews, autogen conversations &amp; supervisor-worker patterns ai agents mastery series">
+    <a class="thumb" href="books/AI-Agents-Mastery-Multi-Agent-Swarms-LangGraph-Orchestration-Frameworks.html">
+      <img src="covers/AI-Agents-Mastery-Multi-Agent-Swarms-LangGraph-Orchestration-Frameworks.jpg" alt="AI Agents Mastery: Multi-Agent Swarms, LangGraph &amp; Orchestration Frameworks" loading="lazy">
+      <span class="vol-tag">VOL 2</span>
+      <span class="code-tag">CODE</span>
+    </a>
     <div class="cbody">
       <div class="cseries">AI Agents Mastery Series</div>
       <h2><a href="books/AI-Agents-Mastery-Multi-Agent-Swarms-LangGraph-Orchestration-Frameworks.html">AI Agents Mastery: Multi-Agent Swarms, LangGraph &amp; Orchestration Frameworks</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener">eBooks Portal</a>
-        <a class="clink" href="https://github.com/shahvatsalofficial/mybooks/tree/main/AI-Agents-Mastery-Multi-Agent-Swarms-LangGraph-Orchestration-Frameworks" target="_blank" rel="noopener">Code</a>
+      <p class="csub">LangGraph Stateful Graphs, CrewAI Crews, AutoGen Conversations &amp; Supervisor-Worker Patterns</p>
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener">Portal</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          <a class="btn-c" href="https://github.com/shahvatsalofficial/mybooks/tree/main/AI-Agents-Mastery-Multi-Agent-Swarms-LangGraph-Orchestration-Frameworks" target="_blank" rel="noopener">Code</a>
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="AI Agents Mastery Series" data-title="ai agents mastery: enterprise agent deployment, bedrock agents &amp; production hardening google adk, aws bedrock agents, azure ai agents &amp; production security architecture ai agents mastery series">
-    <a href="books/AI-Agents-Mastery-Enterprise-Agent-Deployment-Bedrock-Agents-Production-Hardening.html"><img src="covers/AI-Agents-Mastery-Enterprise-Agent-Deployment-Bedrock-Agents-Production-Hardening.jpg" alt="AI Agents Mastery: Enterprise Agent Deployment, Bedrock Agents &amp; Production Hardening" loading="lazy"></a>
+  <article class="card" data-series="AI Agents Mastery Series" data-code="1" data-kindle="1" data-search="ai agents mastery: enterprise agent deployment, bedrock agents &amp; production hardening google adk, aws bedrock agents, azure ai agents &amp; production security architecture ai agents mastery series">
+    <a class="thumb" href="books/AI-Agents-Mastery-Enterprise-Agent-Deployment-Bedrock-Agents-Production-Hardening.html">
+      <img src="covers/AI-Agents-Mastery-Enterprise-Agent-Deployment-Bedrock-Agents-Production-Hardening.jpg" alt="AI Agents Mastery: Enterprise Agent Deployment, Bedrock Agents &amp; Production Hardening" loading="lazy">
+      <span class="vol-tag">VOL 3</span>
+      <span class="code-tag">CODE</span>
+    </a>
     <div class="cbody">
       <div class="cseries">AI Agents Mastery Series</div>
       <h2><a href="books/AI-Agents-Mastery-Enterprise-Agent-Deployment-Bedrock-Agents-Production-Hardening.html">AI Agents Mastery: Enterprise Agent Deployment, Bedrock Agents &amp; Production Hardening</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener">eBooks Portal</a>
-        <a class="clink" href="https://github.com/shahvatsalofficial/mybooks/tree/main/AI-Agents-Mastery-Enterprise-Agent-Deployment-Bedrock-Agents-Production-Hardening" target="_blank" rel="noopener">Code</a>
+      <p class="csub">Google ADK, AWS Bedrock Agents, Azure AI Agents &amp; Production Security Architecture</p>
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://www.amazon.com/Agentic-Frontier-Enterprise-Production-Deployments-ebook/dp/B0H8KZZZCZ/" target="_blank" rel="noopener">Kindle</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          <a class="btn-c" href="https://github.com/shahvatsalofficial/mybooks/tree/main/AI-Agents-Mastery-Enterprise-Agent-Deployment-Bedrock-Agents-Production-Hardening" target="_blank" rel="noopener">Code</a>
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="AI Agents Mastery Series" data-title="ai agents projects: 12 production builds autonomous research, coding, support, data &amp; operations agents with production evals ai agents mastery series">
-    <a href="books/AI-Agents-Projects-12-Production-Builds.html"><img src="covers/AI-Agents-Projects-12-Production-Builds.jpg" alt="AI Agents Projects: 12 Production Builds" loading="lazy"></a>
+  <article class="card" data-series="AI Agents Mastery Series" data-code="1" data-kindle="0" data-search="ai agents projects: 12 production builds autonomous research, coding, support, data &amp; operations agents with production evals ai agents mastery series">
+    <a class="thumb" href="books/AI-Agents-Projects-12-Production-Builds.html">
+      <img src="covers/AI-Agents-Projects-12-Production-Builds.jpg" alt="AI Agents Projects: 12 Production Builds" loading="lazy">
+      <span class="vol-tag">VOL 4</span>
+      <span class="code-tag">CODE</span>
+    </a>
     <div class="cbody">
       <div class="cseries">AI Agents Mastery Series</div>
       <h2><a href="books/AI-Agents-Projects-12-Production-Builds.html">AI Agents Projects: 12 Production Builds</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener">eBooks Portal</a>
-        <a class="clink" href="https://github.com/shahvatsalofficial/mybooks/tree/main/AI-Agents-Projects-12-Production-Builds" target="_blank" rel="noopener">Code</a>
+      <p class="csub">Autonomous Research, Coding, Support, Data &amp; Operations Agents with Production Evals</p>
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener">Portal</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          <a class="btn-c" href="https://github.com/shahvatsalofficial/mybooks/tree/main/AI-Agents-Projects-12-Production-Builds" target="_blank" rel="noopener">Code</a>
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="AWS Industrial Cloud Series" data-title="aws industrial cloud — volume 1 architectural sovereignty &amp; high-availability networking aws industrial cloud series">
-    <a href="books/AWS-Industrial-Cloud-Volume-1.html"><img src="covers/AWS-Industrial-Cloud-Volume-1.jpg" alt="AWS Industrial Cloud — Volume 1" loading="lazy"></a>
+  <article class="card" data-series="AWS Industrial Cloud Series" data-code="1" data-kindle="1" data-search="aws industrial cloud — volume 1 architectural sovereignty &amp; high-availability networking aws industrial cloud series">
+    <a class="thumb" href="books/AWS-Industrial-Cloud-Volume-1.html">
+      <img src="covers/AWS-Industrial-Cloud-Volume-1.jpg" alt="AWS Industrial Cloud — Volume 1" loading="lazy">
+      <span class="vol-tag">VOL 1</span>
+      <span class="code-tag">CODE</span>
+    </a>
     <div class="cbody">
       <div class="cseries">AWS Industrial Cloud Series</div>
       <h2><a href="books/AWS-Industrial-Cloud-Volume-1.html">AWS Industrial Cloud — Volume 1</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://www.amazon.com/AWS-Industrial-Cloud-Architectural-High-Availability-ebook/dp/B0HJGL53HK/" target="_blank" rel="noopener">Buy on Kindle</a>
-        <a class="clink" href="https://github.com/shahvatsalofficial/mybooks/tree/main/AWS-Industrial-Cloud-Volume-1" target="_blank" rel="noopener">Code</a>
+      <p class="csub">Architectural Sovereignty &amp; High-Availability Networking</p>
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://www.amazon.com/AWS-Industrial-Cloud-Architectural-High-Availability-ebook/dp/B0HJGL53HK/" target="_blank" rel="noopener">Kindle</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks?category=AWS%20Industrial%20Cloud" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          <a class="btn-c" href="https://github.com/shahvatsalofficial/mybooks/tree/main/AWS-Industrial-Cloud-Volume-1" target="_blank" rel="noopener">Code</a>
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="AWS Industrial Cloud Series" data-title="aws industrial cloud — volume 2 devops &amp; production incident engineering aws industrial cloud series">
-    <a href="books/AWS-Industrial-Cloud-Volume-2.html"><img src="covers/AWS-Industrial-Cloud-Volume-2.jpg" alt="AWS Industrial Cloud — Volume 2" loading="lazy"></a>
+  <article class="card" data-series="AWS Industrial Cloud Series" data-code="1" data-kindle="1" data-search="aws industrial cloud — volume 2 devops &amp; production incident engineering aws industrial cloud series">
+    <a class="thumb" href="books/AWS-Industrial-Cloud-Volume-2.html">
+      <img src="covers/AWS-Industrial-Cloud-Volume-2.jpg" alt="AWS Industrial Cloud — Volume 2" loading="lazy">
+      <span class="vol-tag">VOL 2</span>
+      <span class="code-tag">CODE</span>
+    </a>
     <div class="cbody">
       <div class="cseries">AWS Industrial Cloud Series</div>
       <h2><a href="books/AWS-Industrial-Cloud-Volume-2.html">AWS Industrial Cloud — Volume 2</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://www.amazon.com/AWS-Industrial-Cloud-Architectural-High-Availability-ebook/dp/B0HJGL53HK/" target="_blank" rel="noopener">Buy on Kindle</a>
-        <a class="clink" href="https://github.com/shahvatsalofficial/mybooks/tree/main/AWS-Industrial-Cloud-Volume-2" target="_blank" rel="noopener">Code</a>
+      <p class="csub">DevOps &amp; Production Incident Engineering</p>
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://www.amazon.com/AWS-Industrial-Cloud-Architectural-High-Availability-ebook/dp/B0HJGL53HK/" target="_blank" rel="noopener">Kindle</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks?category=AWS%20Industrial%20Cloud" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          <a class="btn-c" href="https://github.com/shahvatsalofficial/mybooks/tree/main/AWS-Industrial-Cloud-Volume-2" target="_blank" rel="noopener">Code</a>
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="AWS Industrial Cloud Series" data-title="aws industrial cloud — volume 3 enterprise security, bedrock ai &amp; cloud economics aws industrial cloud series">
-    <a href="books/AWS-Industrial-Cloud-Volume-3.html"><img src="covers/AWS-Industrial-Cloud-Volume-3.jpg" alt="AWS Industrial Cloud — Volume 3" loading="lazy"></a>
+  <article class="card" data-series="AWS Industrial Cloud Series" data-code="1" data-kindle="1" data-search="aws industrial cloud — volume 3 enterprise security, bedrock ai &amp; cloud economics aws industrial cloud series">
+    <a class="thumb" href="books/AWS-Industrial-Cloud-Volume-3.html">
+      <img src="covers/AWS-Industrial-Cloud-Volume-3.jpg" alt="AWS Industrial Cloud — Volume 3" loading="lazy">
+      <span class="vol-tag">VOL 3</span>
+      <span class="code-tag">CODE</span>
+    </a>
     <div class="cbody">
       <div class="cseries">AWS Industrial Cloud Series</div>
       <h2><a href="books/AWS-Industrial-Cloud-Volume-3.html">AWS Industrial Cloud — Volume 3</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://www.amazon.com/AWS-Industrial-Cloud-Architectural-High-Availability-ebook/dp/B0HJGL53HK/" target="_blank" rel="noopener">Buy on Kindle</a>
-        <a class="clink" href="https://github.com/shahvatsalofficial/mybooks/tree/main/AWS-Industrial-Cloud-Volume-3" target="_blank" rel="noopener">Code</a>
+      <p class="csub">Enterprise Security, Bedrock AI &amp; Cloud Economics</p>
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://www.amazon.com/AWS-Industrial-Cloud-Architectural-High-Availability-ebook/dp/B0HJGL53HK/" target="_blank" rel="noopener">Kindle</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks?category=AWS%20Industrial%20Cloud" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          <a class="btn-c" href="https://github.com/shahvatsalofficial/mybooks/tree/main/AWS-Industrial-Cloud-Volume-3" target="_blank" rel="noopener">Code</a>
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="ChatGPT Mastery Series" data-title="chatgpt mastery — volume 1 power user mastery &amp; custom gpt builder chatgpt mastery series">
-    <a href="books/ChatGPT-Mastery-Volume-1.html"><img src="covers/ChatGPT-Mastery-Volume-1.jpg" alt="ChatGPT Mastery — Volume 1" loading="lazy"></a>
+  <article class="card" data-series="ChatGPT Mastery Series" data-code="1" data-kindle="1" data-search="chatgpt mastery — volume 1 power user mastery &amp; custom gpt builder chatgpt mastery series">
+    <a class="thumb" href="books/ChatGPT-Mastery-Volume-1.html">
+      <img src="covers/ChatGPT-Mastery-Volume-1.jpg" alt="ChatGPT Mastery — Volume 1" loading="lazy">
+      <span class="vol-tag">VOL 1</span>
+      <span class="code-tag">CODE</span>
+    </a>
     <div class="cbody">
       <div class="cseries">ChatGPT Mastery Series</div>
       <h2><a href="books/ChatGPT-Mastery-Volume-1.html">ChatGPT Mastery — Volume 1</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://www.amazon.in/dp/B0HMRDWLB7" target="_blank" rel="noopener">Buy on Kindle</a>
-        <a class="clink" href="https://github.com/shahvatsalofficial/mybooks/tree/main/ChatGPT-Mastery-Volume-1" target="_blank" rel="noopener">Code</a>
+      <p class="csub">Power User Mastery &amp; Custom GPT Builder</p>
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://www.amazon.in/dp/B0HMRDWLB7" target="_blank" rel="noopener">Kindle</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks?category=ChatGPT%20Mastery%20Series" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          <a class="btn-c" href="https://github.com/shahvatsalofficial/mybooks/tree/main/ChatGPT-Mastery-Volume-1" target="_blank" rel="noopener">Code</a>
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="ChatGPT Mastery Series" data-title="chatgpt mastery — volume 2 openai api engineering &amp; assistants architecture chatgpt mastery series">
-    <a href="books/ChatGPT-Mastery-Volume-2.html"><img src="covers/ChatGPT-Mastery-Volume-2.jpg" alt="ChatGPT Mastery — Volume 2" loading="lazy"></a>
+  <article class="card" data-series="ChatGPT Mastery Series" data-code="1" data-kindle="1" data-search="chatgpt mastery — volume 2 openai api engineering &amp; assistants architecture chatgpt mastery series">
+    <a class="thumb" href="books/ChatGPT-Mastery-Volume-2.html">
+      <img src="covers/ChatGPT-Mastery-Volume-2.jpg" alt="ChatGPT Mastery — Volume 2" loading="lazy">
+      <span class="vol-tag">VOL 2</span>
+      <span class="code-tag">CODE</span>
+    </a>
     <div class="cbody">
       <div class="cseries">ChatGPT Mastery Series</div>
       <h2><a href="books/ChatGPT-Mastery-Volume-2.html">ChatGPT Mastery — Volume 2</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://www.amazon.in/dp/B0HMRDWLB7" target="_blank" rel="noopener">Buy on Kindle</a>
-        <a class="clink" href="https://github.com/shahvatsalofficial/mybooks/tree/main/ChatGPT-Mastery-Volume-2" target="_blank" rel="noopener">Code</a>
+      <p class="csub">OpenAI API Engineering &amp; Assistants Architecture</p>
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://www.amazon.in/dp/B0HMRDWLB7" target="_blank" rel="noopener">Kindle</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks?category=ChatGPT%20Mastery%20Series" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          <a class="btn-c" href="https://github.com/shahvatsalofficial/mybooks/tree/main/ChatGPT-Mastery-Volume-2" target="_blank" rel="noopener">Code</a>
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="ChatGPT Mastery Series" data-title="chatgpt mastery — volume 3 enterprise deployment, rag &amp; governance chatgpt mastery series">
-    <a href="books/ChatGPT-Mastery-Volume-3.html"><img src="covers/ChatGPT-Mastery-Volume-3.jpg" alt="ChatGPT Mastery — Volume 3" loading="lazy"></a>
+  <article class="card" data-series="ChatGPT Mastery Series" data-code="1" data-kindle="1" data-search="chatgpt mastery — volume 3 enterprise deployment, rag &amp; governance chatgpt mastery series">
+    <a class="thumb" href="books/ChatGPT-Mastery-Volume-3.html">
+      <img src="covers/ChatGPT-Mastery-Volume-3.jpg" alt="ChatGPT Mastery — Volume 3" loading="lazy">
+      <span class="vol-tag">VOL 3</span>
+      <span class="code-tag">CODE</span>
+    </a>
     <div class="cbody">
       <div class="cseries">ChatGPT Mastery Series</div>
       <h2><a href="books/ChatGPT-Mastery-Volume-3.html">ChatGPT Mastery — Volume 3</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://www.amazon.in/dp/B0HMRDWLB7" target="_blank" rel="noopener">Buy on Kindle</a>
-        <a class="clink" href="https://github.com/shahvatsalofficial/mybooks/tree/main/ChatGPT-Mastery-Volume-3" target="_blank" rel="noopener">Code</a>
+      <p class="csub">Enterprise Deployment, RAG &amp; Governance</p>
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://www.amazon.in/dp/B0HMRDWLB7" target="_blank" rel="noopener">Kindle</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks?category=ChatGPT%20Mastery%20Series" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          <a class="btn-c" href="https://github.com/shahvatsalofficial/mybooks/tree/main/ChatGPT-Mastery-Volume-3" target="_blank" rel="noopener">Code</a>
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="Claude AI Mastery Series" data-title="claude ai mastery — volume 1 200k context mastery, claude projects, artifacts &amp; ai workflow engineering claude ai mastery series">
-    <a href="books/Claude-AI-Mastery-Volume-1.html"><img src="covers/Claude-AI-Mastery-Volume-1.jpg" alt="Claude AI Mastery — Volume 1" loading="lazy"></a>
+  <article class="card" data-series="Claude AI Mastery Series" data-code="1" data-kindle="1" data-search="claude ai mastery — volume 1 200k context mastery, claude projects, artifacts &amp; ai workflow engineering claude ai mastery series">
+    <a class="thumb" href="books/Claude-AI-Mastery-Volume-1.html">
+      <img src="covers/Claude-AI-Mastery-Volume-1.jpg" alt="Claude AI Mastery — Volume 1" loading="lazy">
+      <span class="vol-tag">VOL 1</span>
+      <span class="code-tag">CODE</span>
+    </a>
     <div class="cbody">
       <div class="cseries">Claude AI Mastery Series</div>
       <h2><a href="books/Claude-AI-Mastery-Volume-1.html">Claude AI Mastery — Volume 1</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://www.amazon.in/dp/B0HQD2FMYR" target="_blank" rel="noopener">Buy on Kindle</a>
-        <a class="clink" href="https://github.com/shahvatsalofficial/mybooks/tree/main/Claude-AI-Mastery-Volume-1" target="_blank" rel="noopener">Code</a>
+      <p class="csub">200k Context Mastery, Claude Projects, Artifacts &amp; AI Workflow Engineering</p>
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://www.amazon.in/dp/B0HQD2FMYR" target="_blank" rel="noopener">Kindle</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks?category=Claude%20AI%20Mastery%20Series" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          <a class="btn-c" href="https://github.com/shahvatsalofficial/mybooks/tree/main/Claude-AI-Mastery-Volume-1" target="_blank" rel="noopener">Code</a>
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="Claude AI Mastery Series" data-title="claude ai mastery — volume 2 tool use, mcp server development, streaming pipelines &amp; agentic function calling claude ai mastery series">
-    <a href="books/Claude-AI-Mastery-Volume-2.html"><img src="covers/Claude-AI-Mastery-Volume-2.jpg" alt="Claude AI Mastery — Volume 2" loading="lazy"></a>
+  <article class="card" data-series="Claude AI Mastery Series" data-code="1" data-kindle="1" data-search="claude ai mastery — volume 2 tool use, mcp server development, streaming pipelines &amp; agentic function calling claude ai mastery series">
+    <a class="thumb" href="books/Claude-AI-Mastery-Volume-2.html">
+      <img src="covers/Claude-AI-Mastery-Volume-2.jpg" alt="Claude AI Mastery — Volume 2" loading="lazy">
+      <span class="vol-tag">VOL 2</span>
+      <span class="code-tag">CODE</span>
+    </a>
     <div class="cbody">
       <div class="cseries">Claude AI Mastery Series</div>
       <h2><a href="books/Claude-AI-Mastery-Volume-2.html">Claude AI Mastery — Volume 2</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://www.amazon.in/dp/B0HQD2FMYR" target="_blank" rel="noopener">Buy on Kindle</a>
-        <a class="clink" href="https://github.com/shahvatsalofficial/mybooks/tree/main/Claude-AI-Mastery-Volume-2" target="_blank" rel="noopener">Code</a>
+      <p class="csub">Tool Use, MCP Server Development, Streaming Pipelines &amp; Agentic Function Calling</p>
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://www.amazon.in/dp/B0HQD2FMYR" target="_blank" rel="noopener">Kindle</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks?category=Claude%20AI%20Mastery%20Series" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          <a class="btn-c" href="https://github.com/shahvatsalofficial/mybooks/tree/main/Claude-AI-Mastery-Volume-2" target="_blank" rel="noopener">Code</a>
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="Claude AI Mastery Series" data-title="claude ai mastery — volume 3 bedrock agents, vertex ai claude, multi-agent orchestration &amp; enterprise governance claude ai mastery series">
-    <a href="books/Claude-AI-Mastery-Volume-3.html"><img src="covers/Claude-AI-Mastery-Volume-3.jpg" alt="Claude AI Mastery — Volume 3" loading="lazy"></a>
+  <article class="card" data-series="Claude AI Mastery Series" data-code="1" data-kindle="1" data-search="claude ai mastery — volume 3 bedrock agents, vertex ai claude, multi-agent orchestration &amp; enterprise governance claude ai mastery series">
+    <a class="thumb" href="books/Claude-AI-Mastery-Volume-3.html">
+      <img src="covers/Claude-AI-Mastery-Volume-3.jpg" alt="Claude AI Mastery — Volume 3" loading="lazy">
+      <span class="vol-tag">VOL 3</span>
+      <span class="code-tag">CODE</span>
+    </a>
     <div class="cbody">
       <div class="cseries">Claude AI Mastery Series</div>
       <h2><a href="books/Claude-AI-Mastery-Volume-3.html">Claude AI Mastery — Volume 3</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://www.amazon.in/dp/B0HQD2FMYR" target="_blank" rel="noopener">Buy on Kindle</a>
-        <a class="clink" href="https://github.com/shahvatsalofficial/mybooks/tree/main/Claude-AI-Mastery-Volume-3" target="_blank" rel="noopener">Code</a>
+      <p class="csub">Bedrock Agents, Vertex AI Claude, Multi-Agent Orchestration &amp; Enterprise Governance</p>
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://www.amazon.in/dp/B0HQD2FMYR" target="_blank" rel="noopener">Kindle</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks?category=Claude%20AI%20Mastery%20Series" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          <a class="btn-c" href="https://github.com/shahvatsalofficial/mybooks/tree/main/Claude-AI-Mastery-Volume-3" target="_blank" rel="noopener">Code</a>
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="Claude Certified Architect Exam Prep Series" data-title="claude certified architect foundations study guide agents, claude code, mcp and context — one chapter per exam domain with practice claude certified architect exam prep series">
-    <a href="books/Claude-Certified-Architect-Foundations-Study-Guide.html"><img src="covers/Claude-Certified-Architect-Foundations-Study-Guide.jpg" alt="Claude Certified Architect Foundations Study Guide" loading="lazy"></a>
+  <article class="card" data-series="Claude Certified Architect Exam Prep Series" data-code="1" data-kindle="0" data-search="claude certified architect foundations study guide agents, claude code, mcp and context — one chapter per exam domain with practice claude certified architect exam prep series">
+    <a class="thumb" href="books/Claude-Certified-Architect-Foundations-Study-Guide.html">
+      <img src="covers/Claude-Certified-Architect-Foundations-Study-Guide.jpg" alt="Claude Certified Architect Foundations Study Guide" loading="lazy">
+      <span class="vol-tag">VOL 1</span>
+      <span class="code-tag">CODE</span>
+    </a>
     <div class="cbody">
       <div class="cseries">Claude Certified Architect Exam Prep Series</div>
       <h2><a href="books/Claude-Certified-Architect-Foundations-Study-Guide.html">Claude Certified Architect Foundations Study Guide</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener">eBooks Portal</a>
-        <a class="clink" href="https://github.com/shahvatsalofficial/mybooks/tree/main/Claude-Certified-Architect-Foundations-Study-Guide" target="_blank" rel="noopener">Code</a>
+      <p class="csub">Agents, Claude Code, MCP and Context — One Chapter per Exam Domain with Practice</p>
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener">Portal</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          <a class="btn-c" href="https://github.com/shahvatsalofficial/mybooks/tree/main/Claude-Certified-Architect-Foundations-Study-Guide" target="_blank" rel="noopener">Code</a>
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="Claude Code Mastery Series" data-title="claude code mastery — volume 1 terminal mastery, claude.md &amp; prompt engineering claude code mastery series">
-    <a href="books/Claude-Code-Mastery-Volume-1.html"><img src="covers/Claude-Code-Mastery-Volume-1.png" alt="Claude Code Mastery — Volume 1" loading="lazy"></a>
+  <article class="card" data-series="Claude Code Mastery Series" data-code="1" data-kindle="1" data-search="claude code mastery — volume 1 terminal mastery, claude.md &amp; prompt engineering claude code mastery series">
+    <a class="thumb" href="books/Claude-Code-Mastery-Volume-1.html">
+      <img src="covers/Claude-Code-Mastery-Volume-1.png" alt="Claude Code Mastery — Volume 1" loading="lazy">
+      <span class="vol-tag">VOL 1</span>
+      <span class="code-tag">CODE</span>
+    </a>
     <div class="cbody">
       <div class="cseries">Claude Code Mastery Series</div>
       <h2><a href="books/Claude-Code-Mastery-Volume-1.html">Claude Code Mastery — Volume 1</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://www.amazon.com/Claude-Code-Mastery-Architecture-Engineering-ebook/dp/B0HKZLJM9N/" target="_blank" rel="noopener">Buy on Kindle</a>
-        <a class="clink" href="https://github.com/shahvatsalofficial/mybooks/tree/main/Claude-Code-Mastery-Volume-1" target="_blank" rel="noopener">Code</a>
+      <p class="csub">Terminal Mastery, CLAUDE.md &amp; Prompt Engineering</p>
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://www.amazon.com/Claude-Code-Mastery-Architecture-Engineering-ebook/dp/B0HKZLJM9N/" target="_blank" rel="noopener">Kindle</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks?category=Claude%20Code%20Mastery%20Series" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          <a class="btn-c" href="https://github.com/shahvatsalofficial/mybooks/tree/main/Claude-Code-Mastery-Volume-1" target="_blank" rel="noopener">Code</a>
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="Claude Code Mastery Series" data-title="claude code mastery — volume 2 model context protocol (mcp) &amp; autonomous code loops claude code mastery series">
-    <a href="books/Claude-Code-Mastery-Volume-2.html"><img src="covers/Claude-Code-Mastery-Volume-2.jpg" alt="Claude Code Mastery — Volume 2" loading="lazy"></a>
+  <article class="card" data-series="Claude Code Mastery Series" data-code="1" data-kindle="1" data-search="claude code mastery — volume 2 model context protocol (mcp) &amp; autonomous code loops claude code mastery series">
+    <a class="thumb" href="books/Claude-Code-Mastery-Volume-2.html">
+      <img src="covers/Claude-Code-Mastery-Volume-2.jpg" alt="Claude Code Mastery — Volume 2" loading="lazy">
+      <span class="vol-tag">VOL 2</span>
+      <span class="code-tag">CODE</span>
+    </a>
     <div class="cbody">
       <div class="cseries">Claude Code Mastery Series</div>
       <h2><a href="books/Claude-Code-Mastery-Volume-2.html">Claude Code Mastery — Volume 2</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://www.amazon.com/Claude-Code-Mastery-Architecture-Engineering-ebook/dp/B0HKZLJM9N/" target="_blank" rel="noopener">Buy on Kindle</a>
-        <a class="clink" href="https://github.com/shahvatsalofficial/mybooks/tree/main/Claude-Code-Mastery-Volume-2" target="_blank" rel="noopener">Code</a>
+      <p class="csub">Model Context Protocol (MCP) &amp; Autonomous Code Loops</p>
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://www.amazon.com/Claude-Code-Mastery-Architecture-Engineering-ebook/dp/B0HKZLJM9N/" target="_blank" rel="noopener">Kindle</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks?category=Claude%20Code%20Mastery%20Series" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          <a class="btn-c" href="https://github.com/shahvatsalofficial/mybooks/tree/main/Claude-Code-Mastery-Volume-2" target="_blank" rel="noopener">Code</a>
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="Claude Code Mastery Series" data-title="claude code mastery — volume 3 industrial security guardrails &amp; enterprise scale claude code mastery series">
-    <a href="books/Claude-Code-Mastery-Volume-3.html"><img src="covers/Claude-Code-Mastery-Volume-3.jpg" alt="Claude Code Mastery — Volume 3" loading="lazy"></a>
+  <article class="card" data-series="Claude Code Mastery Series" data-code="1" data-kindle="1" data-search="claude code mastery — volume 3 industrial security guardrails &amp; enterprise scale claude code mastery series">
+    <a class="thumb" href="books/Claude-Code-Mastery-Volume-3.html">
+      <img src="covers/Claude-Code-Mastery-Volume-3.jpg" alt="Claude Code Mastery — Volume 3" loading="lazy">
+      <span class="vol-tag">VOL 3</span>
+      <span class="code-tag">CODE</span>
+    </a>
     <div class="cbody">
       <div class="cseries">Claude Code Mastery Series</div>
       <h2><a href="books/Claude-Code-Mastery-Volume-3.html">Claude Code Mastery — Volume 3</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://www.amazon.com/Claude-Code-Mastery-Architecture-Engineering-ebook/dp/B0HKZLJM9N/" target="_blank" rel="noopener">Buy on Kindle</a>
-        <a class="clink" href="https://github.com/shahvatsalofficial/mybooks/tree/main/Claude-Code-Mastery-Volume-3" target="_blank" rel="noopener">Code</a>
+      <p class="csub">Industrial Security Guardrails &amp; Enterprise Scale</p>
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://www.amazon.com/Claude-Code-Mastery-Architecture-Engineering-ebook/dp/B0HKZLJM9N/" target="_blank" rel="noopener">Kindle</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks?category=Claude%20Code%20Mastery%20Series" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          <a class="btn-c" href="https://github.com/shahvatsalofficial/mybooks/tree/main/Claude-Code-Mastery-Volume-3" target="_blank" rel="noopener">Code</a>
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="Opportunity4u Press" data-title="jeevannama book4 english  opportunity4u press">
-    <a href="books/Jeevannama-Book4-English.html"><img src="covers/Jeevannama-Book4-English.jpg" alt="Jeevannama Book4 English" loading="lazy"></a>
+  <article class="card" data-series="Opportunity4u Press" data-code="0" data-kindle="0" data-search="jeevannama book4 english  opportunity4u press">
+    <a class="thumb" href="books/Jeevannama-Book4-English.html">
+      <img src="covers/Jeevannama-Book4-English.jpg" alt="Jeevannama Book4 English" loading="lazy">
+      <span class="vol-tag">VOL 1</span>
+      
+    </a>
     <div class="cbody">
       <div class="cseries">Opportunity4u Press</div>
       <h2><a href="books/Jeevannama-Book4-English.html">Jeevannama Book4 English</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener">eBooks Portal</a>
-        
+      
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener">Portal</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="MCP Mastery Series" data-title="mcp server development with python and typescript build, test and connect model context protocol servers to claude desktop, cursor and custom clients mcp mastery series">
-    <a href="books/MCP-Server-Development-with-Python-and-TypeScript.html"><img src="covers/MCP-Server-Development-with-Python-and-TypeScript.jpg" alt="MCP Server Development with Python and TypeScript" loading="lazy"></a>
+  <article class="card" data-series="MCP Mastery Series" data-code="1" data-kindle="0" data-search="mcp server development with python and typescript build, test and connect model context protocol servers to claude desktop, cursor and custom clients mcp mastery series">
+    <a class="thumb" href="books/MCP-Server-Development-with-Python-and-TypeScript.html">
+      <img src="covers/MCP-Server-Development-with-Python-and-TypeScript.jpg" alt="MCP Server Development with Python and TypeScript" loading="lazy">
+      <span class="vol-tag">VOL 1</span>
+      <span class="code-tag">CODE</span>
+    </a>
     <div class="cbody">
       <div class="cseries">MCP Mastery Series</div>
       <h2><a href="books/MCP-Server-Development-with-Python-and-TypeScript.html">MCP Server Development with Python and TypeScript</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener">eBooks Portal</a>
-        <a class="clink" href="https://github.com/shahvatsalofficial/mybooks/tree/main/MCP-Server-Development-with-Python-and-TypeScript" target="_blank" rel="noopener">Code</a>
+      <p class="csub">Build, Test and Connect Model Context Protocol Servers to Claude Desktop, Cursor and Custom Clients</p>
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://shahvatsal.com/ebooks?category=MCP%20Mastery%20Series" target="_blank" rel="noopener">Portal</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks?category=MCP%20Mastery%20Series" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          <a class="btn-c" href="https://github.com/shahvatsalofficial/mybooks/tree/main/MCP-Server-Development-with-Python-and-TypeScript" target="_blank" rel="noopener">Code</a>
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="MCP Mastery Series" data-title="mcp mastery: volume 2 advanced server engineering &amp; integrations: auth, multi-tenancy, database bridges &amp; langgraph mcp mastery series">
-    <a href="books/MCP-Mastery-Volume-2.html"><img src="covers/MCP-Mastery-Volume-2.jpg" alt="MCP Mastery: Volume 2" loading="lazy"></a>
+  <article class="card" data-series="MCP Mastery Series" data-code="1" data-kindle="0" data-search="mcp mastery: volume 2 advanced server engineering &amp; integrations: auth, multi-tenancy, database bridges &amp; langgraph mcp mastery series">
+    <a class="thumb" href="books/MCP-Mastery-Volume-2.html">
+      <img src="covers/MCP-Mastery-Volume-2.jpg" alt="MCP Mastery: Volume 2" loading="lazy">
+      <span class="vol-tag">VOL 2</span>
+      <span class="code-tag">CODE</span>
+    </a>
     <div class="cbody">
       <div class="cseries">MCP Mastery Series</div>
       <h2><a href="books/MCP-Mastery-Volume-2.html">MCP Mastery: Volume 2</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener">eBooks Portal</a>
-        <a class="clink" href="https://github.com/shahvatsalofficial/mybooks/tree/main/MCP-Mastery-Volume-2" target="_blank" rel="noopener">Code</a>
+      <p class="csub">Advanced Server Engineering &amp; Integrations: Auth, Multi-Tenancy, Database Bridges &amp; LangGraph</p>
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://shahvatsal.com/ebooks?category=MCP%20Mastery%20Series" target="_blank" rel="noopener">Portal</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks?category=MCP%20Mastery%20Series" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          <a class="btn-c" href="https://github.com/shahvatsalofficial/mybooks/tree/main/MCP-Mastery-Volume-2" target="_blank" rel="noopener">Code</a>
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="MCP Mastery Series" data-title="mcp mastery: volume 3 enterprise platforms, gateways &amp; security: mcp gateway, cross-platform ai &amp; observability mcp mastery series">
-    <a href="books/MCP-Mastery-Volume-3.html"><img src="covers/MCP-Mastery-Volume-3.jpg" alt="MCP Mastery: Volume 3" loading="lazy"></a>
+  <article class="card" data-series="MCP Mastery Series" data-code="1" data-kindle="0" data-search="mcp mastery: volume 3 enterprise platforms, gateways &amp; security: mcp gateway, cross-platform ai &amp; observability mcp mastery series">
+    <a class="thumb" href="books/MCP-Mastery-Volume-3.html">
+      <img src="covers/MCP-Mastery-Volume-3.jpg" alt="MCP Mastery: Volume 3" loading="lazy">
+      <span class="vol-tag">VOL 3</span>
+      <span class="code-tag">CODE</span>
+    </a>
     <div class="cbody">
       <div class="cseries">MCP Mastery Series</div>
       <h2><a href="books/MCP-Mastery-Volume-3.html">MCP Mastery: Volume 3</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener">eBooks Portal</a>
-        <a class="clink" href="https://github.com/shahvatsalofficial/mybooks/tree/main/MCP-Mastery-Volume-3" target="_blank" rel="noopener">Code</a>
+      <p class="csub">Enterprise Platforms, Gateways &amp; Security: MCP Gateway, Cross-Platform AI &amp; Observability</p>
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://shahvatsal.com/ebooks?category=MCP%20Mastery%20Series" target="_blank" rel="noopener">Portal</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks?category=MCP%20Mastery%20Series" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          <a class="btn-c" href="https://github.com/shahvatsalofficial/mybooks/tree/main/MCP-Mastery-Volume-3" target="_blank" rel="noopener">Code</a>
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="MCP Mastery Series" data-title="mcp mastery: volume 4 mcp cookbook: 50 ready-to-use servers — database, file, saas, devops &amp; internal api mcp servers mcp mastery series">
-    <a href="books/MCP-Mastery-Volume-4.html"><img src="covers/MCP-Mastery-Volume-4.jpg" alt="MCP Mastery: Volume 4" loading="lazy"></a>
+  <article class="card" data-series="MCP Mastery Series" data-code="1" data-kindle="0" data-search="mcp mastery: volume 4 mcp cookbook: 50 ready-to-use servers — database, file, saas, devops &amp; internal api mcp servers mcp mastery series">
+    <a class="thumb" href="books/MCP-Mastery-Volume-4.html">
+      <img src="covers/MCP-Mastery-Volume-4.jpg" alt="MCP Mastery: Volume 4" loading="lazy">
+      <span class="vol-tag">VOL 4</span>
+      <span class="code-tag">CODE</span>
+    </a>
     <div class="cbody">
       <div class="cseries">MCP Mastery Series</div>
       <h2><a href="books/MCP-Mastery-Volume-4.html">MCP Mastery: Volume 4</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener">eBooks Portal</a>
-        <a class="clink" href="https://github.com/shahvatsalofficial/mybooks/tree/main/MCP-Mastery-Volume-4" target="_blank" rel="noopener">Code</a>
+      <p class="csub">MCP Cookbook: 50 Ready-to-Use Servers — Database, File, SaaS, DevOps &amp; Internal API MCP Servers</p>
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://shahvatsal.com/ebooks?category=MCP%20Mastery%20Series" target="_blank" rel="noopener">Portal</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks?category=MCP%20Mastery%20Series" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          <a class="btn-c" href="https://github.com/shahvatsalofficial/mybooks/tree/main/MCP-Mastery-Volume-4" target="_blank" rel="noopener">Code</a>
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="Technical &amp; Fiction Editions" data-title="n8n_agentic_intelligence  technical &amp; fiction editions">
-    <a href="books/N8N-Agentic-Intelligence.html"><img src="covers/N8N-Agentic-Intelligence.jpg" alt="N8N_Agentic_Intelligence" loading="lazy"></a>
+  <article class="card" data-series="Opportunity4u Press" data-code="1" data-kindle="0" data-search="n8n_agentic_intelligence  opportunity4u press">
+    <a class="thumb" href="books/N8N-Agentic-Intelligence.html">
+      <img src="covers/N8N-Agentic-Intelligence.jpg" alt="N8N_Agentic_Intelligence" loading="lazy">
+      <span class="vol-tag">VOL 1</span>
+      <span class="code-tag">CODE</span>
+    </a>
     <div class="cbody">
-      <div class="cseries">Technical &amp; Fiction Editions</div>
+      <div class="cseries">Opportunity4u Press</div>
       <h2><a href="books/N8N-Agentic-Intelligence.html">N8N_Agentic_Intelligence</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener">eBooks Portal</a>
-        <a class="clink" href="https://github.com/shahvatsalofficial/mybooks/tree/main/N8N-Agentic-Intelligence" target="_blank" rel="noopener">Code</a>
+      
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener">Portal</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          <a class="btn-c" href="https://github.com/shahvatsalofficial/mybooks/tree/main/N8N-Agentic-Intelligence" target="_blank" rel="noopener">Code</a>
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="Technical &amp; Fiction Editions" data-title="n8n_basics  technical &amp; fiction editions">
-    <a href="books/N8N-Basics.html"><img src="covers/N8N-Basics.png" alt="N8N_Basics" loading="lazy"></a>
+  <article class="card" data-series="Opportunity4u Press" data-code="0" data-kindle="0" data-search="n8n_basics  opportunity4u press">
+    <a class="thumb" href="books/N8N-Basics.html">
+      <img src="covers/N8N-Basics.png" alt="N8N_Basics" loading="lazy">
+      <span class="vol-tag">VOL 1</span>
+      
+    </a>
     <div class="cbody">
-      <div class="cseries">Technical &amp; Fiction Editions</div>
+      <div class="cseries">Opportunity4u Press</div>
       <h2><a href="books/N8N-Basics.html">N8N_Basics</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener">eBooks Portal</a>
-        
+      
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener">Portal</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="Technical &amp; Fiction Editions" data-title="n8n_intelligence  technical &amp; fiction editions">
-    <a href="books/N8N-Intelligence.html"><img src="covers/N8N-Intelligence.png" alt="N8N_Intelligence" loading="lazy"></a>
+  <article class="card" data-series="Opportunity4u Press" data-code="0" data-kindle="0" data-search="n8n_intelligence  opportunity4u press">
+    <a class="thumb" href="books/N8N-Intelligence.html">
+      <img src="covers/N8N-Intelligence.png" alt="N8N_Intelligence" loading="lazy">
+      <span class="vol-tag">VOL 1</span>
+      
+    </a>
     <div class="cbody">
-      <div class="cseries">Technical &amp; Fiction Editions</div>
+      <div class="cseries">Opportunity4u Press</div>
       <h2><a href="books/N8N-Intelligence.html">N8N_Intelligence</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener">eBooks Portal</a>
-        
+      
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener">Portal</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="Technical &amp; Fiction Editions" data-title="prompt engineering mastery: volume 2 chain-of-thought, reasoning structures &amp; multi-stage pipelines technical &amp; fiction editions">
-    <a href="books/Prompt-Engineering-Mastery-Volume-2.html"><img src="covers/Prompt-Engineering-Mastery-Volume-2.png" alt="Prompt Engineering Mastery: Volume 2" loading="lazy"></a>
+  <article class="card" data-series="Opportunity4u Press" data-code="1" data-kindle="1" data-search="prompt engineering mastery: volume 2 chain-of-thought, reasoning structures &amp; multi-stage pipelines opportunity4u press">
+    <a class="thumb" href="books/Prompt-Engineering-Mastery-Volume-2.html">
+      <img src="covers/Prompt-Engineering-Mastery-Volume-2.png" alt="Prompt Engineering Mastery: Volume 2" loading="lazy">
+      <span class="vol-tag">VOL 1</span>
+      <span class="code-tag">CODE</span>
+    </a>
     <div class="cbody">
-      <div class="cseries">Technical &amp; Fiction Editions</div>
+      <div class="cseries">Opportunity4u Press</div>
       <h2><a href="books/Prompt-Engineering-Mastery-Volume-2.html">Prompt Engineering Mastery: Volume 2</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://www.amazon.com/Claude-Code-Mastery-Architecture-Engineering-ebook/dp/B0HKZLJM9N/" target="_blank" rel="noopener">Buy on Kindle</a>
-        <a class="clink" href="https://github.com/shahvatsalofficial/mybooks/tree/main/Prompt-Engineering-Mastery-Volume-2" target="_blank" rel="noopener">Code</a>
+      <p class="csub">Chain-of-Thought, Reasoning Structures &amp; Multi-Stage Pipelines</p>
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://www.amazon.com/Claude-Code-Mastery-Architecture-Engineering-ebook/dp/B0HKZLJM9N/" target="_blank" rel="noopener">Kindle</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          <a class="btn-c" href="https://github.com/shahvatsalofficial/mybooks/tree/main/Prompt-Engineering-Mastery-Volume-2" target="_blank" rel="noopener">Code</a>
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="Technical &amp; Fiction Editions" data-title="prompt engineering mastery: volume 3 designing prompts that power autonomous ai systems technical &amp; fiction editions">
-    <a href="books/Prompt-Engineering-Mastery-Volume-3.html"><img src="covers/Prompt-Engineering-Mastery-Volume-3.png" alt="Prompt Engineering Mastery: Volume 3" loading="lazy"></a>
+  <article class="card" data-series="Opportunity4u Press" data-code="1" data-kindle="1" data-search="prompt engineering mastery: volume 3 designing prompts that power autonomous ai systems opportunity4u press">
+    <a class="thumb" href="books/Prompt-Engineering-Mastery-Volume-3.html">
+      <img src="covers/Prompt-Engineering-Mastery-Volume-3.png" alt="Prompt Engineering Mastery: Volume 3" loading="lazy">
+      <span class="vol-tag">VOL 1</span>
+      <span class="code-tag">CODE</span>
+    </a>
     <div class="cbody">
-      <div class="cseries">Technical &amp; Fiction Editions</div>
+      <div class="cseries">Opportunity4u Press</div>
       <h2><a href="books/Prompt-Engineering-Mastery-Volume-3.html">Prompt Engineering Mastery: Volume 3</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://www.amazon.com/Claude-Code-Mastery-Architecture-Engineering-ebook/dp/B0HKZLJM9N/" target="_blank" rel="noopener">Buy on Kindle</a>
-        <a class="clink" href="https://github.com/shahvatsalofficial/mybooks/tree/main/Prompt-Engineering-Mastery-Volume-3" target="_blank" rel="noopener">Code</a>
+      <p class="csub">Designing Prompts That Power Autonomous AI Systems</p>
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://www.amazon.com/Claude-Code-Mastery-Architecture-Engineering-ebook/dp/B0HKZLJM9N/" target="_blank" rel="noopener">Kindle</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          <a class="btn-c" href="https://github.com/shahvatsalofficial/mybooks/tree/main/Prompt-Engineering-Mastery-Volume-3" target="_blank" rel="noopener">Code</a>
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="Python Mastery Series" data-title="python mastery — volume 1 modern python foundations: type hints, concurrency &amp; data structures python mastery series">
-    <a href="books/Python-Mastery-Volume-1.html"><img src="covers/Python-Mastery-Volume-1.jpg" alt="Python Mastery — Volume 1" loading="lazy"></a>
+  <article class="card" data-series="Python Mastery Series" data-code="1" data-kindle="1" data-search="python mastery — volume 1 modern python foundations: type hints, concurrency &amp; data structures python mastery series">
+    <a class="thumb" href="books/Python-Mastery-Volume-1.html">
+      <img src="covers/Python-Mastery-Volume-1.jpg" alt="Python Mastery — Volume 1" loading="lazy">
+      <span class="vol-tag">VOL 1</span>
+      <span class="code-tag">CODE</span>
+    </a>
     <div class="cbody">
       <div class="cseries">Python Mastery Series</div>
       <h2><a href="books/Python-Mastery-Volume-1.html">Python Mastery — Volume 1</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://www.amazon.in/dp/B0HQD3MVG4" target="_blank" rel="noopener">Buy on Kindle</a>
-        <a class="clink" href="https://github.com/shahvatsalofficial/mybooks/tree/main/Python-Mastery-Volume-1" target="_blank" rel="noopener">Code</a>
+      <p class="csub">Modern Python Foundations: Type Hints, Concurrency &amp; Data Structures</p>
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://www.amazon.in/dp/B0HQD3MVG4" target="_blank" rel="noopener">Kindle</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks?category=Python%20Mastery%20Series" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          <a class="btn-c" href="https://github.com/shahvatsalofficial/mybooks/tree/main/Python-Mastery-Volume-1" target="_blank" rel="noopener">Code</a>
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="The Agentic Frontier" data-title="the agentic frontier (vol 1 — the ceo’s guide)  the agentic frontier">
-    <a href="books/The-Agentic-Frontier-Vol-1-The-CEO-s-Guide.html"><img src="covers/The-Agentic-Frontier-Vol-1-The-CEO-s-Guide.jpg" alt="The Agentic Frontier (Vol 1 — The CEO’s Guide)" loading="lazy"></a>
+  <article class="card" data-series="The Agentic Frontier" data-code="1" data-kindle="0" data-search="the agentic frontier (vol 1 — the ceo’s guide)  the agentic frontier">
+    <a class="thumb" href="books/The-Agentic-Frontier-Vol-1-The-CEO-s-Guide.html">
+      <img src="covers/The-Agentic-Frontier-Vol-1-The-CEO-s-Guide.jpg" alt="The Agentic Frontier (Vol 1 — The CEO’s Guide)" loading="lazy">
+      <span class="vol-tag">VOL 1</span>
+      <span class="code-tag">CODE</span>
+    </a>
     <div class="cbody">
       <div class="cseries">The Agentic Frontier</div>
       <h2><a href="books/The-Agentic-Frontier-Vol-1-The-CEO-s-Guide.html">The Agentic Frontier (Vol 1 — The CEO’s Guide)</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener">eBooks Portal</a>
-        <a class="clink" href="https://github.com/shahvatsalofficial/mybooks/tree/main/The-Agentic-Frontier-Vol-1-The-CEO-s-Guide" target="_blank" rel="noopener">Code</a>
+      
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://shahvatsal.com/ebooks?category=The%20Agentic%20Frontier" target="_blank" rel="noopener">Portal</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks?category=The%20Agentic%20Frontier" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          <a class="btn-c" href="https://github.com/shahvatsalofficial/mybooks/tree/main/The-Agentic-Frontier-Vol-1-The-CEO-s-Guide" target="_blank" rel="noopener">Code</a>
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="The Agentic Frontier" data-title="the agentic frontier (vol 2 — agentic architecture)  the agentic frontier">
-    <a href="books/The-Agentic-Frontier-Vol-2-Agentic-Architecture.html"><img src="covers/The-Agentic-Frontier-Vol-2-Agentic-Architecture.jpg" alt="The Agentic Frontier (Vol 2 — Agentic Architecture)" loading="lazy"></a>
+  <article class="card" data-series="The Agentic Frontier" data-code="1" data-kindle="1" data-search="the agentic frontier (vol 2 — agentic architecture)  the agentic frontier">
+    <a class="thumb" href="books/The-Agentic-Frontier-Vol-2-Agentic-Architecture.html">
+      <img src="covers/The-Agentic-Frontier-Vol-2-Agentic-Architecture.jpg" alt="The Agentic Frontier (Vol 2 — Agentic Architecture)" loading="lazy">
+      <span class="vol-tag">VOL 2</span>
+      <span class="code-tag">CODE</span>
+    </a>
     <div class="cbody">
       <div class="cseries">The Agentic Frontier</div>
       <h2><a href="books/The-Agentic-Frontier-Vol-2-Agentic-Architecture.html">The Agentic Frontier (Vol 2 — Agentic Architecture)</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://www.amazon.com/Agentic-Frontier-Enterprise-Architectures-Multi-Agent-ebook/dp/B0HHS6B3FN/" target="_blank" rel="noopener">Buy on Kindle</a>
-        <a class="clink" href="https://github.com/shahvatsalofficial/mybooks/tree/main/The-Agentic-Frontier-Vol-2-Agentic-Architecture" target="_blank" rel="noopener">Code</a>
+      
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://www.amazon.com/Agentic-Frontier-Enterprise-Architectures-Multi-Agent-ebook/dp/B0HHS6B3FN/" target="_blank" rel="noopener">Kindle</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks?category=The%20Agentic%20Frontier" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          <a class="btn-c" href="https://github.com/shahvatsalofficial/mybooks/tree/main/The-Agentic-Frontier-Vol-2-Agentic-Architecture" target="_blank" rel="noopener">Code</a>
+        </div>
       </div>
     </div>
   </article>
 
-  <article class="card" data-series="The Agentic Frontier Series" data-title="the agentic frontier (vol 3 — the domain playbook) enterprise vertical systems, cross-domain taxonomy &amp; 110 production agentic deployments the agentic frontier series">
-    <a href="books/The-Agentic-Frontier-Vol-3-The-Domain-Playbook.html"><img src="covers/The-Agentic-Frontier-Vol-3-The-Domain-Playbook.jpg" alt="The Agentic Frontier (Vol 3 — The Domain Playbook)" loading="lazy"></a>
+  <article class="card" data-series="The Agentic Frontier Series" data-code="1" data-kindle="0" data-search="the agentic frontier (vol 3 — the domain playbook) enterprise vertical systems, cross-domain taxonomy &amp; 110 production agentic deployments the agentic frontier series">
+    <a class="thumb" href="books/The-Agentic-Frontier-Vol-3-The-Domain-Playbook.html">
+      <img src="covers/The-Agentic-Frontier-Vol-3-The-Domain-Playbook.jpg" alt="The Agentic Frontier (Vol 3 — The Domain Playbook)" loading="lazy">
+      <span class="vol-tag">VOL 3</span>
+      <span class="code-tag">CODE</span>
+    </a>
     <div class="cbody">
       <div class="cseries">The Agentic Frontier Series</div>
       <h2><a href="books/The-Agentic-Frontier-Vol-3-The-Domain-Playbook.html">The Agentic Frontier (Vol 3 — The Domain Playbook)</a></h2>
-      <div class="cactions">
-        <a class="klink" href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener">eBooks Portal</a>
-        <a class="clink" href="https://github.com/shahvatsalofficial/mybooks/tree/main/The-Agentic-Frontier-Vol-3-The-Domain-Playbook" target="_blank" rel="noopener">Code</a>
+      <p class="csub">Enterprise Vertical Systems, Cross-Domain Taxonomy &amp; 110 Production Agentic Deployments</p>
+      <div class="cfoot">
+        <div class="cprice">$12.99 <span class="inr">&#8377;799</span></div>
+        <div class="cactions">
+          <a class="btn-k" href="https://shahvatsal.com/ebooks?category=The%20Agentic%20Frontier" target="_blank" rel="noopener">Portal</a>
+          <a class="btn-w" href="https://shahvatsal.com/ebooks?category=The%20Agentic%20Frontier" target="_blank" rel="noopener" title="Official Website Page">Site</a>
+          <a class="btn-c" href="https://github.com/shahvatsalofficial/mybooks/tree/main/The-Agentic-Frontier-Vol-3-The-Domain-Playbook" target="_blank" rel="noopener">Code</a>
+        </div>
       </div>
     </div>
   </article></main>
+
+  <footer>
+    <span>&#169; 2027 Vatsal Shah &#8226; Opportunity4u Press &#8226; All eBooks sold exclusively through retail stores.</span>
+    <span><a href="https://shahvatsal.com/ebooks" target="_blank" rel="noopener">Official Website</a> &#8226; <a href="https://github.com/shahvatsalofficial/mybooks" target="_blank" rel="noopener">GitHub Repo</a></span>
+  </footer>
 </div>
 <script>
-const q=document.getElementById('q'),s=document.getElementById('s'),cards=[...document.querySelectorAll('.card')];
-function f(){const tv=q.value.toLowerCase(),sv=s.value;cards.forEach(c=>{const ok=(!sv||c.dataset.series===sv)&&(!tv||c.dataset.title.includes(tv));c.style.display=ok?'flex':'none';});}
-q.addEventListener('input',f);s.addEventListener('change',f);
+const q=document.getElementById('q'),cards=[...document.querySelectorAll('.card')];
+let activeSeries='',activeMode='all';
+function apply(){
+  const tv=q.value.trim().toLowerCase();
+  cards.forEach(c=>{
+    const mSeries=!activeSeries||c.dataset.series===activeSeries;
+    const mMode=activeMode==='all'||(activeMode==='kindle'&&c.dataset.kindle==='1')||(activeMode==='code'&&c.dataset.code==='1');
+    const mSearch=!tv||c.dataset.search.includes(tv);
+    c.style.display=(mSeries&&mMode&&mSearch)?'flex':'none';
+  });
+}
+q.addEventListener('input',apply);
+document.querySelectorAll('.pill').forEach(p=>p.addEventListener('click',()=>{
+  document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
+  p.classList.add('active'); activeSeries=p.dataset.series; apply();
+}));
+document.querySelectorAll('.qchip').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.qchip').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active'); activeMode=b.dataset.mode; apply();
+}));
 </script></body></html>
