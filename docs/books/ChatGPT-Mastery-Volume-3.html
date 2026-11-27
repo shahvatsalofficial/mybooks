@@ -8,7 +8,7 @@
 <meta property="og:description" content="Enterprise Deployment, RAG &amp; Governance">
 <meta property="og:image" content="https://shahvatsalofficial.github.io/mybooks/covers/ChatGPT-Mastery-Volume-3.jpg">
 <meta property="og:url" content="https://shahvatsalofficial.github.io/mybooks/books/ChatGPT-Mastery-Volume-3.html">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"ChatGPT Mastery — Volume 3","description":"Enterprise Deployment, RAG & Governance","author":{"@type":"Person","name":"Vatsal Shah","url":"https://shahvatsal.com"},"publisher":{"@type":"Organization","name":"Opportunity4u Press","url":"https://shahvatsal.com/ebooks"},"bookFormat":"https://schema.org/EBook","image":"https://shahvatsalofficial.github.io/mybooks/covers/ChatGPT-Mastery-Volume-3.jpg","url":"https://shahvatsalofficial.github.io/mybooks/books/ChatGPT-Mastery-Volume-3.html","sameAs":["https://shahvatsal.com/ebooks?category=ChatGPT%20Mastery%20Series","https://www.amazon.in/dp/B0HMRDWLB7","https://github.com/shahvatsalofficial/mybooks/tree/main/ChatGPT-Mastery-Volume-3"],"offers":{"@type":"Offer","price":"12.99","priceCurrency":"USD","availability":"https://schema.org/InStock","url":"https://www.amazon.in/dp/B0HMRDWLB7"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Book","name":"ChatGPT Mastery — Volume 3","description":"Enterprise Deployment, RAG & Governance","author":{"@type":"Person","name":"Vatsal Shah","url":"https://shahvatsal.com"},"publisher":{"@type":"Organization","name":"Opportunity4u Press","url":"https://shahvatsal.com/ebooks"},"bookFormat":"https://schema.org/EBook","image":"https://shahvatsalofficial.github.io/mybooks/covers/ChatGPT-Mastery-Volume-3.jpg","url":"https://shahvatsalofficial.github.io/mybooks/books/ChatGPT-Mastery-Volume-3.html","sameAs":["https://shahvatsal.com/ebooks?category=ChatGPT%20Mastery%20Series","https://www.amazon.in/dp/B0HMRDWLB7","https://github.com/shahvatsalofficial/mybooks/tree/main/ChatGPT-Mastery-Volume-3"],"offers":{"@type":"Offer","availability":"https://schema.org/InStock","url":"https://www.amazon.in/dp/B0HMRDWLB7"}}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
 :root{--void:#050505;--cream:#FAFAFA;--white:#FFFFFF;--g200:#E2E8F0;--g600:#475569;--g900:#0F172A;--blue:#1D4ED8;--amber:#F59E0B;--emerald:#10B981}
@@ -64,7 +64,7 @@ h1{font-family:'Sora',sans-serif;font-size:clamp(22px,4vw,34px);line-height:1.2;
       <div class="meta-row">
         <span class="mchip">By Vatsal Shah</span>
         <span class="mchip" style="background:rgba(245,158,11,0.18);border-color:rgba(245,158,11,0.5);color:#FDE68A;">Kindle Unlimited &#8226; Read Free</span>
-        <span class="mchip">Buy $12.99 / &#8377;799</span>
+        <span class="mchip" data-live-price="ChatGPT-Mastery-Volume-3">Live Price on Amazon</span>
       </div>
       
       <div class="btns">
@@ -84,4 +84,10 @@ h1{font-family:'Sora',sans-serif;font-size:clamp(22px,4vw,34px);line-height:1.2;
       <div class="eyebrow">MORE IN CHATGPT MASTERY SERIES</div>
       <div class="sib-grid"><a class="sib-card" href="ChatGPT-Mastery-Volume-1.html"><img src="../covers/ChatGPT-Mastery-Volume-1.jpg" alt="ChatGPT Mastery — Volume 1"><div><div class="sib-vol">VOL 1</div><div class="sib-t">ChatGPT Mastery — Volume 1</div></div></a><a class="sib-card" href="ChatGPT-Mastery-Volume-2.html"><img src="../covers/ChatGPT-Mastery-Volume-2.jpg" alt="ChatGPT Mastery — Volume 2"><div><div class="sib-vol">VOL 2</div><div class="sib-t">ChatGPT Mastery — Volume 2</div></div></a></div>
     </section></main>
+<script>
+fetch('../prices.json').then(r=>r.ok?r.json():{}).then(p=>{
+  const el=document.querySelector('[data-live-price]');
+  if(el&&p[el.dataset.livePrice])el.textContent='Amazon Price: '+p[el.dataset.livePrice];
+}).catch(()=>{});
+</script>
 </body></html>
